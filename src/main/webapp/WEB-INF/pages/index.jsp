@@ -24,7 +24,7 @@
     <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--grey-50">
         <div class="mdl-layout__header-row">
             <!-- Title -->
-            <a class="mdl-layout-title mdl-navigation__link mdl-color-text--pink-400" href="/">Excited</a>
+            <a class="mdl-layout-title mdl-navigation__link mdl-color-text--pink-400" href="/">HOME</a>
             <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation. We hide it in small screens. -->
@@ -48,13 +48,13 @@
     </header>
     <!-- 页面主体 -->
     <main class="mdl-layout__content">
-        <div class="page-content">
-            <!-- Your content goes here -->
-            <!-- 主体1 -->
+        <!-- <div class="page-content">
+            Your content goes here
+            主体1
             <div class="mdl-grid">
                 <div class="mdl-cell mdl-cell--12-col center">
                     <div align="center">
-                        <!-- <img src="../resources/img/home-first.png" align="center"> -->
+                        <img src="../resources/img/home-first.png" align="center">
                     </div>
                 </div>
             </div>
@@ -65,9 +65,9 @@
                            href="/userRegister">立即注册</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- 主体2 -->
-            <div class="mdl-grid">
+            <!-- <div class="mdl-grid">
                 <div class="mdl-cell mdl-cell--4-col">
                     <div class="mdl-card mdl-shadow--2dp center">
                         <div class="mdl-card__title mdl-card--expand">
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <!-- 主体3 -->
+            主体3
             <div class="mdl-grid">
                 <div class="mdl-cell--12-col center">
                     <div align="center">
@@ -108,17 +108,15 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- 主页底部信息 -->
             <footer class="mdl-mini-footer">
                 <div class="mdl-mini-footer__left-section center" align="center">
-                    <div class="mdl-logo">Excited</div>
+                    <div class="mdl-logo">1</div>
                     <ul class="mdl-mini-footer__link-list">
-                        <li><a href="#">GitHub</a></li>
-                        <li><a href="#">Privacy & Terms</a></li>
-                        <div align="right">
-                            <li><a href="/">你们搞的这个网站, excited!</a></li>
-                        </div>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="/">4</a></li>
                     </ul>
                 </div>
             </footer>
