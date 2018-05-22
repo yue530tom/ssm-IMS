@@ -8,11 +8,13 @@ import ims.manager.domain.UserLoginLog;
 import ims.manager.service.LoginLogService;
 
 /**
- * LoginLogServiceImpl
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  LoginLogServiceImpl   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午6:00:50   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Service
 public class LoginLogServiceImpl implements LoginLogService {

@@ -10,11 +10,13 @@ import ims.manager.domain.User;
 import ims.manager.service.UserService;
 
 /**
- * UserServiceImpl
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  UserServiceImpl   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午6:00:55   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Service
 public class UserServiceImpl implements UserService {

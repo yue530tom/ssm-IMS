@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * UserLoginLog 用户登录日志的实体类
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  UserLoginLog   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午6:00:30   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 public class UserLoginLog implements Serializable {
     /**
