@@ -1,13 +1,13 @@
 package ims.manager.service.impl;
 
-import ims.pros.dao.UserDao;
-import ims.pros.domain.User;
-import ims.pros.service.UserService;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import ims.manager.dao.UserDao;
+import ims.manager.domain.User;
+import ims.manager.service.UserService;
 
 /**
  * UserServiceImpl

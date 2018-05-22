@@ -1,12 +1,12 @@
 package ims.pros.controller;
 
+import ims.manager.domain.User;
+import ims.manager.service.UserService;
 import ims.pros.domain.Board;
 import ims.pros.domain.Post;
-import ims.pros.domain.User;
 import ims.pros.service.BoardService;
 import ims.pros.service.PostService;
 import ims.pros.service.ReplyService;
-import ims.pros.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * AdminController
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  AdminController   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:29:59   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Controller
 @RequestMapping(value = "/admin")

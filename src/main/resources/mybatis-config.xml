@@ -4,10 +4,10 @@
 
 <configuration>
     <typeAliases>
-        <typeAlias alias="User" type="endorphin.domain.User"/>
-        <typeAlias alias="Board" type="endorphin.domain.Board"/>
-        <typeAlias alias="UserLoginLog" type="endorphin.domain.UserLoginLog"/>
-        <typeAlias alias="Post" type="endorphin.domain.Post"/>
-        <typeAlias alias="Reply" type="endorphin.domain.Reply"/>
+        <typeAlias alias="User" type="ims.manager.domain.User"/>
+        <typeAlias alias="Board" type="ims.pros.domain.Board"/>
+        <typeAlias alias="UserLoginLog" type="ims.manager.domain.UserLoginLog"/>
+        <typeAlias alias="Post" type="ims.pros.domain.Post"/>
+        <typeAlias alias="Reply" type="ims.pros.domain.Reply"/>
     </typeAliases>
 </configuration>

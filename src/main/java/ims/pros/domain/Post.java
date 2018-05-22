@@ -3,12 +3,16 @@ package ims.pros.domain;
 import java.sql.Timestamp;
 import java.util.List;
 
+import ims.manager.domain.User;
+
 /**
- * Post 文章实体类
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  Post   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:31:03   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 public class Post {
     /**

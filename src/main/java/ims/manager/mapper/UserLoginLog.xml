@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="endorphin.dao.UserLoginLogDao">
+<mapper namespace="ims.manager.dao.UserLoginLogDao">
     <!--User结果集-->
     <resultMap id="userLoginLogMap" type="UserLoginLog">
         <id property="loginLogId" column="login_log_id"/>

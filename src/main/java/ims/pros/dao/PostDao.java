@@ -7,11 +7,13 @@ import ims.pros.domain.Post;
 import java.util.List;
 
 /**
- * PostDao 提供了关于文章的操作接口
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  PostDao   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:30:46   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Repository
 public interface PostDao {

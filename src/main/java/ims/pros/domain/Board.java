@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Board 主题板块实体类
- *
- * @author igaozp
- * @version 1.1
- * @since 2016
+ * 
+ * @ClassName:  Board   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:30:56   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 public class Board implements Serializable {
     /**

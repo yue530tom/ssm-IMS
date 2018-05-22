@@ -2,14 +2,15 @@ package ims.manager.service;
 
 import java.util.List;
 
-import ims.pros.domain.User;
-
+import ims.manager.domain.User;
 /**
- * UserService 用户功能的服务接口
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  UserService   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:28:56   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 public interface UserService {
     /**

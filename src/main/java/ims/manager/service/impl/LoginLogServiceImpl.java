@@ -1,11 +1,11 @@
 package ims.manager.service.impl;
 
-import ims.pros.dao.UserLoginLogDao;
-import ims.pros.domain.UserLoginLog;
-import ims.pros.service.LoginLogService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ims.manager.dao.UserLoginLogDao;
+import ims.manager.domain.UserLoginLog;
+import ims.manager.service.LoginLogService;
 
 /**
  * LoginLogServiceImpl

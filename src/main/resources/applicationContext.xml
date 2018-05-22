@@ -11,9 +11,8 @@
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
     <!--扫描文件-->
-    <context:component-scan base-package="ims.pros.service">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+    <context:component-scan base-package="ims.*.dao.*"/>
+    <context:component-scan base-package="ims.*.service.impl.*"/>
 
     <!--数据库连接池-->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

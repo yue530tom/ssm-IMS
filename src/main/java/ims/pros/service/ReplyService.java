@@ -5,11 +5,13 @@ import java.util.List;
 import ims.pros.domain.Reply;
 
 /**
- * ReplyService 回复功能的服务接口
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  ReplyService   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:31:33   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 public interface ReplyService {
     /**

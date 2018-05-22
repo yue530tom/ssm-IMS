@@ -37,7 +37,7 @@
     <br/>
     <h4>${Msg}</h4>
     <h4>
-        <a href="/" class="btn btn-outline-secondary" role="button">Endorphin</a>
+        <a href="/" class="btn btn-outline-secondary" role="button">IMS</a>
     </h4>
 </div>
 

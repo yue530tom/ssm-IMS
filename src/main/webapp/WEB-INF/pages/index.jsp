@@ -54,7 +54,7 @@
             <div class="mdl-grid">
                 <div class="mdl-cell mdl-cell--12-col center">
                     <div align="center">
-                        <img src="../resources/img/home-first.png" align="center">
+                        <!-- <img src="../resources/img/home-first.png" align="center"> -->
                     </div>
                 </div>
             </div>

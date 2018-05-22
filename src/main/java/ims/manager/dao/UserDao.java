@@ -1,17 +1,19 @@
 package ims.manager.dao;
 
-import org.springframework.stereotype.Repository;
-
-import ims.pros.domain.User;
-
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+import ims.manager.domain.User;
+
 /**
- * UserDao 提供关于用户的操作接口
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  UserDao   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:43:32   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Repository
 public interface UserDao {

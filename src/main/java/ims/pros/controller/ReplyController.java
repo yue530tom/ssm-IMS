@@ -1,8 +1,9 @@
 package ims.pros.controller;
 
+import ims.manager.service.UserService;
 import ims.pros.domain.Reply;
 import ims.pros.service.ReplyService;
-import ims.pros.service.UserService;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * ReplyController
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  ReplyController   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:30:24   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Controller
 @RequestMapping(value = "/reply")

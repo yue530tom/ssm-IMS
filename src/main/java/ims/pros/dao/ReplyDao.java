@@ -7,11 +7,13 @@ import ims.pros.domain.Reply;
 import java.util.List;
 
 /**
- * ReplyDao 提供关于回复的操作接口
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  ReplyDao   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:30:51   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Repository
 public interface ReplyDao {

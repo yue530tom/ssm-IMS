@@ -1,9 +1,10 @@
 package ims.manager.controller;
 
-import ims.pros.domain.User;
-import ims.pros.domain.UserLoginLog;
-import ims.pros.service.LoginLogService;
-import ims.pros.service.UserService;
+
+
+import java.sql.Timestamp;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,15 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
+import ims.manager.domain.User;
+import ims.manager.domain.UserLoginLog;
+import ims.manager.service.LoginLogService;
+import ims.manager.service.UserService;
 
 /**
- * UserController
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  UserController   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:29:26   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Controller
 @RequestMapping("/user")

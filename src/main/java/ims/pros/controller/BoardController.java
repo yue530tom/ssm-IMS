@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * BoardController
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  BoardController   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:30:06   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Controller
 @RequestMapping(value = "/board")

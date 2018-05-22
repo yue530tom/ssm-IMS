@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * MainController
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  MainController   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:30:13   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Controller
 public class MainController {

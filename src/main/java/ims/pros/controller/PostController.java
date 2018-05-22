@@ -16,11 +16,13 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * PostController
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  PostController   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:30:18   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Controller
 @RequestMapping(value = "/post")

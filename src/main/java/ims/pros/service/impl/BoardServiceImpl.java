@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * BoardServiceImpl
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  BoardServiceImpl   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:31:39   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Service
 public class BoardServiceImpl implements BoardService {

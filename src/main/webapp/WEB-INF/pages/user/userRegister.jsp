@@ -11,13 +11,13 @@
 
     <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
 
-    <title>Endorphin - 注册</title>
+    <title>IMS - 注册</title>
 </head>
 <body>
 <%-- 注册页面导航栏 --%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand text-white ml-lg-5" href="/">
-        Endorphin
+        IMS
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"

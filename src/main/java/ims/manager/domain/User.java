@@ -4,14 +4,20 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * User 用户的实体类
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  User   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:29:11   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 public class User implements Serializable {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * 0代表管理员,  1代表普通用户
      */
     private static final int USER_ADMIN = 0;

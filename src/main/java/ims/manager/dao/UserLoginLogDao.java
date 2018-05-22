@@ -1,17 +1,19 @@
 package ims.manager.dao;
 
-import org.springframework.stereotype.Repository;
-
-import ims.pros.domain.UserLoginLog;
-
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+import ims.manager.domain.UserLoginLog;
+
 /**
- * UserLoginLogDao 提供关于用户登录日志的操作接口
- *
- * @author igaozp
- * @version 1.0
- * @since 1.0
+ * 
+ * @ClassName:  UserLoginLogDao   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:29:19   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Repository
 public interface UserLoginLogDao {

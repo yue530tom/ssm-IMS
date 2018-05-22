@@ -7,11 +7,13 @@ import ims.pros.domain.Board;
 import java.util.List;
 
 /**
- * BoardDao 提供了了关于主题板块的操作接口
- *
- * @author igaozp
- * @version 1.0
- * @since 2016
+ * 
+ * @ClassName:  BoardDao   
+ * @Description:TODO
+ * @author: yueling
+ * @date:   2018年5月22日 下午3:30:39   
+ *     
+ * @Copyright: 2018 yueling Inc. All rights reserved.
  */
 @Repository
 public interface BoardDao {

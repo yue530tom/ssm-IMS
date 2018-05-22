@@ -1,6 +1,6 @@
 package ims.manager.service;
 
-import ims.pros.domain.UserLoginLog;
+import ims.manager.domain.UserLoginLog;
 
 /**
  * LoginLog 登录日志的服务接口
