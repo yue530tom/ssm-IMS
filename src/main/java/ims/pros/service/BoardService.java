@@ -1,8 +1,8 @@
-package ims.service;
+package ims.pros.service;
 
 import java.util.List;
 
-import ims.domain.Board;
+import ims.pros.domain.Board;
 
 /**
  * BoardService 板块功能的服务接口

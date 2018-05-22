@@ -1,8 +1,8 @@
-package ims.service;
+package ims.pros.service;
 
 import java.util.List;
 
-import ims.domain.Reply;
+import ims.pros.domain.Reply;
 
 /**
  * ReplyService 回复功能的服务接口

@@ -1,7 +1,7 @@
-package ims.controller;
+package ims.pros.controller;
 
-import ims.domain.Board;
-import ims.service.BoardService;
+import ims.pros.domain.Board;
+import ims.pros.service.BoardService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

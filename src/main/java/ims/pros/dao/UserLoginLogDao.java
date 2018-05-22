@@ -1,8 +1,8 @@
-package ims.dao;
+package ims.pros.dao;
 
 import org.springframework.stereotype.Repository;
 
-import ims.domain.UserLoginLog;
+import ims.pros.domain.UserLoginLog;
 
 import java.util.List;
 

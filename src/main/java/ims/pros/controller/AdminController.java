@@ -1,12 +1,12 @@
-package ims.controller;
+package ims.pros.controller;
 
-import ims.domain.Board;
-import ims.domain.Post;
-import ims.domain.User;
-import ims.service.BoardService;
-import ims.service.PostService;
-import ims.service.ReplyService;
-import ims.service.UserService;
+import ims.pros.domain.Board;
+import ims.pros.domain.Post;
+import ims.pros.domain.User;
+import ims.pros.service.BoardService;
+import ims.pros.service.PostService;
+import ims.pros.service.ReplyService;
+import ims.pros.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

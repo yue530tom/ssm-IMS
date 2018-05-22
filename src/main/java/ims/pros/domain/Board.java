@@ -1,4 +1,4 @@
-package ims.domain;
+package ims.pros.domain;
 
 import java.io.Serializable;
 import java.util.List;

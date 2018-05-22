@@ -1,8 +1,8 @@
-package ims.service;
+package ims.pros.service;
 
 import java.util.List;
 
-import ims.domain.User;
+import ims.pros.domain.User;
 
 /**
  * UserService 用户功能的服务接口

@@ -1,4 +1,4 @@
-package ims.domain;
+package ims.pros.domain;
 
 import java.sql.Timestamp;
 import java.util.List;

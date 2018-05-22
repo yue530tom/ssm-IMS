@@ -1,8 +1,8 @@
-package ims.service.impl;
+package ims.pros.service.impl;
 
-import ims.dao.BoardDao;
-import ims.domain.Board;
-import ims.service.BoardService;
+import ims.pros.dao.BoardDao;
+import ims.pros.domain.Board;
+import ims.pros.service.BoardService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

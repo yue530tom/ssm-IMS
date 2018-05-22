@@ -11,10 +11,10 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!--扫描控制器-->
-    <context:component-scan base-package="ims.controller"/>
-    <context:component-scan base-package="ims.dao"/>
-    <context:component-scan base-package="ims.domain"/>
-    <context:component-scan base-package="ims.service"/>
+    <context:component-scan base-package="ims.pros.controller"/>
+    <context:component-scan base-package="ims.pros.dao"/>
+    <context:component-scan base-package="ims.pros.domain"/>
+    <context:component-scan base-package="ims.pros.service"/>
 
     <!--开启注解-->
     <mvc:annotation-driven/>

@@ -1,9 +1,9 @@
-package ims.controller;
+package ims.pros.controller;
 
-import ims.domain.User;
-import ims.domain.UserLoginLog;
-import ims.service.LoginLogService;
-import ims.service.UserService;
+import ims.pros.domain.User;
+import ims.pros.domain.UserLoginLog;
+import ims.pros.service.LoginLogService;
+import ims.pros.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

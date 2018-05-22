@@ -1,8 +1,8 @@
-package ims.service.impl;
+package ims.pros.service.impl;
 
-import ims.dao.UserDao;
-import ims.domain.User;
-import ims.service.UserService;
+import ims.pros.dao.UserDao;
+import ims.pros.domain.User;
+import ims.pros.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

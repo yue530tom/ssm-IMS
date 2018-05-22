@@ -1,8 +1,8 @@
-package ims.dao;
+package ims.pros.dao;
 
 import org.springframework.stereotype.Repository;
 
-import ims.domain.User;
+import ims.pros.domain.User;
 
 import java.util.List;
 

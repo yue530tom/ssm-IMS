@@ -1,8 +1,8 @@
-package ims.service;
+package ims.pros.service;
 
 import java.util.List;
 
-import ims.domain.Post;
+import ims.pros.domain.Post;
 
 /**
  * PostService 文章功能的服务接口

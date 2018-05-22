@@ -1,10 +1,10 @@
-package ims.controller;
+package ims.pros.controller;
 
-import ims.domain.Post;
-import ims.domain.Reply;
-import ims.service.BoardService;
-import ims.service.PostService;
-import ims.service.ReplyService;
+import ims.pros.domain.Post;
+import ims.pros.domain.Reply;
+import ims.pros.service.BoardService;
+import ims.pros.service.PostService;
+import ims.pros.service.ReplyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

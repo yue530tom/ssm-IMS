@@ -1,8 +1,8 @@
-package ims.dao;
+package ims.pros.dao;
 
 import org.springframework.stereotype.Repository;
 
-import ims.domain.Board;
+import ims.pros.domain.Board;
 
 import java.util.List;
 

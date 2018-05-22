@@ -11,7 +11,7 @@
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
     <!--扫描文件-->
-    <context:component-scan base-package="ims.service">
+    <context:component-scan base-package="ims.pros.service">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
@@ -40,7 +40,7 @@
 
     <!--创建数据映射器-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="ims.dao"/>
+        <property name="basePackage" value="ims.pros.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
