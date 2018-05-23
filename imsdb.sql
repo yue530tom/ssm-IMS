@@ -45,8 +45,8 @@ CREATE TABLE `factory` (
   `factory_address` varchar(512) DEFAULT NULL,
   `factory_scale` varchar(2) DEFAULT NULL,
   `factory_remarks` varchar(512) DEFAULT NULL,
-  `factory_create` datetime DEFAULT NULL,
-  `factory_modify` datetime DEFAULT NULL,
+  `factory_create`  timestamp NULL DEFAULT NULL ,
+  `factory_modify`  timestamp NULL DEFAULT NULL ,
   PRIMARY KEY (`factory_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

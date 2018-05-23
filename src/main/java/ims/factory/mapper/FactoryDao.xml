@@ -16,7 +16,7 @@
 	</resultMap>
 
 	<sql id="factoryColumns">
-		factory_id,factory_name,factory_contacts,factory_phone,factory_telephone,factory_address,factory_scale,factory_remarks
+		factory_id,factory_name,factory_contacts,factory_phone,factory_telephone,factory_address,factory_scale,factory_remarks,factory_create,factory_modify
 	</sql>
 
 	<!--插入工厂信息 -->
@@ -45,6 +45,9 @@
 			<if test="factoryRemarks != null">
 				factory_remarks,
 			</if>
+			<if test="factoryCreate != null">
+				factory_create,
+			</if>
 		</trim>
 		<trim prefix="values(" suffix=")" suffixOverrides=",">
 			<if test="factoryName != null">
@@ -66,7 +69,10 @@
 				#{factoryScale, jdbcType=VARCHAR},
 			</if>
 			<if test="factoryRemarks != null">
-				#{factoryRemarks, jdbcType=TIMESTAMP},
+				#{factoryRemarks, jdbcType=VARCHAR},
+			</if>
+			<if test="factoryCreate != null">
+				#{factoryCreate, jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	</insert>
