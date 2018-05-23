@@ -9,53 +9,69 @@ import ims.factory.domain.Factory;
 @Repository
 public interface FactoryDao {
 
+
 	/**
-	 * 通过工厂名称查询工厂，使用模糊匹配
-	 * @param FactoryName：工厂名称关键字
-	 * @return List<Factory>
+	 * 
+	 * @Title: addFactory   
+	 * @Description: 添加工厂信息
+	 * @param: @param Factory      
+	 * @return: void      
+	 * @throws
 	 */
-    List<Factory> findFactoryByFactoryName(String FactoryName);
+    void addFactory(Factory factory);
+
+    
+    /**
+     * 
+     * @Title: deleteFactoryByFactoryId   
+     * @Description: 通过工厂id删除工厂信息
+     * @param: @param FactoryId      
+     * @return: void
+     * @throws
+     */
+    void deleteFactoryByFactoryId(long factoryId);
 
     /**
-     * 通过工厂的id来精确查询工厂
-     * @param FactoryId:工厂的id
-     * @return Factory
+     * 
+     * @Title: updateFactoryByFactoryId   
+     * @Description: 通过工厂id更新工厂信息
+     * @param: @param Factory      
+     * @return: void      
+     * @throws
      */
-    Factory findFactoryByFactoryId(int FactoryId);
+    void updateFactoryByFactoryId(Factory factory);
+
+    /**
+     * 
+     * @Title: getFactoryInfo   
+     * @Description: 综合查询的工厂信息
+     * @param: @return      
+     * @return: List<Factory>      
+     * @throws
+     */
+    List<Factory> getFactoryInfo(Factory factory);
+    
+    /**
+     * 
+     * @Title: findFactoryByFactoryName   
+     * @Description: 通过工厂名称查询工厂，使用模糊匹配
+     * @param: @param FactoryName
+     * @param: @return      
+     * @return: List<Factory>      
+     * @throws
+     */
+    List<Factory> findFactoryByFactoryName(String factoryName);
 
 
     /**
-     * 添加工厂
-     * @param Factory：Factory对象
+     * 
+     * @Title: findFactoryByFactoryId   
+     * @Description: 通过工厂的id来精确查询工厂
+     * @param: @param FactoryId
+     * @param: @return      
+     * @return: Factory      
+     * @throws
      */
-    void addFactory(Factory Factory);
+    Factory findFactoryByFactoryId(int factoryId);
 
-    /**
-     * 通过用户名删除用户
-     *
-     * @param Factoryname 删除用户的用户名
-     */
-    void deleteFactoryByFactoryName(String Factoryname);
-
-    /**
-     * 更新用户信息
-     *
-     * @param Factory 需要更新的用户
-     */
-    void updateFactoryByFactoryName(Factory Factory);
-
-    /**
-     * 用户名获取用户密码
-     *
-     * @param Factoryname 用户名
-     * @return 密码
-     */
-    String getFactoryPasswordByFactoryName(String Factoryname);
-
-    /**
-     * 获取所有的用户信息
-     *
-     * @return 用户列表
-     */
-    List<Factory> getAllFactoryInfo();
 }

@@ -37,7 +37,10 @@ public class MainController {
     public String index() {
         return "index";
     }
-
+    @RequestMapping("/userTest")
+    public String userTest() {
+    	return "indexa";
+    }
     /**
      * 显示内容主页
      *

@@ -1,75 +1,73 @@
 package ims.factory.domain;
 
 public class Factory {
-	private long factory_id;
-	private String factory_contacts;
-	private String factory_phone;
-	private String factory_telephone;
-	private String factory_address;
-	private String factory_scale;
-	private String factory_remarks;
-
-	public long getFactory_id() {
-		return factory_id;
+	private long factoryId;
+	private String factoryName;
+	private String factoryContacts;
+	private String factoryPhone;
+	private String factoryTelephone;
+	private String factoryAddress;
+	private String factoryScale;
+	private String factoryRemarks;
+	
+	public long getFactoryId() {
+		return factoryId;
 	}
-
-	public void setFactory_id(long factory_id) {
-		this.factory_id = factory_id;
+	public void setFactoryId(long factoryId) {
+		this.factoryId = factoryId;
 	}
-
-	public String getFactory_contacts() {
-		return factory_contacts;
+	
+	public String getFactoryName() {
+		return factoryName;
 	}
-
-	public void setFactory_contacts(String factory_contacts) {
-		this.factory_contacts = factory_contacts;
+	public void setFactoryName(String factoryName) {
+		this.factoryName = factoryName;
 	}
-
-	public String getFactory_phone() {
-		return factory_phone;
+	public String getFactoryContacts() {
+		return factoryContacts;
 	}
-
-	public void setFactory_phone(String factory_phone) {
-		this.factory_phone = factory_phone;
+	public void setFactoryContacts(String factoryContacts) {
+		this.factoryContacts = factoryContacts;
 	}
-
-	public String getFactory_telephone() {
-		return factory_telephone;
+	public String getFactoryPhone() {
+		return factoryPhone;
 	}
-
-	public void setFactory_telephone(String factory_telephone) {
-		this.factory_telephone = factory_telephone;
+	public void setFactoryPhone(String factoryPhone) {
+		this.factoryPhone = factoryPhone;
 	}
-
-	public String getFactory_address() {
-		return factory_address;
+	public String getFactoryTelephone() {
+		return factoryTelephone;
 	}
-
-	public void setFactory_address(String factory_address) {
-		this.factory_address = factory_address;
+	public void setFactoryTelephone(String factoryTelephone) {
+		this.factoryTelephone = factoryTelephone;
 	}
-
-	public String getFactory_scale() {
-		return factory_scale;
+	public String getFactoryAddress() {
+		return factoryAddress;
 	}
-
-	public void setFactory_scale(String factory_scale) {
-		this.factory_scale = factory_scale;
+	public void setFactoryAddress(String factoryAddress) {
+		this.factoryAddress = factoryAddress;
 	}
-
-	public String getFactory_remarks() {
-		return factory_remarks;
+	public String getFactoryScale() {
+		return factoryScale;
 	}
-
-	public void setFactory_remarks(String factory_remarks) {
-		this.factory_remarks = factory_remarks;
+	public void setFactoryScale(String factoryScale) {
+		this.factoryScale = factoryScale;
 	}
-
+	public String getFactoryRemarks() {
+		return factoryRemarks;
+	}
+	public void setFactoryRemarks(String factoryRemarks) {
+		this.factoryRemarks = factoryRemarks;
+	}
 	@Override
 	public String toString() {
-		return "Factory [factory_id=" + factory_id + ", factory_contacts=" + factory_contacts + ", factory_phone="
-				+ factory_phone + ", factory_telephone=" + factory_telephone + ", factory_address=" + factory_address
-				+ ", factory_scale=" + factory_scale + ", factory_remarks=" + factory_remarks + "]";
+		return "Factory [factoryId=" + factoryId + ", factoryName=" + factoryName + ", factoryContacts="
+				+ factoryContacts + ", factoryPhone=" + factoryPhone + ", factoryTelephone=" + factoryTelephone
+				+ ", factoryAddress=" + factoryAddress + ", factoryScale=" + factoryScale + ", factoryRemarks="
+				+ factoryRemarks + "]";
 	}
+	
+
+	
 
 }

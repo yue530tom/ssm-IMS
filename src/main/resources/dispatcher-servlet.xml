@@ -20,7 +20,8 @@
     <!--静态资源访问-->
     <mvc:default-servlet-handler/>
     <mvc:resources location="/WEB-INF/resources/" mapping="/resources/**"/>
-
+    <!-- <mvc:resources location="/WEB-INF/pages/assets/" mapping="/pages/assets/**"/> -->
+	
 
     <!--页面控制器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceViewResolver">

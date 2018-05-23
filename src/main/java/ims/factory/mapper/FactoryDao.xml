@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ims.factory.dao.FactoryDao">
+	<!--User结果集 -->
+	<resultMap id="factoryMap" type="Factory">
+		<id property="factoryId" column="factory_id" />
+		<result property="factoryName" column="factory_name" />
+		<result property="factoryContacts" column="factory_contacts" />
+		<result property="factoryPhone" column="factory_phone" />
+		<result property="factoryTelephone" column="factory_telephone" />
+		<result property="factoryAddress" column="factory_address" />
+		<result property="factoryScale" column="factory_scale" />
+		<result property="factoryRemarks" column="factory_remarks" />
+	</resultMap>
+
+	<sql id="factoryColumns">
+		factory_id,factory_name,factory_contacts,factory_phone,factory_telephone,factory_address,factory_scale,factory_remarks
+	</sql>
+
+	<!--插入工厂信息 -->
+	<insert id="addFactory" parameterType="Factory" keyProperty="factoryId"
+		useGeneratedKeys="true">
+		INSERT INTO factory
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="factoryName != null">
+				factory_name,
+			</if>
+			<if test="factoryContacts != null">
+				factory_contacts,
+			</if>
+			<if test="factoryPhone != null">
+				factory_phone,
+			</if>
+			<if test="factoryTelephone != null">
+				factory_telephone,
+			</if>
+			<if test="factoryAddress != null">
+				factory_address,
+			</if>
+			<if test="factoryScale != null">
+				factory_scale,
+			</if>
+			<if test="factoryRemarks != null">
+				factory_remarks,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="factoryName != null">
+				#{factoryName, jdbcType=VARCHAR},
+			</if>
+			<if test="factoryContacts != null">
+				#{factoryContacts, jdbcType=VARCHAR},
+			</if>
+			<if test="factoryPhone != null">
+				#{factoryPhone, jdbcType=VARCHAR},
+			</if>
+			<if test="factoryTelephone != null">
+				#{factoryTelephone, jdbcType=INTEGER},
+			</if>
+			<if test="factoryAddress != null">
+				#{factoryAddress, jdbcType=VARCHAR},
+			</if>
+			<if test="factoryScale != null">
+				#{factoryScale, jdbcType=VARCHAR},
+			</if>
+			<if test="factoryRemarks != null">
+				#{factoryRemarks, jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<!--根据用户名删除用户信息 -->
+	<delete id="deleteFactoryByFactoryId" parameterType="long">
+		DELETE FROM factory
+		WHERE factory_id = #{factoryId}
+	</delete>
+
+	<!--更新用户信息 -->
+	<update id="updateFactoryByFactoryId" parameterType="Factory">
+		UPDATE factory
+		SET
+		<if test="factoryName != null and factoryName != '' ">
+			factory_name = #{factoryName},
+		</if>
+		<if test="factoryContacts != null and factoryContacts != '' ">
+			factory_contacts = #{factoryContacts},
+		</if>
+		<if test="factoryPhone != null and factoryPhone != '' ">
+			factory_phone = #{factoryPhone},
+		</if>
+		<if test="factoryTelephone != null and factoryTelephone != '' ">
+			factory_telephone = #{factoryTelephone},
+		</if>
+		<if test="factoryAddress != null and factoryAddress != '' ">
+			factory_address = #{factoryAddress},
+		</if>
+		<if test="factoryScale != null and factoryScale != '' ">
+			factory_scale = #{factoryScale},
+		</if>
+		<if test="factoryRemarks != null and factoryRemarks != '' ">
+			factory_remarks = #{factoryRemarks}
+		</if>
+		WHERE factory_id = #{factoryId}
+	</update>
+	
+	<!--根据综合条件查询工厂信息 -->
+	<select id="getFactoryInfo" parameterType="Factory"
+		resultMap="factoryMap">
+		SELECT
+		<include refid="factoryColumns" />
+		FROM factory
+		WHERE factory_id = #{factoryId}
+	</select>
+
+	<!--根据工厂名查询工厂信息 -->
+	<select id="findFactoryByFactoryName" parameterType="String"
+		resultMap="factoryMap">
+		SELECT
+		<include refid="factoryColumns" />
+		FROM factory
+		WHERE factory_id = #{factoryId}
+	</select>
+
+	<!--根据工厂id获取工厂信息 -->
+	<select id="findFactoryByFactoryId" resultMap="factoryMap">
+		SELECT
+		<include refid="factoryColumns" />
+		FROM factory
+		WHERE factory_id = #{factoryId}
+	</select>
+
+</mapper>
