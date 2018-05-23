@@ -1,0 +1,125 @@
+@RequestMapping(value = "/report_filter", method = RequestMethod.GET)
+	public void filteSample(HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException, JSONException {
+		request.setCharacterEncoding("utf-8");
+		String filter = request.getParameter("filter");
+		List<DocumentObject> list = new ArrayList<DocumentObject>();
+		Map<String, Object> filterMap = new HashMap<String, Object>();
+		try {
+			if (filter != null) {
+				JSONObject filterJson = new JSONObject(filter);
+				if (filterJson.has("file_name")) {
+					/*
+					 * System.out.println(new
+					 * String(filterJson.get("file_name").toString().getBytes(
+					 * "iso8859-1"), "utf-8"));
+					 * System.out.println(filterJson.get("file_name"));
+					 */
+					filterMap.put("file_name", filterJson.get("file_name"));
+				}
+				if (filterJson.has("editor")) {
+					filterMap.put("editor", filterJson.get("editor"));
+				}
+				if (filterJson.has("edit_time")) {
+					filterMap.put("edit_time", filterJson.get("edit_time").toString());
+					//System.err.println(filterJson.get("edit_time"));
+				}
+				if (filterJson.has("docCate")) {
+					filterMap.put("docCate", filterJson.get("docCate"));
+				}
+			}
+			String page = request.getParameter("page");
+
+			int start = 0;
+			if (page != null) {
+				JSONObject pageJo = new JSONObject(page);
+				int curPage = Integer.parseInt(pageJo.get("cur_page").toString());
+				start = (curPage + 1) * (int) pageSize;
+			}
+
+			JSONObject js = new JSONObject();
+			int count = documentService.findAll(filterMap).size();// 获取总数
+			int size = (int) Math.ceil((float) count / pageSize);
+			if (size == 0) {
+				size = 1;
+			}
+			js.put("page", size);
+			// System.out.println("=======" + size);
+			filterMap.put("start", start);
+			filterMap.put("size", (int) pageSize);
+			list = documentService.findAll(filterMap);
+			JSONArray ja = new JSONArray();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			for (DocumentObject documentObjec : list) {
+				JSONObject tem_jo = new JSONObject();
+				tem_jo.put("file_name", formatStr(documentObjec.getFileName(), 50));
+				tem_jo.put("file_id", documentObjec.getId());
+				tem_jo.put("file_secondName", documentObjec.getSecondName());
+				// tem_jo.put("edit_time", "xx");
+				tem_jo.put("edit_time", documentObjec.getFileCreateDate());
+				tem_jo.put("editor", documentObjec.getFileAuthor());
+				tem_jo.put("file_type", formatStr(documentObjec.getFileType(), 30));
+				tem_jo.put("file_category", documentObjec.getFileCategory());
+				tem_jo.put("file_category_name", documentObjec.getFileCategoryName());
+				ja.put(tem_jo);
+			}
+			js.put("list", ja);
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(js.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value = "/reportLast", method = RequestMethod.GET)
+	public String reportNewest(HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException {
+		request.setCharacterEncoding("utf-8");
+		List<DocumentObject> list = new ArrayList<DocumentObject>();
+		try {
+			JSONObject js = new JSONObject();
+			list = documentService.findLast();
+			JSONArray ja = new JSONArray();
+			for (DocumentObject documentObjec : list) {
+				JSONObject tem_jo = new JSONObject();
+				tem_jo.put("file_name", formatStr(documentObjec.getFileName(), 50));
+				tem_jo.put("file_id", documentObjec.getId());
+				tem_jo.put("file_secondName", documentObjec.getSecondName());
+				// tem_jo.put("edit_time", "xx");
+				tem_jo.put("edit_time", documentObjec.getFileCreateDate());
+				tem_jo.put("editor", documentObjec.getFileAuthor());
+				tem_jo.put("file_type", formatStr(documentObjec.getFileType(), 30));
+				tem_jo.put("file_category", documentObjec.getFileCategory());
+				ja.put(tem_jo);
+			}
+			js.put("list", ja);
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(js.toString());
+		} catch (
+
+				JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "/newest";
+	}
+
+	@RequestMapping(value = "/report/{file_id}")
+	public String linkedABEvaPage(@PathVariable String file_id, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws JSONException {
+		DocumentObject documentObject = documentService.findById(Integer.valueOf(file_id));
+		JSONObject jObj = new JSONObject();
+		if (documentObject == null) {
+			jObj.put("filename", "");
+		} else {
+			jObj.put("filename", documentObject.getSecondName());
+			//System.out.println("fileName:" + documentObject.getFileName() + "\t" + documentObject.getSecondName());
+		}
+		//
+		model.addAttribute("fileobject", jObj);
+		return "viewreport";
+
+	}

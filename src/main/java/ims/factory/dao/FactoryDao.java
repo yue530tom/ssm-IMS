@@ -60,7 +60,18 @@ public interface FactoryDao {
      * @return: List<Factory>      
      * @throws
      */
-    List<Factory> findFactoryByFactoryName(String factoryName);
+    List<Factory> findFactoryByLikeFactoryName(String factoryName);
+    
+    /**
+     * 
+     * @Title: findFactoryByEqualFactoryName   
+     * @Description: 通过工厂名称查询工厂，使用精确匹配
+     * @param: @param factoryName
+     * @param: @return      
+     * @return: Factory      
+     * @throws
+     */
+    Factory findFactoryByEqualFactoryName(String factoryName);
 
 
     /**

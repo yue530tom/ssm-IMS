@@ -1,5 +1,7 @@
 package ims.factory.domain;
 
+import java.util.Date;
+
 public class Factory {
 	private long factoryId;
 	private String factoryName;
@@ -9,6 +11,8 @@ public class Factory {
 	private String factoryAddress;
 	private String factoryScale;
 	private String factoryRemarks;
+	private Date factoryCreate;
+	private Date factoryModify;
 	
 	public long getFactoryId() {
 		return factoryId;
@@ -59,12 +63,25 @@ public class Factory {
 	public void setFactoryRemarks(String factoryRemarks) {
 		this.factoryRemarks = factoryRemarks;
 	}
+	
+	public Date getFactoryCreate() {
+		return factoryCreate;
+	}
+	public void setFactoryCreate(Date factoryCreate) {
+		this.factoryCreate = factoryCreate;
+	}
+	public Date getFactoryModify() {
+		return factoryModify;
+	}
+	public void setFactoryModify(Date factoryModify) {
+		this.factoryModify = factoryModify;
+	}
 	@Override
 	public String toString() {
 		return "Factory [factoryId=" + factoryId + ", factoryName=" + factoryName + ", factoryContacts="
 				+ factoryContacts + ", factoryPhone=" + factoryPhone + ", factoryTelephone=" + factoryTelephone
 				+ ", factoryAddress=" + factoryAddress + ", factoryScale=" + factoryScale + ", factoryRemarks="
-				+ factoryRemarks + "]";
+				+ factoryRemarks + ", factoryCreate=" + factoryCreate + ", factoryModify=" + factoryModify + "]";
 	}
 	
 

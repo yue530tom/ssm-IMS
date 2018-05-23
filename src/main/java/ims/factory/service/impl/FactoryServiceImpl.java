@@ -48,12 +48,22 @@ public class FactoryServiceImpl implements FactoryService {
 	}
 
 	@Override
-	public List<Factory> findFactoryByFactoryName(String factoryName) {
+	public List<Factory> findFactoryByLikeFactoryName(String factoryName) {
 		if (factoryDao == null) {
 			return null;
 		}
-		return factoryDao.findFactoryByFactoryName(factoryName);
+		return factoryDao.findFactoryByLikeFactoryName(factoryName);
 	}
+
+	@Override
+	public Factory findFactoryByEqualFactoryName(String factoryName) {
+		// TODO Auto-generated method stub
+		if (factoryDao == null) {
+			return null;
+		}
+		return factoryDao.findFactoryByEqualFactoryName(factoryName);
+	}
+
 
 	@Override
 	public Factory findFactoryByFactoryId(int factoryId) {
@@ -63,4 +73,5 @@ public class FactoryServiceImpl implements FactoryService {
 		return factoryDao.findFactoryByFactoryId(factoryId);
 	}
 
+	
 }

@@ -73,7 +73,8 @@
 
 	<!--根据用户名删除用户信息 -->
 	<delete id="deleteFactoryByFactoryId" parameterType="long">
-		DELETE FROM factory
+		DELETE FROM
+		factory
 		WHERE factory_id = #{factoryId}
 	</delete>
 
@@ -104,27 +105,34 @@
 		</if>
 		WHERE factory_id = #{factoryId}
 	</update>
-	
+
 	<!--根据综合条件查询工厂信息 -->
-	<select id="getFactoryInfo" parameterType="Factory"
-		resultMap="factoryMap">
+	<select id="getFactoryInfo" parameterType="Factory" resultMap="factoryMap">
 		SELECT
 		<include refid="factoryColumns" />
 		FROM factory
 		WHERE factory_id = #{factoryId}
 	</select>
 
-	<!--根据工厂名查询工厂信息 -->
-	<select id="findFactoryByFactoryName" parameterType="String"
+	<!--根据工厂名称模糊查询工厂信息 -->
+	<select id="findFactoryByLikeFactoryName" parameterType="String"
 		resultMap="factoryMap">
 		SELECT
 		<include refid="factoryColumns" />
 		FROM factory
-		WHERE factory_id = #{factoryId}
+		WHERE factory_name like #{factoryName}
 	</select>
-
+	<!--根据工厂名称精确查询工厂信息 -->
+	<select id="findFactoryByEqualFactoryName" parameterType="String"
+		resultMap="factoryMap" resultType="Factory">
+		SELECT
+		<include refid="factoryColumns" />
+		FROM factory
+		WHERE factory_name = #{factoryName}
+	</select>
 	<!--根据工厂id获取工厂信息 -->
-	<select id="findFactoryByFactoryId" resultMap="factoryMap">
+	<select id="findFactoryByFactoryId" parameterType="String"
+		resultMap="factoryMap" resultType="Factory">
 		SELECT
 		<include refid="factoryColumns" />
 		FROM factory
