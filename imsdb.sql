@@ -37,16 +37,16 @@ CREATE TABLE `board` (
 -- ----------------------------
 DROP TABLE IF EXISTS `factory`;
 CREATE TABLE `factory` (
-  `factory_id` int(10) NOT NULL AUTO_INCREMENT,
-  `factory_name` varchar(50) DEFAULT NULL,
-  `factory_contacts` varchar(100) DEFAULT NULL,
-  `factory_phone` varchar(11) DEFAULT NULL,
-  `factory_telephone` varchar(12) DEFAULT NULL,
-  `factory_address` varchar(512) DEFAULT NULL,
-  `factory_scale` varchar(2) DEFAULT NULL,
-  `factory_remarks` varchar(512) DEFAULT NULL,
-  `factory_create`  timestamp NULL DEFAULT NULL ,
-  `factory_modify`  timestamp NULL DEFAULT NULL ,
+  `factory_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '工厂id',
+  `factory_name` varchar(50) DEFAULT NULL COMMENT '工厂名称',
+  `factory_contacts` varchar(100) DEFAULT NULL COMMENT '工厂联系人',
+  `factory_phone` varchar(11) DEFAULT NULL COMMENT '工厂手机',
+  `factory_telephone` varchar(12) DEFAULT NULL COMMENT '工厂座机',
+  `factory_address` varchar(512) DEFAULT NULL COMMENT '工厂地址',
+  `factory_scale` varchar(2) DEFAULT NULL COMMENT '工厂规模',
+  `factory_remarks` varchar(512) DEFAULT NULL COMMENT '备注',
+  `factory_create`  timestamp NULL DEFAULT NULL  COMMENT '创建时间',
+  `factory_modify`  timestamp NULL DEFAULT NULL  COMMENT '修改时间',
   PRIMARY KEY (`factory_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -70,6 +70,52 @@ CREATE TABLE `login_log` (
 -- Records of login_log
 -- ----------------------------
 INSERT INTO `login_log` VALUES ('1', 'admin', '0:0:0:0:0:0:0:1', '2018-05-22 11:01:46');
+
+
+-- ----------------------------
+-- Table structure for `order`
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `order_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '订单id',
+  `order_no` int(10) DEFAULT NULL COMMENT '订单编号',
+  `order_cust_name` varchar(50) DEFAULT NULL COMMENT '客户姓名',
+  `order_cust_phone` varchar(50) DEFAULT NULL COMMENT '客户联系电话',
+  `order_cust_send` varchar(100) DEFAULT NULL COMMENT '客户要求发货地址',
+  `order_sum_money` varchar(10) DEFAULT NULL COMMENT '总金额',
+  `order_deposit` varchar(10) DEFAULT NULL COMMENT '预付款',
+  `order_create` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `order_modify` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `order_remarks` varchar(1024) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of order
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `orderdetails`
+-- ----------------------------
+DROP TABLE IF EXISTS `orderdetails`;
+CREATE TABLE `orderdetails` (
+  `orderdetails_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '订单明细id',
+  `orderdetails_product_id` int(10) NOT NULL COMMENT '产品id',
+  `orderdetails_product_num` int(10) DEFAULT NULL COMMENT '数量',
+  `orderdetails_product_price` int(10) DEFAULT NULL COMMENT '单价',
+  `orderdetails_product_material` varchar(10) DEFAULT NULL COMMENT '材质',
+  `orderdetails_product_color` varchar(10) DEFAULT NULL COMMENT '颜色',
+  `orderdetails_product_size` varchar(10) DEFAULT NULL COMMENT '规格',
+  `orderdetails_product_collar` varchar(10) DEFAULT NULL COMMENT '领子样式',
+  `orderdetails_create` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `orderdetails_modify` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `orderdetails_remarks` varchar(1024) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`orderdetails_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of orderdetails
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `post`

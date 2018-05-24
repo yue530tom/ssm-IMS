@@ -6,7 +6,7 @@ public class Order {
 	 * 订单信息：主要包含主要信息，具体产品明细，在订单明细中
 	 */
 	private long orderId;
-	private long OrderNo;
+	private long orderNo;
 	private String orderCustName;
 	private String orderCustPhone;
 	private String orderCustSend;
@@ -25,11 +25,11 @@ public class Order {
 	}
 
 	public long getOrderNo() {
-		return OrderNo;
+		return orderNo;
 	}
 
 	public void setOrderNo(long orderNo) {
-		OrderNo = orderNo;
+		this.orderNo = orderNo;
 	}
 
 	public String getOrderCustName() {
@@ -98,7 +98,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", OrderNo=" + OrderNo + ", orderCustName=" + orderCustName
+		return "Order [orderId=" + orderId + ", orderNo=" + orderNo + ", orderCustName=" + orderCustName
 				+ ", orderCustPhone=" + orderCustPhone + ", orderCustSend=" + orderCustSend + ", orderCreate="
 				+ orderCreate + ", orderSumMoney=" + orderSumMoney + ", orderDeposit=" + orderDeposit + ", orderModify="
 				+ orderModify + ", orderRemarks=" + orderRemarks + "]";
