@@ -8,6 +8,9 @@
         <typeAlias alias="UserLoginLog" type="ims.manager.domain.UserLoginLog"/>
         
         <typeAlias alias="Factory" type="ims.factory.domain.Factory"/>
+        <typeAlias alias="Order" type="ims.order.domain.Order"/>
+        <typeAlias alias="OrderDetails" type="ims.order.domain.OrderDetails"/>
+        <typeAlias alias="Product" type="ims.product.domain.Product"/>
         
         <typeAlias alias="Board" type="ims.pros.domain.Board"/>
         <typeAlias alias="Post" type="ims.pros.domain.Post"/>

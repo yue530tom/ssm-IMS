@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ims.order.dao.OrderDao">
+	<!--User结果集 -->
+	<resultMap id="orderMap" type="Order">
+		<id property="orderId" column="order_id" />
+		<result property="orderNo" column="order_no" />
+		<result property="orderCustName" column="order_cust_name" />
+		<result property="orderCustPhone" column="order_cust_phone" />
+		<result property="orderCustSend" column="order_cust_send" />
+		<result property="orderSumMoney" column="order_sum_money" />
+		<result property="orderDeposit" column="order_deposit" />
+		<result property="orderCreate" column="order_create" />
+		<result property="orderModify" column="order_modify" />
+		<result property="orderRemarks" column="order_remarks" />
+	</resultMap>
+
+	<sql id="orderColumns">
+		order_id,order_no,order_cust_name,order_cust_phone,order_cust_send,order_sum_money,order_deposit,order_create,order_modify,order_remarks
+	</sql>
+
+	<!--插入订单信息 -->
+	<insert id="addOrder" parameterType="Order" keyProperty="orderId"
+		useGeneratedKeys="true">
+		INSERT INTO order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderNo != null">
+				order_no,
+			</if>
+			<if test="orderCustName != null">
+				order_cust_name,
+			</if>
+			<if test="orderCustPhone != null">
+				order_cust_phone,
+			</if>
+			<if test="orderCustSend != null">
+				order_cust_send,
+			</if>
+			<if test="orderSumMoney != null">
+				order_sum_money,
+			</if>
+			<if test="orderDeposit != null">
+				order_deposit,
+			</if>
+			<if test="orderCreate != null">
+				order_create,
+			</if>
+			<if test="orderModify != null">
+				order_modify,
+			</if>
+			<if test="orderRemarks != null">
+				order_remarks,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="orderNo != null">
+				#{orderNo, jdbcType=VARCHAR},
+			</if>
+			<if test="orderCustName != null">
+				#{orderCustName, jdbcType=VARCHAR},
+			</if>
+			<if test="orderCustPhone != null">
+				#{orderCustPhone, jdbcType=VARCHAR},
+			</if>
+			<if test="orderCustSend != null">
+				#{orderCustSend, jdbcType=INTEGER},
+			</if>
+			<if test="orderSumMoney != null">
+				#{orderSumMoney, jdbcType=VARCHAR},
+			</if>
+			<if test="orderDeposit != null">
+				#{orderDeposit, jdbcType=VARCHAR},
+			</if>
+			<if test="orderCreate != null">
+				#{orderCreate, jdbcType=VARCHAR},
+			</if>
+			<if test="orderModify != null">
+				#{orderModify, jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderRemarks != null">
+				#{orderRemarks, jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<!--根据用户名删除用户信息 -->
+	<delete id="deleteOrderByOrderId" parameterType="long">
+		DELETE FROM
+		order
+		WHERE order_id = #{orderId}
+	</delete>
+
+	<!--更新用户信息 -->
+	<update id="updateOrderByOrderId" parameterType="Order">
+		UPDATE order
+		SET
+		<if test="orderNo != null and orderNo != '' ">
+			order_no = #{orderNo},
+		</if>
+		<if test="orderCustName != null and orderCustName != '' ">
+			order_cust_name = #{orderCustName},
+		</if>
+		<if test="orderCustPhone != null and orderCustPhone != '' ">
+			order_cust_phone = #{orderCustPhone},
+		</if>
+		<if test="orderCustSend != null and orderCustSend != '' ">
+			order_cust_send = #{orderCustSend},
+		</if>
+		<if test="orderSumMoney != null and orderSumMoney != '' ">
+			order_sum_money = #{orderSumMoney},
+		</if>
+		<if test="orderDeposit != null and orderDeposit != '' ">
+			order_deposit = #{orderDeposit},
+		</if>
+		<if test="orderCreate != null and orderCreate != '' ">
+			order_create = #{orderCreate}
+		</if>
+		<if test="orderRemarks != null and orderRemarks != '' ">
+			order_remarks = #{orderRemarks}
+		</if>
+		WHERE order_id = #{orderId}
+	</update>
+
+	<!--根据综合条件查询订单信息 -->
+	<select id="getOrderInfo" parameterType="Order" resultMap="orderMap">
+		SELECT
+		<include refid="orderColumns" />
+		FROM order
+		WHERE order_id = #{orderId}
+	</select>
+
+	<!--根据订单名称模糊查询订单信息 -->
+	<select id="findOrderByLikeOrderName" parameterType="String"
+		resultMap="orderMap">
+		SELECT
+		<include refid="orderColumns" />
+		FROM order
+		WHERE order_no like #{orderNo}
+	</select>
+	<!--根据订单名称精确查询订单信息 -->
+	<select id="findOrderByEqualOrderName" parameterType="String"
+		resultMap="orderMap" resultType="Order">
+		SELECT
+		<include refid="orderColumns" />
+		FROM order
+		WHERE order_no = #{orderNo}
+	</select>
+	<!--根据订单id获取订单信息 -->
+	<select id="findOrderByOrderId" parameterType="String"
+		resultMap="orderMap" resultType="Order">
+		SELECT
+		<include refid="orderColumns" />
+		FROM order
+		WHERE order_id = #{orderId}
+	</select>
+
+</mapper>

@@ -576,39 +576,49 @@
             var domain = document.domain;
             var navig = $('#sideNav');
             var navLinks = navig.find('a');
-            if(domain === '') {
+            this.setCurrentClass(navLinks, window.location.pathname);
+            /*if(domain === '') {
                 //domain not found
                 var pageUrl = window.location.pathname.split( '/' );
+                
                 var winLoc = pageUrl.pop(); // get last item
+                alert("setCurrentNav:"+winLoc+"pageUrl:"+pageUrl);
                 this.setCurrentClass(navLinks, winLoc);
 
             } else {
                 if(plugin.settings.sideNav.absoluteUrl) {
                     //absolute url is enabled
                     var newDomain = 'http://' + domain + window.location.pathname;
+                    alert("newDomain:"+newDomain);
                     this.setCurrentClass(navLinks, newDomain);
                 
                 } else {
                     //absolute url is disabled
                     var afterDomain = window.location.pathname.split( '/' );
+                    alert("window.location.pathname:"+window.location.pathname+"afterDomain:"+afterDomain);
                     var afterDomain = afterDomain.pop();
+                    alert("afterDomain:"+afterDomain);
                     if(plugin.settings.sideNav.subDir != ''){
                         var afterDomain = window.location.pathname + plugin.settings.sideNav.subDir;
                     }
+                    alert("afterDomain:"+afterDomain);
                     this.setCurrentClass(navLinks, afterDomain);
                 }
-            }
+            }*/
         }
 
         plugin.setCurrentClass = function (mainNavLinkAll, url) {
             mainNavLinkAll.each(function(index) {
                 //convert href to array and get last element
                 var href= $(this).attr('href');
+
+                //alert("href:["+href+"]url:"+url)
                 if(href === url) {
                     //set new current class
                     $(this).addClass('active');
 
                     ulElem = $(this).closest('ul');
+                    //alert("ulElem:"+ulElem.innerHTML)
                     if(ulElem.hasClass('sub')) {
                         //its a part of sub menu need to expand this menu
                         //aElem = ulElem.prev('a.hasUl').addClass('drop');
@@ -623,7 +633,7 @@
                     } 
                 } else {
                     if (url == '') {
-                        url = 'index.html';
+                        url = '/';
                     }
                     if (href === url) {
                         $(this).addClass('active');
@@ -1067,10 +1077,11 @@
             var homeIcon = '<i class="im-home"></i>';
             
             var navel = $('#sideNav>li a.active');
+            //alert(navel);
             var navsub = navel.closest('.nav.sub');
             //empty curmb
             breadcrumb.empty();
-            breadcrumb.append('<li>'+homeIcon+'<a href="index.html">Home</a>'+rightArrow+'</li>');
+            breadcrumb.append('<li>'+homeIcon+'<a href="/">Home</a>'+rightArrow+'</li>');
 
             if (navsub.closest('li').hasClass('hasSub')) {
                 //get previous

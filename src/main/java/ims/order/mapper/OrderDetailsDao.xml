@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ims.order.dao.OrderDetailsDao">
+	<!--User结果集 -->
+	<resultMap id="orderDetailsMap" type="OrderDetails">
+		<id property="orderDetailsID" column="orderdetails_id" />
+		<result property="orderDetailsProductId" column="orderdetails_product_id" />
+		<result property="orderDetailsProductNum" column="orderdetails_product_num" />
+		<result property="orderDetailsProductPrice" column="orderdetails_product_price" />
+		<result property="orderDetailsProductMaterial" column="orderdetails_product_material" />
+		<result property="orderDetailsProductColor" column="orderdetails_product_color" />
+		<result property="orderDetailsProductSize" column="orderdetails_product_size" />
+		<result property="orderDetailsProductCollar" column="orderdetails_product_collar" />
+		<result property="orderDetailsCreate" column="orderdetails_create" />
+		<result property="orderDetailsModify" column="orderdetails_modify" />
+		<result property="orderDetailsRemarks" column="orderdetails_remarks" />
+	</resultMap>
+
+	<sql id="orderColumns">
+		orderdetails_id,orderdetails_product_id,orderdetails_product_num,orderdetails_product_price,orderdetails_product_material,orderdetails_product_color,orderdetails_product_size,orderdetails_product_collar,order_create,order_modify
+	</sql>
+
+	<!--插入工厂信息 -->
+	<insert id="addOrderDetails" parameterType="OrderDetails" keyProperty="orderDetailsID"
+		useGeneratedKeys="true">
+		INSERT INTO order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderDetailsProductId != null">
+				orderdetails_product_id,
+			</if>
+			<if test="orderDetailsProductNum != null">
+				orderdetails_product_num,
+			</if>
+			<if test="orderDetailsProductPrice != null">
+				orderdetails_product_price,
+			</if>
+			<if test="orderDetailsProductMaterial != null">
+				orderdetails_product_material,
+			</if>
+			<if test="orderDetailsProductColor != null">
+				orderdetails_product_color,
+			</if>
+			<if test="orderDetailsProductSize != null">
+				orderdetails_product_size,
+			</if>
+			<if test="orderDetailsProductCollar != null">
+				orderdetails_product_collar,
+			</if>
+			<if test="orderDetailsCreate != null">
+				orderdetails_create,
+			</if>
+			<if test="orderDetailsModify != null">
+				orderdetails_modify,
+			</if>
+			<if test="orderDetailsRemarks != null">
+				orderdetails_remarks,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="orderDetailsProductId != null">
+				#{orderDetailsProductId, jdbcType=VARCHAR},
+			</if>
+			<if test="orderDetailsProductNum != null">
+				#{orderDetailsProductNum, jdbcType=VARCHAR},
+			</if>
+			<if test="orderDetailsProductPrice != null">
+				#{orderDetailsProductPrice, jdbcType=VARCHAR},
+			</if>
+			<if test="orderDetailsProductMaterial != null">
+				#{orderDetailsProductMaterial, jdbcType=INTEGER},
+			</if>
+			<if test="orderDetailsProductColor != null">
+				#{orderDetailsProductColor, jdbcType=VARCHAR},
+			</if>
+			<if test="orderDetailsProductSize != null">
+				#{orderDetailsProductSize, jdbcType=VARCHAR},
+			</if>
+			<if test="orderDetailsProductCollar != null">
+				#{orderDetailsProductCollar, jdbcType=VARCHAR},
+			</if>
+			<if test="orderDetailsCreate != null">
+				#{orderDetailsCreate, jdbcType=TIMESTAMP},
+			</if>
+			
+			<if test="orderDetailsModify != null">
+				#{orderDetailsModify, jdbcType=VARCHAR},
+			</if>
+			<if test="orderDetailsRemarks != null">
+				#{orderDetailsRemarks, jdbcType=VARCHAR},
+			</if>
+			
+		</trim>
+	</insert>
+
+	<!--根据用户名删除用户信息 -->
+	<delete id="deleteOrderDetailsByOrderDetailsId" parameterType="long">
+		DELETE FROM
+		order
+		WHERE orderdetails_id = #{orderDetailsID}
+	</delete>
+
+	<!--更新用户信息 -->
+	<update id="updateOrderDetailsByOrderDetailsId" parameterType="OrderDetails">
+		UPDATE order
+		SET
+		<if test="orderDetailsProductId != null and orderDetailsProductId != '' ">
+			orderdetails_product_id = #{orderDetailsProductId},
+		</if>
+		<if test="orderDetailsProductNum != null and orderDetailsProductNum != '' ">
+			orderdetails_product_num = #{orderDetailsProductNum},
+		</if>
+		<if test="orderDetailsProductPrice != null and orderDetailsProductPrice != '' ">
+			orderdetails_product_price = #{orderDetailsProductPrice},
+		</if>
+		<if test="orderDetailsProductMaterial != null and orderDetailsProductMaterial != '' ">
+			orderdetails_product_material = #{orderDetailsProductMaterial},
+		</if>
+		<if test="orderDetailsProductColor != null and orderDetailsProductColor != '' ">
+			orderdetails_product_color = #{orderDetailsProductColor},
+		</if>
+		<if test="orderDetailsProductSize != null and orderDetailsProductSize != '' ">
+			orderdetails_product_size = #{orderDetailsProductSize},
+		</if>
+		<if test="orderDetailsProductCollar != null and orderDetailsProductCollar != '' ">
+			orderdetails_product_collar = #{orderDetailsProductCollar}
+		</if>
+			<if test="orderDetailsCreate != null and orderDetailsCreate != '' ">
+			orderdetails_create = #{orderDetailsCreate}
+		</if>
+			<if test="orderDetailsModify != null and orderDetailsModify != '' ">
+			orderdetails_modify = #{orderDetailsModify}
+		</if>
+			<if test="orderDetailsRemarks != null and orderDetailsRemarks != '' ">
+			orderdetails_remarks = #{orderDetailsRemarks}
+		</if>
+		WHERE orderdetails_id = #{orderDetailsID}
+	</update>
+
+	<!--根据综合条件查询工厂信息 -->
+	<select id="getOrderDetailsInfo" parameterType="OrderDetails" resultMap="orderDetailsMap">
+		SELECT
+		<include refid="orderColumns" />
+		FROM order
+		WHERE orderdetails_id = #{orderDetailsID}
+	</select>
+
+	<!--根据工厂名称模糊查询工厂信息 -->
+	<select id="findOrderDetailsByLikeOrderDetailsName" parameterType="String"
+		resultMap="orderDetailsMap">
+		SELECT
+		<include refid="orderColumns" />
+		FROM order
+		WHERE orderdetails_product_id like #{orderDetailsProductId}
+	</select>
+	<!--根据工厂名称精确查询工厂信息 -->
+	<select id="findOrderDetailsByEqualOrderDetailsName" parameterType="String"
+		resultMap="orderDetailsMap" resultType="OrderDetails">
+		SELECT
+		<include refid="orderColumns" />
+		FROM order
+		WHERE orderdetails_product_id = #{orderDetailsProductId}
+	</select>
+	<!--根据工厂id获取工厂信息 -->
+	<select id="findOrderDetailsByOrderDetailsId" parameterType="String"
+		resultMap="orderDetailsMap" resultType="OrderDetails">
+		SELECT
+		<include refid="orderColumns" />
+		FROM order
+		WHERE orderdetails_id = #{orderDetailsID}
+	</select>
+
+</mapper>

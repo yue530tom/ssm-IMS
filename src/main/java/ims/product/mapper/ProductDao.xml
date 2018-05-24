@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ims.product.dao.ProductDao">
+	<!--User结果集 -->
+	<resultMap id="productMap" type="Product">
+		<id property="productId" column="product_id" />
+		<result property="productNo" column="product_no" />
+		<result property="productName" column="product_name" />
+		<result property="productImg" column="product_img" />
+		<result property="productCategory" column="product_category" />
+		<result property="productColor" column="product_color" />
+		<result property="productSize" column="product_size" />
+		<result property="productMaterial" column="product_material" />
+		<result property="productCollar" column="product_collar" />
+		<result property="productPocket" column="product_pocket" />
+		<result property="productRemarks" column="product_remarks" />
+	</resultMap>
+
+	<sql id="productColumns">
+		product_id,product_name,product_contacts,product_phone,product_telephone,product_address,product_scale,product_remarks,product_create,product_modify
+	</sql>
+
+	<!--插入工厂信息 -->
+	<insert id="addProduct" parameterType="Product" keyProperty="productId"
+		useGeneratedKeys="true">
+		INSERT INTO product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productNo != null">
+				product_no,
+			</if>
+			<if test="productName != null">
+				product_name,
+			</if>
+			<if test="productImg != null">
+				product_img,
+			</if>
+			<if test="productCategory != null">
+				product_category,
+			</if>
+			<if test="productColor != null">
+				product_color,
+			</if>
+			<if test="productSize != null">
+				product_size,
+			</if>
+			<if test="productMaterial != null">
+				product_material,
+			</if>
+			<if test="productCollar != null">
+				product_collar,
+			</if>
+			<if test="productPocket != null">
+				product_pocket,
+			</if>
+			<if test="productRemarks != null">
+				product_remarks,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="productNo != null">
+				#{productNo, jdbcType=VARCHAR},
+			</if>
+			<if test="productName != null">
+				#{productName, jdbcType=VARCHAR},
+			</if>
+			<if test="productImg != null">
+				#{productImg, jdbcType=VARCHAR},
+			</if>
+			<if test="productCategory != null">
+				#{productCategory, jdbcType=VARCHAR},
+			</if>
+			<if test="productColor != null">
+				#{productColor, jdbcType=INTEGER},
+			</if>
+			<if test="productSize != null">
+				#{productSize, jdbcType=VARCHAR},
+			</if>
+			<if test="productMaterial != null">
+				#{productMaterial, jdbcType=VARCHAR},
+			</if>
+			<if test="productCollar != null">
+				#{productCollar, jdbcType=VARCHAR},
+			</if>
+			<if test="productPocket != null">
+				#{productPocket, jdbcType=TIMESTAMP},
+			</if>
+			<if test="productRemarks != null">
+				#{productRemarks, jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<!--根据用户名删除用户信息 -->
+	<delete id="deleteProductByProductId" parameterType="long">
+		DELETE FROM
+		product
+		WHERE product_id = #{productId}
+	</delete>
+
+	<!--更新用户信息 -->
+	<update id="updateProductByProductId" parameterType="Product">
+		UPDATE product
+		SET
+		<if test="productNo != null and productNo != '' ">
+			product_no = #{productNo},
+		</if>
+		<if test="productName != null and productName != '' ">
+			product_name = #{productName},
+		</if>
+		<if test="productImg != null and productImg != '' ">
+			product_img = #{productImg},
+		</if>
+		<if test="productColor != null and productColor != '' ">
+			product_color = #{productColor},
+		</if>
+		<if test="productSize != null and productSize != '' ">
+			product_size = #{productSize},
+		</if>
+		<if test="productMaterial != null and productMaterial != '' ">
+			product_material = #{productMaterial},
+		</if>
+		<if test="productCollar != null and productCollar != '' ">
+			product_collar = #{productCollar},
+		</if>
+		<if test="productPocket != null and productPocket != '' ">
+			product_pocket = #{productPocket},
+		</if>
+		<if test="productRemarks != null and productRemarks != '' ">
+			product_remarks = #{productRemarks}
+		</if>
+		WHERE product_id = #{productId}
+	</update>
+
+	<!--根据综合条件查询工厂信息 -->
+	<select id="getProductInfo" parameterType="Product" resultMap="productMap">
+		SELECT
+		<include refid="productColumns" />
+		FROM product
+		WHERE product_id = #{productId}
+	</select>
+
+	<!--根据工厂名称模糊查询工厂信息 -->
+	<select id="findProductByLikeProductName" parameterType="String"
+		resultMap="productMap">
+		SELECT
+		<include refid="productColumns" />
+		FROM product
+		WHERE product_name like #{productName}
+	</select>
+	<!--根据工厂名称精确查询工厂信息 -->
+	<select id="findProductByEqualProductName" parameterType="String"
+		resultMap="productMap" resultType="Product">
+		SELECT
+		<include refid="productColumns" />
+		FROM product
+		WHERE product_name = #{productName}
+	</select>
+	<!--根据工厂id获取工厂信息 -->
+	<select id="findProductByProductId" parameterType="String"
+		resultMap="productMap" resultType="Product">
+		SELECT
+		<include refid="productColumns" />
+		FROM product
+		WHERE product_id = #{productId}
+	</select>
+
+</mapper>
