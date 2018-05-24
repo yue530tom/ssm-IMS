@@ -647,7 +647,7 @@
         plugin.tile = function () {
             //cahce all tiles
             var tiles = $('.tile');
-
+            console.log("tiles:"+tiles);
             //count numbers
             if(plugin.settings.tile.countNumbers) {
                 var numbers = tiles.find('.tile-content>.number').not('.notCount');
