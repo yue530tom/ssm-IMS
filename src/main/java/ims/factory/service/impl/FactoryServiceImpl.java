@@ -3,11 +3,13 @@ package ims.factory.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ims.factory.dao.FactoryDao;
 import ims.factory.domain.Factory;
 import ims.factory.service.FactoryService;
 
+@Service
 public class FactoryServiceImpl implements FactoryService {
 
 	private final FactoryDao factoryDao;

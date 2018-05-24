@@ -21,12 +21,12 @@ public class FactoryController {
 		this.factoryService = factoryService;
 	}
 
-	@RequestMapping(value = "/toFactoryAddPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/toFactoryAddPage", method = RequestMethod.GET)
 	public String toFactoryAddPage() {
 		return "factory/factoryAdd";
 	}
 
-	@RequestMapping(value = "/toFactoryListPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/toFactoryListPage", method = RequestMethod.GET)
 	public String toFactoryListPage() {
 		return "factory/factoryList";
 	}
