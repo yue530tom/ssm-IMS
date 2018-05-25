@@ -1,7 +1,5 @@
 package ims.pros.controller;
 
-import ims.pros.domain.Board;
-import ims.pros.service.BoardService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,12 +19,7 @@ import java.util.List;
  */
 @Controller
 public class MainController {
-    private final BoardService boardService;
-
-    @Autowired
-    public MainController(BoardService boardService) {
-        this.boardService = boardService;
-    }
+    
 
     /**
      * 主页
@@ -40,18 +33,6 @@ public class MainController {
     @RequestMapping("/userTest")
     public String userTest() {
     	return "indexa";
-    }
-    /**
-     * 显示内容主页
-     *
-     * @param request 请求
-     * @return 返回页面
-     */
-    @RequestMapping("/main")
-    public String mainPage(HttpServletRequest request) {
-        List<Board> boards = boardService.listAllBoard();
-        request.setAttribute("board", boards);
-        return "mainPage";
     }
 
     /**
@@ -123,27 +104,7 @@ public class MainController {
         return "/admin/addBoard";
     }
 
-    /**
-     * 显示板块
-     *
-     * @param boardId 板块 id
-     * @param request 请求
-     * @return 返回页面
-     */
-    @RequestMapping(value = "updateBoardPage")
-    public String updateBoardPage(int boardId, HttpServletRequest request) {
-        Board board = boardService.intoBoardByBoardId(boardId);
-        if (board != null) {
-            request.setAttribute("boardName", board.getBoardName());
-            request.setAttribute("boardDesc", board.getBoardDesc());
-            request.setAttribute("boardId", board.getBoardId());
-            request.setAttribute("boardPostNum", board.getBoardPostNum());
-            return "/admin/updateBoard";
-        }
-
-        return "/admin/updateBoard";
-    }
-
+   
     /**
      * 错误页面
      *

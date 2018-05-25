@@ -187,9 +187,9 @@
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs"></i></a>
 					<ul class="nav sub">
-						<li><a href="/pros/toProsAddPage">新增属性<i class="im-quill"></i>
+						<li><a href="/props/toPropsAddPage">新增属性<i class="im-quill"></i>
 						</a></li>
-						<li><a href="/pros/toProsListPage">维护属性<i
+						<li><a href="/props/toPropsListPage">维护属性<i
 								class="im-numbered-list"></i></a></li>
 					</ul></li>
 			</ul>

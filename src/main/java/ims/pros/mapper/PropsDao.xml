@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ims.pros.dao.PropsDao">
+	<!--User结果集 -->
+	<resultMap id="propsMap" type="Props">
+		<id property="propsId" column="props_id" />
+		<id property="propsName" column="props_name" />
+		<result property="propsDesc" column="props_desc" />
+		<result property="propsRemarks" column="props_remarks" />
+		
+	</resultMap>
+
+	<sql id="propsColumns">
+		props_id,props_name,props_desc,props_remarks
+	</sql>
+
+	<!--插入订单信息 -->
+	<insert id="addProps" parameterType="Props" keyProperty="propsId"
+		useGeneratedKeys="true">
+		INSERT INTO props
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="propsName != null">
+				props_name,
+			</if>
+			<if test="propsDesc != null">
+				props_desc,
+			</if>
+			<if test="propsRemarks != null">
+				props_remarks,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="propsName != null">
+				#{propsName, jdbcType=VARCHAR},
+			</if>
+			<if test="propsDesc != null">
+				#{propsDesc, jdbcType=VARCHAR},
+			</if>
+			<if test="propsRemarks != null">
+				#{propsRemarks, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<!--根据用户名删除用户信息 -->
+	<delete id="deletePropsByPropsId" parameterType="long">
+		DELETE FROM
+		props
+		WHERE props_id = #{propsId}
+	</delete>
+
+	<!--更新用户信息 -->
+	<update id="updatePropsByPropsId" parameterType="Props">
+		UPDATE props
+		SET
+		<if test="propsName != null and propsName != '' ">
+			props_no = #{propsNo},
+		</if>
+		<if test="propsDesc != null and propsDesc != '' ">
+			props_cust_name = #{propsCustName},
+		</if>
+		<if test="propsRemarks != null and propsRemarks != '' ">
+			props_cust_phone = #{propsCustPhone},
+		</if>
+		WHERE props_id = #{propsId}
+	</update>
+
+	<!--根据综合条件查询订单信息 -->
+	<select id="getPropsInfo" parameterType="Props" resultMap="propsMap">
+		SELECT
+		<include refid="propsColumns" />
+		FROM props
+		WHERE props_id = #{propsId}
+	</select>
+
+	<!--根据订单名称模糊查询订单信息 -->
+	<select id="findPropsByLikePropsName" parameterType="String"
+		resultMap="propsMap">
+		SELECT
+		<include refid="propsColumns" />
+		FROM props
+		WHERE props_no like #{propsNo}
+	</select>
+	<!--根据订单名称精确查询订单信息 -->
+	<select id="findPropsByEqualPropsName" parameterType="String"
+		resultMap="propsMap" resultType="Props">
+		SELECT
+		<include refid="propsColumns" />
+		FROM props
+		WHERE props_no = #{propsNo}
+	</select>
+	<!--根据订单id获取订单信息 -->
+	<select id="findPropsByPropsId" parameterType="String"
+		resultMap="propsMap" resultType="Props">
+		SELECT
+		<include refid="propsColumns" />
+		FROM props
+		WHERE props_id = #{propsId}
+	</select>
+
+</mapper>
