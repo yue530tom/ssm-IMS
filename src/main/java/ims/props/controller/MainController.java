@@ -1,4 +1,4 @@
-package ims.pros.controller;
+package ims.props.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

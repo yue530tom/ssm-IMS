@@ -1,4 +1,4 @@
-package ims.pros.domain;
+package ims.props.domain;
 
 public class PropsDetails {
 

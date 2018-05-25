@@ -1,10 +1,10 @@
-package ims.pros.service;
+package ims.props.dao;
 
 import java.util.List;
 
-import ims.pros.domain.Props;
+import ims.props.domain.Props;
 
-public interface PropsService {
+public interface PropsDao {
 	/**
 	 * 
 	 * @Title: addProps @Description: 添加属性信息 @param: @param Props @return:

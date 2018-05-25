@@ -11,8 +11,8 @@
         <typeAlias alias="Order" type="ims.order.domain.Order"/>
         <typeAlias alias="OrderDetails" type="ims.order.domain.OrderDetails"/>
         <typeAlias alias="Product" type="ims.product.domain.Product"/>
-        <typeAlias alias="Props" type="ims.pros.domain.Props"/>
-        <typeAlias alias="PropsDetails" type="ims.pros.domain.PropsDetails"/>
+        <typeAlias alias="Props" type="ims.props.domain.Props"/>
+        <typeAlias alias="PropsDetails" type="ims.props.domain.PropsDetails"/>
         
     </typeAliases>
 </configuration>

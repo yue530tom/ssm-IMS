@@ -1,4 +1,4 @@
-package ims.pros.controller;
+package ims.props.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ims.pros.domain.Props;
-import ims.pros.service.PropsService;
+import ims.props.domain.Props;
+import ims.props.service.PropsService;
 
 @Controller
 @RequestMapping("/props")

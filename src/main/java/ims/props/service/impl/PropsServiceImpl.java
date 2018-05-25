@@ -1,13 +1,13 @@
-package ims.pros.service.impl;
+package ims.props.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ims.pros.dao.PropsDao;
-import ims.pros.domain.Props;
-import ims.pros.service.PropsService;
+import ims.props.dao.PropsDao;
+import ims.props.domain.Props;
+import ims.props.service.PropsService;
 
 @Service
 public class PropsServiceImpl implements PropsService{
