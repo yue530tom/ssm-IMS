@@ -20,6 +20,7 @@
     <!--静态资源访问-->
     <mvc:default-servlet-handler/>
     <mvc:resources location="/WEB-INF/resources/" mapping="/resources/**"/>
+    <mvc:resources location="/WEB-INF/pages/html/" mapping="/pages/html/**"/>
     <!-- <mvc:resources location="/WEB-INF/pages/assets/" mapping="/pages/assets/**"/> -->
 	
 

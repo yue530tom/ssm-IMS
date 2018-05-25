@@ -6,6 +6,7 @@ public class Props {
 	private String propsName;
 	private String propsDesc;
 	private String propsRemarks;
+	private String propsStatus;
 
 	public long getPropsId() {
 		return propsId;
@@ -39,10 +40,20 @@ public class Props {
 		this.propsRemarks = propsRemarks;
 	}
 
+	public String getPropsStatus() {
+		return propsStatus;
+	}
+
+	public void setPropsStatus(String propsStatus) {
+		this.propsStatus = propsStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Props [propsId=" + propsId + ", propsName=" + propsName + ", propsDesc=" + propsDesc + ", propsRemarks="
-				+ propsRemarks + "]";
+				+ propsRemarks + ", propsStatus=" + propsStatus + "]";
 	}
+
+
 
 }

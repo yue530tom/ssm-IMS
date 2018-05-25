@@ -2,8 +2,11 @@ package ims.props.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import ims.props.domain.Props;
 
+@Repository
 public interface PropsDao {
 	/**
 	 * 

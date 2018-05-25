@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Dashboard</title>
+
 <!-- Mobile specific metas -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -44,6 +45,7 @@
 	type="image/png">
 <!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
 <meta name="msapplication-TileColor" content="#3399cc" />
+
 </head>
 <body>
 	<!-- Start #header -->
@@ -369,6 +371,7 @@
 		<!-- End .sidebar-inner -->
 	</div>
 	<!-- End #right-sidebar -->
+
 	<!-- Start #content -->
 	<div id="content">
 		<!-- Start .content-wrapper -->
@@ -1001,5 +1004,6 @@
 	<script src="/resources/assets/js/jquery.sprFlat.js"></script>
 	<script src="/resources/assets/js/app.js"></script>
 	<script src="/resources/assets/js/pages/dashboard.js"></script>
+
 </body>
 </html>

@@ -3,8 +3,9 @@ package ims.props.domain;
 public class PropsDetails {
 
 	private long propsDetailsId;
-	private String propsId;
+	private long propsId;
 	private String propsDetailsName;
+	private String propsDetailsDesc;
 	private String propsDetailsRemarks;
 	public long getPropsDetailsId() {
 		return propsDetailsId;
@@ -12,10 +13,10 @@ public class PropsDetails {
 	public void setPropsDetailsId(long propsDetailsId) {
 		this.propsDetailsId = propsDetailsId;
 	}
-	public String getPropsId() {
+	public long getPropsId() {
 		return propsId;
 	}
-	public void setPropsId(String propsId) {
+	public void setPropsId(long propsId) {
 		this.propsId = propsId;
 	}
 	public String getPropsDetailsName() {
@@ -23,6 +24,12 @@ public class PropsDetails {
 	}
 	public void setPropsDetailsName(String propsDetailsName) {
 		this.propsDetailsName = propsDetailsName;
+	}
+	public String getPropsDetailsDesc() {
+		return propsDetailsDesc;
+	}
+	public void setPropsDetailsDesc(String propsDetailsDesc) {
+		this.propsDetailsDesc = propsDetailsDesc;
 	}
 	public String getPropsDetailsRemarks() {
 		return propsDetailsRemarks;
@@ -33,9 +40,10 @@ public class PropsDetails {
 	@Override
 	public String toString() {
 		return "PropsDetails [propsDetailsId=" + propsDetailsId + ", propsId=" + propsId + ", propsDetailsName="
-				+ propsDetailsName + ", propsDetailsRemarks=" + propsDetailsRemarks + "]";
+				+ propsDetailsName + ", propsDetailsDesc=" + propsDetailsDesc + ", propsDetailsRemarks="
+				+ propsDetailsRemarks + "]";
 	}
+
 	
-	
-	
+
 }
