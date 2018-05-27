@@ -1,6 +1,7 @@
 package ims.props.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,10 +43,10 @@ public class PropsServiceImpl implements PropsService{
 	}
 
 	@Override
-	public List<Props> getPropsInfo(Props props) {
+	public List<Props> getPropsInfo(Map<String,Object> map) {
 		// TODO Auto-generated method stub
 		if (propsDao!=null) {
-			return propsDao.getPropsInfo(props);
+			return propsDao.getPropsInfo(map);
 		}
 		return null;
 	}

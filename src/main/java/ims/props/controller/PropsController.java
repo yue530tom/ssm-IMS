@@ -2,7 +2,6 @@ package ims.props.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,25 +89,21 @@ public class PropsController {
 					 * "iso8859-1"), "utf-8"));
 					 * System.out.println(filterJson.get("file_name"));
 					 */
-					filterMap.put("queryPropsId", filterJson.get("queryPropsId"));
-					props.setPropsId(Long.valueOf(filterJson.get("queryPropsId").toString()));
+					filterMap.put("queryPropsId", new String(filterJson.get("queryPropsId").toString().getBytes("iso8859-1"), "utf-8"));
 					
 				}
 				if (filterJson.has("queryPropsName")) {
-					filterMap.put("queryPropsName", filterJson.get("queryPropsName"));
-					props.setPropsName(filterJson.get("queryPropsName").toString());
+					filterMap.put("queryPropsName", new String(filterJson.get("queryPropsName").toString().getBytes("iso8859-1"), "utf-8"));
 				}
 				if (filterJson.has("queryPropsDesc")) {
-					filterMap.put("queryPropsDesc", filterJson.get("queryPropsDesc").toString());
-					props.setPropsDesc(filterJson.get("queryPropsDesc").toString());
+					filterMap.put("queryPropsDesc", new String(filterJson.get("queryPropsDesc").toString().getBytes("iso8859-1"), "utf-8"));
 				}
 				if (filterJson.has("queryPropsStatus")) {
-					filterMap.put("queryPropsStatus", filterJson.get("queryPropsStatus"));
-					props.setPropsStatus(filterJson.get("queryPropsStatus").toString());
+					filterMap.put("queryPropsStatus", new String(filterJson.get("queryPropsStatus").toString().getBytes("iso8859-1"), "utf-8"));
 				}
 			}
-			
-			System.err.println(props.toString());
+			System.out.println("filter:"+filter);
+			System.out.println("props.toString():"+props.toString());
 			String page = request.getParameter("page");
 
 			int start = 0;
@@ -119,7 +114,7 @@ public class PropsController {
 			}
 
 			JSONObject js = new JSONObject();
-			int count = propsService.getPropsInfo(props).size();// 获取总数
+			int count = propsService.getPropsInfo(filterMap).size();// 获取总数
 			int size = (int) Math.ceil((float) count / pageSize);
 			if (size == 0) {
 				size = 1;
@@ -128,7 +123,7 @@ public class PropsController {
 			// System.out.println("=======" + size);
 			filterMap.put("start", start);
 			filterMap.put("size", (int) pageSize);
-			list = propsService.getPropsInfo(props);
+			list = propsService.getPropsInfo(filterMap);
 			JSONArray ja = new JSONArray();
 			//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (Props propsTmp : list) {

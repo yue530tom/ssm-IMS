@@ -77,27 +77,30 @@
 	</update>
 
 	<!--根据综合条件查询属性信息 -->
-	<select id="getPropsInfo" parameterType="Props" resultMap="propsMap">
+	<select id="getPropsInfo" parameterType="Map" resultMap="propsMap">
 		SELECT
 		<include refid="propsColumns" />
-		FROM props
-		<!-- <where>
-			<if test="propsId != null and propsId != ''and propsId != 0 and propsId != '0' ">
-				props_id = #{propsId},
-			</if>
-		　　　<if test="propsName != null and propsName != '' ">
-				and props_name = #{propsName},
-			</if>
-			<if test="propsDesc != null and propsDesc != '' ">
-				and props_desc = #{propsDesc},
-			</if>
-			<if test="propsRemarks != null and propsRemarks != '' ">
-				and props_remarks = #{propsRemarks},
-			</if>
-			<if test="propsStatus != null and propsStatus != '' ">
-				and props_status = #{propsStatus}
-			</if>
-	　　　</where> -->
+		FROM props 
+		where 1=1 
+		<if
+			test="propsId != null and propsId != ''and propsId != 0 and propsId != '0' ">
+			and props_id = #{propsId},
+		</if>
+		<if test="propsName != null and propsName != '' ">
+			and props_name = #{propsName},
+		</if>
+		<if test="propsDesc != null and propsDesc != '' ">
+			and props_desc = #{propsDesc},
+		</if>
+		<if test="propsRemarks != null and propsRemarks != '' ">
+			and props_remarks = #{propsRemarks},
+		</if>
+		<if test="propsStatus != null and propsStatus != '' ">
+			and props_status = #{propsStatus}
+		</if>
+		<if test="start!=null and size!=null">
+	  		limit #{start},#{size};
+	  	</if>
 	</select>
 
 	<!--根据属性名称模糊查询属性信息 -->

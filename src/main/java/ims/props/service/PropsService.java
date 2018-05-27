@@ -1,6 +1,7 @@
 package ims.props.service;
 
 import java.util.List;
+import java.util.Map;
 
 import ims.props.domain.Props;
 
@@ -31,7 +32,7 @@ public interface PropsService {
 	 * @Title: getPropsInfo @Description: 综合查询的属性信息 @param: @return @return:
 	 * List<Props> @throws
 	 */
-	List<Props> getPropsInfo(Props props);
+	List<Props> getPropsInfo(Map<String,Object> map);
 
 	/**
 	 * 
