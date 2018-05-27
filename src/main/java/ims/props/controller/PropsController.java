@@ -77,8 +77,6 @@ public class PropsController {
 		String filter = request.getParameter("filter");
 		List<Props> list = new ArrayList<Props>();
 		Map<String, Object> filterMap = new HashMap<String, Object>();
-		
-		Props props = new Props();
 		try {
 			if (filter != null) {
 				JSONObject filterJson = new JSONObject(filter);
@@ -89,21 +87,21 @@ public class PropsController {
 					 * "iso8859-1"), "utf-8"));
 					 * System.out.println(filterJson.get("file_name"));
 					 */
-					filterMap.put("queryPropsId", new String(filterJson.get("queryPropsId").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("propsId", filterJson.get("queryPropsId"));
 					
 				}
 				if (filterJson.has("queryPropsName")) {
-					filterMap.put("queryPropsName", new String(filterJson.get("queryPropsName").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("propsName", new String(filterJson.get("queryPropsName").toString().getBytes("iso8859-1"), "utf-8"));
 				}
 				if (filterJson.has("queryPropsDesc")) {
-					filterMap.put("queryPropsDesc", new String(filterJson.get("queryPropsDesc").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("propsDesc", new String(filterJson.get("queryPropsDesc").toString().getBytes("iso8859-1"), "utf-8"));
 				}
 				if (filterJson.has("queryPropsStatus")) {
-					filterMap.put("queryPropsStatus", new String(filterJson.get("queryPropsStatus").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("propsStatus", new String(filterJson.get("queryPropsStatus").toString().getBytes("iso8859-1"), "utf-8"));
 				}
 			}
 			System.out.println("filter:"+filter);
-			System.out.println("props.toString():"+props.toString());
+			/*System.out.println("props.toString():"+props.toString());*/
 			String page = request.getParameter("page");
 
 			int start = 0;

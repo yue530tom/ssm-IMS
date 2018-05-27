@@ -84,16 +84,16 @@
 		where 1=1 
 		<if
 			test="propsId != null and propsId != ''and propsId != 0 and propsId != '0' ">
-			and props_id = #{propsId},
+			and props_id = #{propsId}
 		</if>
 		<if test="propsName != null and propsName != '' ">
-			and props_name = #{propsName},
+			and props_name = #{propsName}
 		</if>
 		<if test="propsDesc != null and propsDesc != '' ">
-			and props_desc = #{propsDesc},
+			and props_desc = #{propsDesc}
 		</if>
 		<if test="propsRemarks != null and propsRemarks != '' ">
-			and props_remarks = #{propsRemarks},
+			and props_remarks = #{propsRemarks}
 		</if>
 		<if test="propsStatus != null and propsStatus != '' ">
 			and props_status = #{propsStatus}

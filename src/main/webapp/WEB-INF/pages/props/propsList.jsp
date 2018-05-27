@@ -127,7 +127,7 @@
 	    				        }); 
 	    				    }).ajaxStop($.unblockUI);  */
 	            initTable("{}");
-				alert("$(document).ready:"+$("#buffer_span").text());
+				console.log("$(document).ready:"+$("#buffer_span").text());
 				//初始化页数
  				/* var d = new Date();
 				$(".form_date").datetimepicker({
