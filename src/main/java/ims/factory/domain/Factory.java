@@ -13,6 +13,7 @@ public class Factory {
 	private String factoryRemarks;
 	private Date factoryCreate;
 	private Date factoryModify;
+	private String factoryStatus;
 	
 	public long getFactoryId() {
 		return factoryId;
@@ -76,12 +77,20 @@ public class Factory {
 	public void setFactoryModify(Date factoryModify) {
 		this.factoryModify = factoryModify;
 	}
+	
+	public String getFactoryStatus() {
+		return factoryStatus;
+	}
+	public void setFactoryStatus(String factoryStatus) {
+		this.factoryStatus = factoryStatus;
+	}
 	@Override
 	public String toString() {
 		return "Factory [factoryId=" + factoryId + ", factoryName=" + factoryName + ", factoryContacts="
 				+ factoryContacts + ", factoryPhone=" + factoryPhone + ", factoryTelephone=" + factoryTelephone
 				+ ", factoryAddress=" + factoryAddress + ", factoryScale=" + factoryScale + ", factoryRemarks="
-				+ factoryRemarks + ", factoryCreate=" + factoryCreate + ", factoryModify=" + factoryModify + "]";
+				+ factoryRemarks + ", factoryCreate=" + factoryCreate + ", factoryModify=" + factoryModify
+				+ ", factoryStatus=" + factoryStatus + "]";
 	}
 	
 

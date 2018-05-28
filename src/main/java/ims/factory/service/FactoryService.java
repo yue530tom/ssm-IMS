@@ -1,6 +1,7 @@
 package ims.factory.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public interface FactoryService {
      * @return: List<Factory>      
      * @throws
      */
-    List<Factory> getFactoryInfo(Factory factory);
+    List<Factory> getFactoryInfo(Map<String, Object> map);
     
     /**
      * 

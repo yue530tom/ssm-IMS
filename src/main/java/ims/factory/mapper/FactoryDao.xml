@@ -13,10 +13,11 @@
 		<result property="factoryAddress" column="factory_address" />
 		<result property="factoryScale" column="factory_scale" />
 		<result property="factoryRemarks" column="factory_remarks" />
+		<result property="factoryStatus" column="factory_status" />
 	</resultMap>
 
 	<sql id="factoryColumns">
-		factory_id,factory_name,factory_contacts,factory_phone,factory_telephone,factory_address,factory_scale,factory_remarks,factory_create,factory_modify
+		factory_id,factory_name,factory_contacts,factory_phone,factory_telephone,factory_address,factory_scale,factory_remarks,factory_create,factory_modify,factory_status
 	</sql>
 
 	<!--插入工厂信息 -->
@@ -48,6 +49,9 @@
 			<if test="factoryCreate != null">
 				factory_create,
 			</if>
+			<if test="factoryStatus != null">
+				factory_status,
+			</if>
 		</trim>
 		<trim prefix="values(" suffix=")" suffixOverrides=",">
 			<if test="factoryName != null">
@@ -60,7 +64,7 @@
 				#{factoryPhone, jdbcType=VARCHAR},
 			</if>
 			<if test="factoryTelephone != null">
-				#{factoryTelephone, jdbcType=INTEGER},
+				#{factoryTelephone, jdbcType=VARCHAR},
 			</if>
 			<if test="factoryAddress != null">
 				#{factoryAddress, jdbcType=VARCHAR},
@@ -73,6 +77,9 @@
 			</if>
 			<if test="factoryCreate != null">
 				#{factoryCreate, jdbcType=TIMESTAMP},
+			</if>
+			<if test="factoryStatus != null">
+				#{factoryStatus, jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -107,7 +114,10 @@
 			factory_scale = #{factoryScale},
 		</if>
 		<if test="factoryRemarks != null and factoryRemarks != '' ">
-			factory_remarks = #{factoryRemarks}
+			factory_remarks = #{factoryRemarks},
+		</if>
+		<if test="factoryStatus != null and factoryRemarks != '' ">
+			factory_status = #{factoryStatus}
 		</if>
 		WHERE factory_id = #{factoryId}
 	</update>
@@ -117,7 +127,39 @@
 		SELECT
 		<include refid="factoryColumns" />
 		FROM factory
-		WHERE factory_id = #{factoryId}
+		<where>
+			<if
+				test="factoryId != null and factoryId != ''and factoryId != 0 and factoryId != '0' ">
+				and factory_id = #{factoryId}
+			</if>
+			<if test="factoryName != null and factoryName != '' ">
+				and factory_name = #{factoryName}
+			</if>
+			<if test="factoryContacts != null and factoryContacts != '' ">
+				and factory_contacts = #{factoryContacts}
+			</if>
+			<if test="factoryPhone != null and factoryPhone != '' ">
+				and factory_phone = #{factoryPhone}
+			</if>
+			<if test="factoryTelephone != null and factoryTelephone != '' ">
+				and factory_telephone = #{factoryTelephone}
+			</if>
+			<if test="factoryAddress != null and factoryAddress != '' ">
+				and factory_address = #{factoryAddress}
+			</if>
+			<if test="factoryScale != null and factoryScale != '' ">
+				and factory_scale = #{factoryScale}
+			</if>
+			<if test="factoryRemarks != null and factoryRemarks != '' ">
+				and factory_remarks = #{factoryRemarks}
+			</if>
+			<if test="factoryStatus != null and factoryStatus != '' ">
+				and factory_status = #{factoryStatus}
+			</if>
+		</where>
+		<if test="start!=null and size!=null">
+			limit #{start},#{size};
+		</if>
 	</select>
 
 	<!--根据工厂名称模糊查询工厂信息 -->
@@ -134,7 +176,7 @@
 		SELECT
 		<include refid="factoryColumns" />
 		FROM factory
-		WHERE factory_name = #{factoryName}
+		WHERE factory_name = #{_parameter}
 	</select>
 	<!--根据工厂id获取工厂信息 -->
 	<select id="findFactoryByFactoryId" parameterType="String"

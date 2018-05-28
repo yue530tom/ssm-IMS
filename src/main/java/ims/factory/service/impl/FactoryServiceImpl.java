@@ -1,6 +1,7 @@
 package ims.factory.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,11 +43,12 @@ public class FactoryServiceImpl implements FactoryService {
 	}
 
 	@Override
-	public List<Factory> getFactoryInfo(Factory factory) {
-		if (factoryDao == null) {
-			return null;
+	public List<Factory> getFactoryInfo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		if (factoryDao != null) {
+			factoryDao.getFactoryInfo(map);
 		}
-		return factoryDao.getFactoryInfo(factory);
+		return null;
 	}
 
 	@Override
@@ -74,6 +76,8 @@ public class FactoryServiceImpl implements FactoryService {
 		}
 		return factoryDao.findFactoryByFactoryId(factoryId);
 	}
+
+	
 
 	
 }

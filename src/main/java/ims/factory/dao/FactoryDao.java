@@ -1,6 +1,7 @@
 package ims.factory.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -49,7 +50,7 @@ public interface FactoryDao {
      * @return: List<Factory>      
      * @throws
      */
-    List<Factory> getFactoryInfo(Factory factory);
+    List<Factory> getFactoryInfo(Map<String, Object> map);
     
     /**
      * 
