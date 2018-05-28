@@ -165,35 +165,24 @@
 				<li><a href="/userTest">控制面板 <i class="im-stats"></i></a></li>
 				<li><a href="#">产品<i class="im-library"></i></a>
 					<ul class="nav sub">
-						<li><a href="/product/toProductAddPage">新增产品<i
-								class="im-quill"></i>
-						</a></li>
-						<li><a href="/product/toProductListPage">维护产品<i
+						<li><a href="/product/toProductPage">维护产品<i
 								class="im-numbered-list"></i></a></li>
 					</ul></li>
 				<li><a href="#">订单<i class="im-coin"></i></a>
 					<ul class="nav sub">
-						<li><a href="/order/toOrderAddPage">新增订单<i
-								class="im-quill"></i>
-						</a></li>
-						<li><a href="/order/toOrderListPage">维护订单<i
+						<li><a href="/order/toOrderPage">维护订单<i
 								class="im-numbered-list"></i></a></li>
 					</ul></li>
 				<li><a href="#">工厂<i class="im-office"></i></a>
 					<ul class="nav sub">
-						<li><a href="/factory/toFactoryAddPage">新增工厂<i
-								class="im-quill"></i>
-						</a></li>
-						<li><a href="/factory/toFactoryListPage">维护工厂<i
-								class="im-numbered-list"></i></a></li>
+						<li><a href="/factory/toFactoryPage">维护工厂<i class="im-numbered-list"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs"></i></a>
 					<ul class="nav sub">
-						<li><a href="/props/toPropsAddPage">新增属性<i class="im-quill"></i>
-						</a></li>
-						<li><a href="/props/toPropsListPage">维护属性<i
-								class="im-numbered-list"></i></a></li>
-					</ul></li>
+						<li><a href="/props/toPropsPage">维护属性<i class="im-numbered-list"></i></a></li>
+						<li><a href="/props/toPropsDetailsPage">维护属性详情<i class="im-quill"></i></a></li>
+					</ul>
+				</li>
 			</ul>
 			<!-- End #sideNav -->
 			<!-- Start .sidebar-panel -->

@@ -25,7 +25,7 @@ public class ProductController {
 		return "product/productAdd";
 	}
 
-	@RequestMapping(value = "/toProductListPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/toProductPage", method = RequestMethod.GET)
 	public String toProductListPage() {
 		return "product/productList";
 	}

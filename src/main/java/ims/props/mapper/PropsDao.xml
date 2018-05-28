@@ -45,19 +45,19 @@
 				#{propsRemarks, jdbcType=VARCHAR},
 			</if>
 			<if test="propsStatus != null">
-				#{propsStatus, jdbcType=VARCHAR},
+				#{propsStatus, jdbcType=VARCHAR}
 			</if>
 		</trim>
 	</insert>
 
-	<!--根据用户名删除用户信息 -->
+	<!--根据属性名删除属性信息 -->
 	<delete id="deletePropsByPropsId" parameterType="long">
 		DELETE FROM
 		props
 		WHERE props_id = #{propsId}
 	</delete>
 
-	<!--更新用户信息 -->
+	<!--更新属性信息 -->
 	<update id="updatePropsByPropsId" parameterType="Props">
 		UPDATE props
 		SET
@@ -71,36 +71,52 @@
 			props_remarks = #{propsRemarks},
 		</if>
 		<if test="propsStatus != null and propsStatus != '' ">
-			props_status = #{propsStatus},
+			props_status = #{propsStatus}
 		</if>
 		WHERE props_id = #{propsId}
 	</update>
-
+	<!--更新属性信息 -->
+	<update id="updatePropsStatusByPropsId" parameterType="Props">
+		UPDATE props
+		SET
+		<if test="propsName != null and propsName != '' ">
+			props_name = #{propsName},
+		</if>
+		<if test="propsDesc != null and propsDesc != '' ">
+			props_desc = #{propsDesc},
+		</if>
+		<if test="propsRemarks != null and propsRemarks != '' ">
+			props_remarks = #{propsRemarks}
+		</if>
+		WHERE props_id = #{propsId}
+	</update>
 	<!--根据综合条件查询属性信息 -->
 	<select id="getPropsInfo" parameterType="Map" resultMap="propsMap">
 		SELECT
 		<include refid="propsColumns" />
-		FROM props 
-		where 1=1 
-		<if
-			test="propsId != null and propsId != ''and propsId != 0 and propsId != '0' ">
-			and props_id = #{propsId}
-		</if>
-		<if test="propsName != null and propsName != '' ">
-			and props_name = #{propsName}
-		</if>
-		<if test="propsDesc != null and propsDesc != '' ">
-			and props_desc = #{propsDesc}
-		</if>
-		<if test="propsRemarks != null and propsRemarks != '' ">
-			and props_remarks = #{propsRemarks}
-		</if>
-		<if test="propsStatus != null and propsStatus != '' ">
-			and props_status = #{propsStatus}
-		</if>
+		FROM props
+		<where>
+			<if
+				test="propsId != null and propsId != ''and propsId != 0 and propsId != '0' ">
+				and props_id = #{propsId}
+			</if>
+			<if test="propsName != null and propsName != '' ">
+				and props_name = #{propsName}
+			</if>
+			<if test="propsDesc != null and propsDesc != '' ">
+				and props_desc = #{propsDesc}
+			</if>
+			<if test="propsRemarks != null and propsRemarks != '' ">
+				and props_remarks = #{propsRemarks}
+			</if>
+			<if test="propsStatus != null and propsStatus != '' ">
+				and props_status = #{propsStatus}
+			</if>
+
+		</where>
 		<if test="start!=null and size!=null">
-	  		limit #{start},#{size};
-	  	</if>
+			limit #{start},#{size};
+		</if>
 	</select>
 
 	<!--根据属性名称模糊查询属性信息 -->
@@ -109,7 +125,7 @@
 		SELECT
 		<include refid="propsColumns" />
 		FROM props
-		WHERE props_name like #{propsName}
+		WHERE props_name like concat('%',#{propsName},'%')
 	</select>
 	<!--根据属性名称精确查询属性信息 -->
 	<select id="findPropsByEqualPropsName" parameterType="String"
@@ -117,7 +133,8 @@
 		SELECT
 		<include refid="propsColumns" />
 		FROM props
-		WHERE props_name = #{propsName}
+		WHERE props_name = #{_parameter}
+		<!-- _parameter对于一个参数用它可以不管传入的参数名 -->
 	</select>
 	<!--根据属性id获取属性信息 -->
 	<select id="findPropsByPropsId" parameterType="String"

@@ -26,7 +26,7 @@ public class FactoryController {
 		return "factory/factoryAdd";
 	}
 
-	@RequestMapping(value = "/toFactoryListPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/toFactoryPage", method = RequestMethod.GET)
 	public String toFactoryListPage() {
 		return "factory/factoryList";
 	}

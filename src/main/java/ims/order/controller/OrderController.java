@@ -27,7 +27,7 @@ public class OrderController {
 		return "order/orderAdd";
 	}
 
-	@RequestMapping(value = "/toOrderListPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/toOrderPage", method = RequestMethod.GET)
 	public String toOrderListPage() {
 		return "order/orderList";
 	}

@@ -1,6 +1,7 @@
 package ims.props.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -34,7 +35,7 @@ public interface PropsDetailsDao {
 	 * @Title: getPropsDetailsInfo @Description: 综合查询的属性详情信息 @param: @return @return:
 	 * List<PropsDetails> @throws
 	 */
-	List<PropsDetails> getPropsDetailsInfo(PropsDetails propsDetails);
+	List<PropsDetails> getPropsDetailsInfo(Map<String, Object> map);
 
 	/**
 	 * 

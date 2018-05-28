@@ -115,7 +115,7 @@
 <script src="/resources/assets/js/pages/dashboard.js"></script>
 <style type="text/css">
 .align-center {
-	margin: 0 auto; /* 居中 这个是必须的，，其它的属性非必须 */
+	margin: 0 auto; /* 居中 这个是必须的，，其它的详情非必须 */
 	width: 300px; /* 给个宽度 顶到浏览器的两边就看不出居中效果了 */
 	height: 50px; /* 给个宽度 顶到浏览器的两边就看不出居中效果了 */
 	background: #f3f5f6; /* 背景色 */
@@ -128,36 +128,35 @@
 }
 </style>
 <script type="text/javascript">
+	var arrCategory=[];
+	var arrCategoryReverse=[];
 	$(document).ready(function() {
-		/* 	    		$(document).ajaxStart(
-		 function() { 
-		 $.blockUI({ 
-		 message: $('#displayBox'), 
-		 css: { 
-		 top:  ($(window).height() - 400) /2 + 'px', 
-		 left: ($(window).width() - 400) /2 + 'px', 
-		 width: '400px' 
-		 } 
-		 }); 
-		 }).ajaxStop($.unblockUI);  */
+		
+		//初始化
+		initPropsSelectOption();
 		initTable("{}");
-		console.log("$(document).ready:" + $("#buffer_span").text());
-		//初始化页数
-		/* var d = new Date();
-		$(".form_date").datetimepicker({
-		initialDate : d,
-		language : 'zh-CN',
-		format : 'yyyy-mm-dd',
-		todayHighlight : 1,
-		weekStart : 1,
-		todayBtn : 1,
-		autoclose : 1,
-		startView : 2,
-		minView : 2
-		});  */
-		//提示成功信息      
+		//console.log("$(document).ready:" + $("#buffer_span").text());
+		
 	});
 
+	
+	function initPropsSelectOption(){
+		props = ${props}
+		//console.log(props);
+		$("#selectadd").empty();
+		$("#selectquery").empty();
+		$("#selectmodify").empty();
+		for (var i = 0; i < props.length; i++) {
+			var queryPropsId = props[i].queryPropsId;
+			var queryPropsName = props[i].queryPropsName;
+			
+			$("#selectadd").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
+			$("#selectquery").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
+			$("#selectmodify").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
+			arrCategory[queryPropsId]=queryPropsName;
+			arrCategoryReverse[queryPropsName]=queryPropsId;
+		}
+	}
 	function initTable(filter) {
 		var data = null;
 		if (filter != "{}") {
@@ -167,9 +166,10 @@
 		$.ajax({
 			type : "GET",
 			data : data,
-			url : "/props/propsList",
+			url : "/props/propsDetailsList",
 			dataType : "JSON",
 			success : function(json) {
+				console.log(json);
 				refreshList(json);
 				initPage(json);
 			},
@@ -182,8 +182,8 @@
 	function refreshList(json) {
 		var ja = json.list;
 		var string = JSON.stringify(json);
-		console.log("json.list:" + json.list.length);
-		console.log("json.msg:" + json.msg);
+		//console.log("json.list:" + json.list.length);
+		//console.log("json.msg:" + json.msg);
 		if (json.msg != null) {
 			document.getElementById('tip_message').style.display = 'block';
 			$("#tip_message").html(json.msg);
@@ -193,33 +193,36 @@
 					"document.getElementById('tip_message').style.display='none'",
 					2000);
 		}
-		//刷新修改属性值
+		//刷新修改详情值
 		//刷新列表
-		$("#table_propslist").empty();
-		$("#table_propslist")
+		$("#table_propsDetailslist").empty();
+		$("#table_propsDetailslist")
 				.append(
-						'<tr><th>属性编号</th><th>属性名称</th><th>属性描述</th><th>属性备注</th><th>属性状态</th><th>操作</th></tr>');
+						'<tr><th>详情编号</th><th>归类</th><th>详情名称</th><th>详情描述</th><th>详情备注</th><th>详情状态</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
+			var queryPropsDetailsId = ja[i].queryPropsDetailsId;
 			var queryPropsId = ja[i].queryPropsId;
-			var queryPropsName = ja[i].queryPropsName;
-			var queryPropsDesc = ja[i].queryPropsDesc;
-			var queryPropsRemarks = ja[i].queryPropsRemarks;
-			var queryPropsStatus = ja[i].queryPropsStatus;
-			$("#table_propslist").append(
+			var queryPropsDetailsName = ja[i].queryPropsDetailsName;
+			var queryPropsDetailsDesc = ja[i].queryPropsDetailsDesc;
+			var queryPropsDetailsRemarks = ja[i].queryPropsDetailsRemarks;
+			var queryPropsDetailsStatus = ja[i].queryPropsDetailsStatus;
+			$("#table_propsDetailslist").append(
 					'<tr onclick="getDataToModify(this)" id="tr_' + i
 							+ '"></tr>');
-			$("#tr_" + i).append('<td>' + queryPropsId + '</td>');
-			$("#tr_" + i).append("<td>" + queryPropsName + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsDesc + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsRemarks + "</td>");
-			if(queryPropsStatus==1){
+			$("#tr_" + i).append('<td>' + queryPropsDetailsId + '</td>');
+			$("#tr_" + i).append("<td>" + arrCategory[queryPropsId] + "</td>");
+			$("#tr_" + i).append("<td>" + queryPropsDetailsName + "</td>");
+			$("#tr_" + i).append("<td>" + queryPropsDetailsDesc + "</td>");
+			$("#tr_" + i).append("<td>" + queryPropsDetailsRemarks + "</td>");
+			console.log("queryPropsDetailsStatus:"+queryPropsDetailsStatus);
+			if(queryPropsDetailsStatus==1){
 				$("#tr_" + i).append("<td>有效</td>");
 			}else{
 				$("#tr_" + i).append("<td>废弃</td>");
 			}
 			$("#tr_" + i)
 					.append(
-							'<td><button class="btn btn-primary" onclick="doFilterDelete('+queryPropsId+');">删除</button></td>');
+							'<td><button class="btn btn-primary" onclick="doFilterDelete('+queryPropsDetailsId+');">删除</button></td>');
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
@@ -256,7 +259,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/props/propsList",
+				url : "/props/propsDetailsList",
 				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -281,7 +284,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/props/propsList",
+				url : "/props/propsDetailsList",
 				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -305,7 +308,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/props/propsList",
+				url : "/props/propsDetailsList",
 				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -349,17 +352,21 @@
 	function doFilterQuery() {
 		var filterJs = {};
 		filterJs["method"] = "query";
-		if ($("#queryPropsId").val() != "") {
-			filterJs["propsId"] = $("#queryPropsId").val();
+		if ($("#selectquery").val() != "") {
+			filterJs["propsId"] = $("#selectquery").val();
 		}
-		if ($("#queryPropsName").val() != "") {
-			filterJs["propsName"] = $("#queryPropsName").val();
+		if ($("#queryPropsDetailsId").val() != "") {
+			filterJs["propsDetailsId"] = $("#queryPropsDetailsId").val();
 		}
-		if ($("#queryPropsDesc").val() != "") {
-			filterJs["propsDesc"] = $("#queryPropsDesc").val();
+
+		if ($("#queryPropsDetailsName").val() != "") {
+			filterJs["propsDetailsName"] = $("#queryPropsDetailsName").val();
 		}
-		if ($("input[name='queryPropsStatus']:checked").val() != "") {
-			filterJs["propsStatus"] = $("input[name='queryPropsStatus']:checked").val();
+		if ($("#queryPropsDetailsDesc").val() != "") {
+			filterJs["propsDetailsDesc"] = $("#queryPropsDetailsDesc").val();
+		}
+		if ($("input[name='queryPropsDetailsStatus']:checked").val() != "") {
+			filterJs["propsDetailsStatus"] = $("input[name='queryPropsDetailsStatus']:checked").val();
 		}
 
 		$("#buffer_span").text(JSON.stringify(filterJs));
@@ -369,17 +376,21 @@
 	function doFilterModify() {
 		var filterJs = {};
 		filterJs["method"] = "modify";
-		if ($("#modifyPropsId").val() != "") {
-			filterJs["propsId"] = $("#modifyPropsId").val();
+		if ($("#selectmodify").val() != "") {
+			filterJs["propsId"] = $("#selectmodify").val();
 		}
-		if ($("#modifyPropsName").val() != "") {
-			filterJs["propsName"] = $("#modifyPropsName").val();
+		if ($("#modifyPropsDetailsId").val() != "") {
+			filterJs["propsDetailsId"] = $("#modifyPropsDetailsId").val();
 		}
-		if ($("#modifyPropsDesc").val() != "") {
-			filterJs["propsDesc"] = $("#modifyPropsDesc").val();
+
+		if ($("#modifyPropsDetailsName").val() != "") {
+			filterJs["propsDetailsName"] = $("#modifyPropsDetailsName").val();
 		}
-		if ($("#modifyPropsRemarks").val() != "") {
-			filterJs["propsRemarks"] = $("#modifyPropsRemarks").val();
+		if ($("#modifyPropsDetailsDesc").val() != "") {
+			filterJs["propsDetailsDesc"] = $("#modifyPropsDetailsDesc").val();
+		}
+		if ($("#modifyPropsDetailsRemarks").val() != "") {
+			filterJs["propsDetailsRemarks"] = $("#modifyPropsDetailsRemarks").val();
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
@@ -388,23 +399,27 @@
 	function doFilterAdd() {
 		var filterJs = {};
 		filterJs["method"] = "add";
-		if ($("#addPropsName").val() != "") {
-			filterJs["propsName"] = $("#addPropsName").val();
+		if ($("#selectadd").val() != "") {
+			filterJs["propsId"] = $("#selectadd").val();
 		}
-		if ($("#addPropsDesc").val() != "") {
-			filterJs["propsDesc"] = $("#addPropsDesc").val();
+		if ($("#addPropsDetailsName").val() != "") {
+			filterJs["propsDetailsName"] = $("#addPropsDetailsName").val();
 		}
-		if ($("#addPropsRemarks").val() != "") {
-			filterJs["propsRemarks"] = $("#addPropsRemarks").val();
+
+		if ($("#addPropsDetailsDesc").val() != "") {
+			filterJs["propsDetailsDesc"] = $("#addPropsDetailsDesc").val();
+		}
+		if ($("#addPropsDetailsRemarks").val() != "") {
+			filterJs["propsDetailsRemarks"] = $("#addPropsDetailsRemarks").val();
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
-	function doFilterDelete(tmpPropsId) {
+	function doFilterDelete(tmpPropsDetailsId) {
 		var filterJs = {};
 		filterJs["method"] = "delete";
-		filterJs["propsId"]=tmpPropsId;
+		filterJs["propsDetailsId"]=tmpPropsDetailsId;
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
@@ -415,24 +430,29 @@
 	 */
 	function getDataToModify(row) {
 
-		$("#modifyPropsId")
+		$("#modifyPropsDetailsId")
 				.attr(
 						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[0].innerText);
-		$("#modifyPropsName")
+						window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[0].innerText);
+		$("#selectmodify").find("option:selected").text();
+		$("#selectmodify option[value="+arrCategoryReverse[window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[1].innerText]+"]").attr("selected","selected");
+/* 		$("#select_id option[value='1']").removeAttr("selected");根据值去除选中状态  
+		  
+		$("#select_id option[value='"+msg.data.categoryId+"']").attr("selected","selected");根据值让option选中   */
+		$("#modifyPropsDetailsName")
 				.attr(
 						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[1].innerText);
-		$("#modifyPropsDesc")
+						window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[2].innerText);
+		$("#modifyPropsDetailsDesc")
 				.attr(
 						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[2].innerText);
-		$("#modifyPropsRemarks")
+						window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[3].innerText);
+		$("#modifyPropsDetailsRemarks")
 				.attr(
 						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[3].innerText);
+						window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[4].innerText);
 
-		/* var TAB = document.getElementById("table_propslist") ;  
+		/* var TAB = document.getElementById("table_propsDetailslist") ;  
 		
 		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
 		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
@@ -668,7 +688,7 @@
 						</button>
 					</form>
 				</li>
-				
+
 				<li><a href="/userTest">控制面板 <i class="im-stats"></i></a></li>
 				<li><a href="#">产品<i class="im-library"></i></a>
 					<ul class="nav sub">
@@ -682,14 +702,16 @@
 					</ul></li>
 				<li><a href="#">工厂<i class="im-office"></i></a>
 					<ul class="nav sub">
-						<li><a href="/factory/toFactoryPage">维护工厂<i class="im-numbered-list"></i></a></li>
+						<li><a href="/factory/toFactoryPage">维护工厂<i
+								class="im-numbered-list"></i></a></li>
 					</ul></li>
-				<li><a href="#">属性<i class="im-cogs"></i></a>
+				<li><a href="#">详情<i class="im-cogs"></i></a>
 					<ul class="nav sub">
-						<li><a href="/props/toPropsPage">维护属性<i class="im-numbered-list"></i></a></li>
-						<li><a href="/props/toPropsDetailsPage">维护属性详情<i class="im-quill"></i></a></li>
-					</ul>
-				</li>
+						<li><a href="/props/toPropsPage">维护详情<i
+								class="im-numbered-list"></i></a></li>
+						<li><a href="/props/toPropsDetailsPage">维护详情详情<i
+								class="im-quill"></i></a></li>
+					</ul></li>
 			</ul>
 			<!-- End #sideNav -->
 			<!-- Start .sidebar-panel -->
@@ -1006,40 +1028,50 @@
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>新增属性
+									<i class="im-quill"></i>新增详情
 								</h4>
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性编号</label>
+										<label class="col-lg-3 control-label">详情编号</label>
 										<div class="col-lg-9">
-											<input id="addPropsId" name="addPropsId" type="text"
-												class="col-lg-4 form-control" disabled>
+											<input id="addPropsDetailsId" name="addPropsDetailsId"
+												type="text" class="col-lg-4 form-control" disabled>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性名称</label>
+										<label class="col-lg-3 control-label">详情归类</label>
 										<div class="col-lg-9">
-											<input id="addPropsName" name="addPropsName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+											<select class="form-control select2" name="selectadd"
+												id="selectadd">
+											</select>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性描述</label>
+										<label class="col-lg-3 control-label">详情名称</label>
 										<div class="col-lg-9">
-											<input id="addPropsDesc" name="addPropsDesc" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">属性备注</label>
-										<div class="col-lg-9">
-											<input id="addPropsRemarks" name="addPropsRemarks"
+											<input id="addPropsDetailsName" name="addPropsDetailsName"
 												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												placeholder="请输入详情名称，格式为小于50位的字符">
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-lg-3 control-label">详情描述</label>
+										<div class="col-lg-9">
+											<input id="addPropsDetailsDesc" name="addPropsDetailsDesc"
+												type="text" class="col-lg-4 form-control"
+												placeholder="请输入详情描述，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-3 control-label">详情备注</label>
+										<div class="col-lg-9">
+											<input id="addPropsDetailsRemarks"
+												name="addPropsDetailsRemarks" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入详情备注，格式为小于50位的字符">
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -1064,43 +1096,54 @@
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>查询属性
+									<i class="im-quill"></i>查询详情
 								</h4>
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性编号</label>
+										<label class="col-lg-3 control-label">详情编号</label>
 										<div class="col-lg-9">
-											<input id="queryPropsId" name="queryPropsId" type="text"
-												class="form-control" placeholder="请输入属性id，格式为小于10位的数字">
+											<input id="queryPropsDetailsId" name="queryPropsDetailsId"
+												type="text" class="form-control"
+												placeholder="请输入详情id，格式为小于10位的数字">
 										</div>
 									</div>
-
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性名称</label>
+										<label class="col-lg-3 control-label">详情归类</label>
 										<div class="col-lg-9">
-											<input id="queryPropsName" name="queryPropsName" type="text"
+											<select class="form-control select2" name="selectquery"
+												id="selectquery">
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-3 control-label">详情名称</label>
+										<div class="col-lg-9">
+											<input id="queryPropsDetailsName"
+												name="queryPropsDetailsName" type="text"
 												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												placeholder="请输入详情名称，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性描述</label>
+										<label class="col-lg-3 control-label">详情描述</label>
 										<div class="col-lg-9">
-											<input id="queryPropsDesc" name="queryPropsDesc" type="text"
+											<input id="queryPropsDetailsDesc"
+												name="queryPropsDetailsDesc" type="text"
 												class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+												placeholder="请输入详情描述，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性状态</label>
+										<label class="col-lg-3 control-label">详情状态</label>
 										<div class="col-lg-9" style="height: 34px">
 											<label class="radio col-lg-9"> <input
-												id="queryPropsStatus" type="radio" name="queryPropsStatus"
-												class="col-lg-4 form-control" value="1" checked="checked">有效
-												<input id="queryPropsStatuscp" type="radio"
-												name="queryPropsStatus" class="col-lg-4 form-control"
+												id="queryPropsDetailsStatus" type="radio"
+												name="queryPropsDetailsStatus" class="col-lg-4 form-control"
+												value="1" checked="checked">有效 <input
+												id="queryPropsDetailsStatuscp" type="radio"
+												name="queryPropsDetailsStatus" class="col-lg-4 form-control"
 												value="0">无效
 											</label>
 										</div>
@@ -1126,40 +1169,51 @@
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>修改属性
+									<i class="im-quill"></i>修改详情
 								</h4>
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性编号</label>
+										<label class="col-lg-3 control-label">详情编号</label>
 										<div class="col-lg-9">
-											<input id="modifyPropsId" name="modifyPropsId" type="text"
-												class="col-lg-4 form-control" disabled>
+											<input id="modifyPropsDetailsId" name="modifyPropsDetailsId"
+												type="text" class="col-lg-4 form-control" disabled>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性名称</label>
+										<label class="col-lg-3 control-label">详情归类</label>
 										<div class="col-lg-9">
-											<input id="modifyPropsName" name="modifyPropsName"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+											<select class="form-control select2" name="selectmodify"
+												id="selectmodify">
+											</select>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性描述</label>
+										<label class="col-lg-3 control-label">详情名称</label>
 										<div class="col-lg-9">
-											<input id="modifyPropsDesc" name="modifyPropsDesc"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+											<input id="modifyPropsDetailsName"
+												name="modifyPropsDetailsName" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入详情名称，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-3 control-label">属性备注</label>
+										<label class="col-lg-3 control-label">详情描述</label>
 										<div class="col-lg-9">
-											<input id="modifyPropsRemarks" name="modifyPropsRemarks"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+											<input id="modifyPropsDetailsDesc"
+												name="modifyPropsDetailsDesc" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入详情描述，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-3 control-label">详情备注</label>
+										<div class="col-lg-9">
+											<input id="modifyPropsDetailsRemarks"
+												name="modifyPropsDetailsRemarks" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入详情备注，格式为小于50位的字符">
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -1186,18 +1240,18 @@
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>属性列表
+									<i class="im-quill"></i>详情列表
 								</h4>
 							</div>
 							<div class="panel-body">
-								<table class="table display" id="table_propslist">
+								<table class="table display" id="table_propsDetailslist">
 									<thead>
 										<tr>
-											<th>属性编号</th>
-											<th>属性名称</th>
-											<th>属性描述</th>
-											<th>属性备注</th>
-											<th>属性状态</th>
+											<th>详情编号</th>
+											<th>详情名称</th>
+											<th>详情描述</th>
+											<th>详情备注</th>
+											<th>详情状态</th>
 											<th>操作</th>
 										</tr>
 									</thead>

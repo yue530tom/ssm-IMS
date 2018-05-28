@@ -4,23 +4,23 @@
 
 <mapper namespace="ims.props.dao.PropsDetailsDao">
 	<!--User结果集 -->
-	<resultMap id="propsDetailsMap" type="Props">
+	<resultMap id="propsDetailsMap" type="PropsDetails">
 		<id property="propsDetailsId" column="props_details_id" />
 		<result property="propsId" column="props_id" />
 		<result property="propsDetailsName" column="props_details_name" />
 		<result property="propsDetailsDesc" column="props_details_desc" />
 		<result property="propsDetailsRemarks" column="props_details_remarks" />
-		
+		<result property="propsDetailsStatus" column="props_details_status" />
 	</resultMap>
 
 	<sql id="propsDetailsColumns">
-		props_details_id,props_id,props_details_name,props_details_desc,props_details_remarks
+		props_details_id,props_id,props_details_name,props_details_desc,props_details_remarks,props_details_status
 	</sql>
 
 	<!--插入订单信息 -->
 	<insert id="addPropsDetails" parameterType="PropsDetails" keyProperty="propsDetailsId"
 		useGeneratedKeys="true">
-		INSERT INTO propsDetails
+		INSERT INTO props_details
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="propsId != null">
 				props_id,
@@ -34,10 +34,13 @@
 			<if test="propsDetailsRemarks != null">
 				props_details_remarks,
 			</if>
+			<if test="propsDetailsStatus != null">
+				props_details_status,
+			</if>
 		</trim>
 		<trim prefix="values(" suffix=")" suffixOverrides=",">
 			<if test="propsId != null">
-				#{propsId, jdbcType=VARCHAR},
+				#{propsId, jdbcType=INTEGER},
 			</if>
 			<if test="propsDetailsName != null">
 				#{propsDetailsName, jdbcType=VARCHAR},
@@ -48,19 +51,22 @@
 			<if test="propsDetailsRemarks != null">
 				#{propsDetailsRemarks, jdbcType=VARCHAR},
 			</if>
+			<if test="propsDetailsStatus != null">
+				#{propsDetailsStatus, jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 
 	<!--根据用户名删除用户信息 -->
-	<delete id="deletePropsByPropsId" parameterType="long">
+	<delete id="deletePropsDetailsByPropsDetailsId" parameterType="long">
 		DELETE FROM
-		propsDetails
-		WHERE propsDetails_id = #{propsDetailsId}
+		props_details
+		WHERE props_details_id = #{propsDetailsId}
 	</delete>
 
 	<!--更新用户信息 -->
-	<update id="updatePropsByPropsId" parameterType="Props">
-		UPDATE propsDetails
+	<update id="updatePropsDetailsByPropsDetailsId" parameterType="Props">
+		UPDATE props_details
 		SET
 		<if test="propsId != null and propsId != '' ">
 			props_id = #{propsId},
@@ -74,40 +80,68 @@
 		<if test="propsDetailsRemarks != null and propsDetailsRemarks != '' ">
 			props_details_remarks = #{propsDetailsRemarks},
 		</if>
-		WHERE propsDetails_id = #{propsDetailsId}
+		<if test="propsDetailsStatus != null and propsDetailsStatus != '' ">
+			props_details_status = #{propsDetailsStatus}
+		</if>
+		WHERE props_details_id = #{propsDetailsId}
 	</update>
 
 	<!--根据综合条件查询订单信息 -->
-	<select id="getPropsInfo" parameterType="Props" resultMap="propsDetailsMap">
+	<select id="getPropsDetailsInfo" parameterType="Map" resultMap="propsDetailsMap">
 		SELECT
 		<include refid="propsDetailsColumns" />
-		FROM propsDetails
-		WHERE propsDetails_id = #{propsDetailsId}
+		FROM props_details
+		<where>
+			<if
+				test="propsDetailsId != null and propsDetailsId != ''and propsDetailsId != 0 and propsDetailsId != '0' ">
+				and props_details_id = #{propsDetailsId}
+			</if>
+			<if
+				test="propsId != null and propsId != ''and propsId != 0 and propsId != '0' ">
+				and props_id = #{propsId}
+			</if>
+			<if test="propsDetailsName != null and propsDetailsName != '' ">
+				and props_details_name = #{propsDetailsName}
+			</if>
+			<if test="propsDetailsDesc != null and propsDetailsDesc != '' ">
+				and props_details_desc = #{propsDetailsDesc}
+			</if>
+			<if test="propsDetailsRemarks != null and propsDetailsRemarks != '' ">
+				and props_details_remarks = #{propsDetailsRemarks}
+			</if>
+			<if test="propsDetailsStatus != null and propsDetailsStatus != '' ">
+				and props_details_status = #{propsDetailsStatus}
+			</if>
+
+		</where>
+		<if test="start!=null and size!=null">
+			limit #{start},#{size};
+		</if>
 	</select>
 
 	<!--根据订单名称模糊查询订单信息 -->
-	<select id="findPropsByLikePropsName" parameterType="String"
+	<select id="findPropsDetaiByLikePropsDetaiName" parameterType="String"
 		resultMap="propsDetailsMap">
 		SELECT
 		<include refid="propsDetailsColumns" />
-		FROM propsDetails
-		WHERE propsDetails_no like #{propsDetailsNo}
+		FROM props_details
+		WHERE props_details_no like #{propsDetailsNo}
 	</select>
 	<!--根据订单名称精确查询订单信息 -->
-	<select id="findPropsByEqualPropsName" parameterType="String"
+	<select id="findPropsDetailsByEqualPropsDetailsName" parameterType="String"
 		resultMap="propsDetailsMap" resultType="Props">
 		SELECT
 		<include refid="propsDetailsColumns" />
-		FROM propsDetails
-		WHERE propsDetails_no = #{propsDetailsNo}
+		FROM props_details
+		WHERE props_details_name = #{_parameter}
 	</select>
 	<!--根据订单id获取订单信息 -->
-	<select id="findPropsByPropsId" parameterType="String"
+	<select id="findPropsDetailsByPropsDetailsId" parameterType="String"
 		resultMap="propsDetailsMap" resultType="Props">
 		SELECT
 		<include refid="propsDetailsColumns" />
-		FROM propsDetails
-		WHERE propsDetails_id = #{propsDetailsId}
+		FROM props_details
+		WHERE props_details_id = #{propsDetailsId}
 	</select>
 
 </mapper>
