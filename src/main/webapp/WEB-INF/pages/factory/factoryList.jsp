@@ -129,33 +129,10 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
-		/* 	    		$(document).ajaxStart(
-		 function() { 
-		 $.blockUI({ 
-		 message: $('#displayBox'), 
-		 css: { 
-		 top:  ($(window).height() - 400) /2 + 'px', 
-		 left: ($(window).width() - 400) /2 + 'px', 
-		 width: '400px' 
-		 } 
-		 }); 
-		 }).ajaxStop($.unblockUI);  */
+
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
-		//初始化页数
-		/* var d = new Date();
-		$(".form_date").datetimepicker({
-		initialDate : d,
-		language : 'zh-CN',
-		format : 'yyyy-mm-dd',
-		todayHighlight : 1,
-		weekStart : 1,
-		todayBtn : 1,
-		autoclose : 1,
-		startView : 2,
-		minView : 2
-		});  */
-		//提示成功信息      
+
 	});
 
 	function initTable(filter) {
@@ -220,14 +197,14 @@
 			$("#tr_" + i).append("<td>" + factoryAddress + "</td>");
 			$("#tr_" + i).append("<td>" + factoryScale + "</td>");
 			$("#tr_" + i).append("<td>" + factoryRemarks + "</td>");
-			if(factoryStatus==1){
+			if (factoryStatus == 1) {
 				$("#tr_" + i).append("<td>有效</td>");
-			}else{
+			} else {
 				$("#tr_" + i).append("<td>废弃</td>");
 			}
-			$("#tr_" + i)
-					.append(
-							'<td><button class="btn btn-primary" onclick="doFilterDelete('+factoryId+');">删除</button></td>');
+			$("#tr_" + i).append(
+					'<td><button class="btn btn-primary" onclick="doFilterDelete('
+							+ factoryId + ');">删除</button></td>');
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
@@ -381,11 +358,9 @@
 		if ($("#factoryRemarks").val() != "") {
 			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
 		}
-		if ($("#factoryStatus").val() != "") {
-			filterJs["factoryStatus"] = $("#factoryStatus").val();
-		}
 		if ($("input[name='factoryStatus']:checked").val() != "") {
-			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked").val();
+			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked")
+					.val();
 		}
 
 		$("#buffer_span").text(JSON.stringify(filterJs));
@@ -419,12 +394,6 @@
 		if ($("#factoryRemarks").val() != "") {
 			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
 		}
-		if ($("#factoryStatus").val() != "") {
-			filterJs["factoryStatus"] = $("#factoryStatus").val();
-		}
-		if ($("input[name='factoryStatus']:checked").val() != "") {
-			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked").val();
-		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
@@ -453,11 +422,9 @@
 		if ($("#factoryRemarks").val() != "") {
 			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
 		}
-		if ($("#factoryStatus").val() != "") {
-			filterJs["factoryStatus"] = $("#factoryStatus").val();
-		}
 		if ($("input[name='factoryStatus']:checked").val() != "") {
-			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked").val();
+			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked")
+					.val();
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
@@ -466,12 +433,12 @@
 	function doFilterDelete(tmpFactoryId) {
 		var filterJs = {};
 		filterJs["method"] = "delete";
-		filterJs["factoryId"]=tmpFactoryId;
+		filterJs["factoryId"] = tmpFactoryId;
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
-	
+
 	/*
 	给修改赋值~
 	 */
@@ -494,21 +461,42 @@
 						"value",
 						window.table_propslist.rows.item(row.rowIndex).childNodes[3].innerText);
 		$("#factoryTelephone")
-		.attr(
-				"value",
-				window.table_propslist.rows.item(row.rowIndex).childNodes[4].innerText);
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[4].innerText);
 		$("#factoryAddress")
-		.attr(
-				"value",
-				window.table_propslist.rows.item(row.rowIndex).childNodes[5].innerText);
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[5].innerText);
 		$("#factoryScale")
-		.attr(
-				"value",
-				window.table_propslist.rows.item(row.rowIndex).childNodes[6].innerText);
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[6].innerText);
 		$("#factoryRemarks")
-		.attr(
-				"value",
-				window.table_propslist.rows.item(row.rowIndex).childNodes[7].innerText);
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[7].innerText);
+
+		/* var TAB = document.getElementById("table_propslist") ;  
+		
+		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[2].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[3].innerText);
+		document.getElementById("modifyPropsId").value = TAB.rows[row.rowIndex].cells[0].innerText; */
+
+	}
+	function reset() {
+
+		$("#factoryId").attr("value", "");
+		$("#factoryQueryId").attr("value", "");
+		$("#factoryName").attr("value", "");
+		$("#factoryContacts").attr("value", "");
+		$("#factoryPhone").attr("value", "");
+		$("#factoryTelephone").attr("value", "");
+		$("#factoryAddress").attr("value", "");
+		$("#factoryScale").attr("value", "");
+		$("#factoryRemarks").attr("value", "");
 
 		/* var TAB = document.getElementById("table_propslist") ;  
 		
@@ -746,7 +734,7 @@
 						</button>
 					</form>
 				</li>
-				
+
 				<li><a href="/userTest">控制面板 <i class="im-stats"></i></a></li>
 				<li><a href="#">产品<i class="im-library"></i></a>
 					<ul class="nav sub">
@@ -760,14 +748,16 @@
 					</ul></li>
 				<li><a href="#">工厂<i class="im-office"></i></a>
 					<ul class="nav sub">
-						<li><a href="/factory/toFactoryPage">维护工厂<i class="im-numbered-list"></i></a></li>
+						<li><a href="/factory/toFactoryPage">维护工厂<i
+								class="im-numbered-list"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs"></i></a>
 					<ul class="nav sub">
-						<li><a href="/props/toPropsPage">维护属性<i class="im-numbered-list"></i></a></li>
-						<li><a href="/props/toPropsDetailsPage">维护属性详情<i class="im-quill"></i></a></li>
-					</ul>
-				</li>
+						<li><a href="/props/toPropsPage">维护属性<i
+								class="im-numbered-list"></i></a></li>
+						<li><a href="/props/toPropsDetailsPage">维护属性详情<i
+								class="im-quill"></i></a></li>
+					</ul></li>
 			</ul>
 			<!-- End #sideNav -->
 			<!-- Start .sidebar-panel -->
@@ -1089,37 +1079,44 @@
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top:0;">
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
+										style="margin-top: 0;">
 										<label class="col-lg-4 control-label">工厂编号</label>
 										<div class="col-lg-8">
-											<input id="factoryId" name="factoryId" type="text" class="col-lg-4 form-control" disabled>
+											<input id="factoryId" name="factoryId" type="text"
+												class="col-lg-4 form-control" disabled>
 										</div>
 									</div>
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top:0;">
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
+										style="margin-top: 0;">
 										<label class="col-lg-4 control-label">工厂编号</label>
 										<div class="col-lg-8">
-											<input id="factoryQueryId" name="factoryQueryId" type="text" class="col-lg-4 form-control" placeholder="仅当查询时起作用，增加和修改不起作用">
+											<input id="factoryQueryId" name="factoryQueryId" type="text"
+												class="col-lg-4 form-control"
+												placeholder="仅当查询时起作用，增加和修改不起作用">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂名称</label>
 										<div class="col-lg-8">
-											<input id="factoryName" name="factoryName" type="text" class="col-lg-4 form-control" placeholder="请输入属性名称，格式为小于50位的字符">
+											<input id="factoryName" name="factoryName" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入属性名称，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">联系人</label>
 										<div class="col-lg-8">
-											<input id="factoryContacts" name="factoryContacts" type="text"
-												class="col-lg-4 form-control"
+											<input id="factoryContacts" name="factoryContacts"
+												type="text" class="col-lg-4 form-control"
 												placeholder="请输入属性描述，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">联系手机</label>
 										<div class="col-lg-8">
-											<input id="factoryPhone" name="factoryPhone"
-												type="text" class="col-lg-4 form-control"
+											<input id="factoryPhone" name="factoryPhone" type="text"
+												class="col-lg-4 form-control"
 												placeholder="请输入属性备注，格式为小于50位的字符">
 										</div>
 									</div>
@@ -1134,24 +1131,24 @@
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂地址</label>
 										<div class="col-lg-8">
-											<input id="factoryAddress" name="factoryAddress"
-												type="text" class="col-lg-4 form-control"
+											<input id="factoryAddress" name="factoryAddress" type="text"
+												class="col-lg-4 form-control"
 												placeholder="请输入属性备注，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂规模</label>
 										<div class="col-lg-8">
-											<input id="factoryScale" name="factoryScale"
-												type="text" class="col-lg-4 form-control"
+											<input id="factoryScale" name="factoryScale" type="text"
+												class="col-lg-4 form-control"
 												placeholder="请输入属性备注，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂备注</label>
 										<div class="col-lg-8">
-											<input id="factoryRemarks" name="factoryRemarks"
-												type="text" class="col-lg-4 form-control"
+											<input id="factoryRemarks" name="factoryRemarks" type="text"
+												class="col-lg-4 form-control"
 												placeholder="请输入属性备注，格式为小于50位的字符">
 										</div>
 									</div>
@@ -1162,12 +1159,17 @@
 												id="factoryStatus" type="radio" name="factoryStatus"
 												class="col-lg-4 form-control" value="1" checked="checked">有效
 												<input id="factoryStatuscp" type="radio"
-												name="factoryStatus" class="col-lg-4 form-control"
-												value="0">无效
+												name="factoryStatus" class="col-lg-4 form-control" value="0">无效
 											</label>
 										</div>
 									</div>
-								
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label"></label>
+										<div class="col-lg-8">
+											<button id="reset" class="btn btn-primary"
+												onclick="reset();">重置</button>
+										</div>
+									</div>
 									<!-- End .form-group  -->
 								</div>
 							</div>
@@ -1186,7 +1188,7 @@
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
-									
+
 									<!-- End .form-group  -->
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>

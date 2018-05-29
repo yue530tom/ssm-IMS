@@ -16,13 +16,14 @@
 		<result property="productCollar" column="product_collar" />
 		<result property="productPocket" column="product_pocket" />
 		<result property="productRemarks" column="product_remarks" />
+		<result property="productStatus" column="product_status" />
 	</resultMap>
 
 	<sql id="productColumns">
-		product_id,product_name,product_contacts,product_phone,product_telephone,product_address,product_scale,product_remarks,product_create,product_modify
+		product_id,product_no,product_name,product_img,product_category,product_color,product_size,product_material,product_collar,product_pocket,product_create,product_modify,product_remarks,product_status
 	</sql>
 
-	<!--插入工厂信息 -->
+	<!--插入产品信息 -->
 	<insert id="addProduct" parameterType="Product" keyProperty="productId"
 		useGeneratedKeys="true">
 		INSERT INTO product
@@ -57,22 +58,25 @@
 			<if test="productRemarks != null">
 				product_remarks,
 			</if>
+			<if test="productStatus != null">
+				product_status,
+			</if>
 		</trim>
 		<trim prefix="values(" suffix=")" suffixOverrides=",">
 			<if test="productNo != null">
-				#{productNo, jdbcType=VARCHAR},
+				#{productNo, jdbcType=INTEGER},
 			</if>
 			<if test="productName != null">
 				#{productName, jdbcType=VARCHAR},
 			</if>
 			<if test="productImg != null">
-				#{productImg, jdbcType=VARCHAR},
+				#{productImg, jdbcType=BLOB},
 			</if>
 			<if test="productCategory != null">
 				#{productCategory, jdbcType=VARCHAR},
 			</if>
 			<if test="productColor != null">
-				#{productColor, jdbcType=INTEGER},
+				#{productColor, jdbcType=VARCHAR},
 			</if>
 			<if test="productSize != null">
 				#{productSize, jdbcType=VARCHAR},
@@ -84,10 +88,13 @@
 				#{productCollar, jdbcType=VARCHAR},
 			</if>
 			<if test="productPocket != null">
-				#{productPocket, jdbcType=TIMESTAMP},
+				#{productPocket, jdbcType=VARCHAR},
 			</if>
 			<if test="productRemarks != null">
-				#{productRemarks, jdbcType=TIMESTAMP},
+				#{productRemarks, jdbcType=VARCHAR},
+			</if>
+			<if test="productStatus != null">
+				#{productStatus, jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -130,26 +137,64 @@
 		<if test="productRemarks != null and productRemarks != '' ">
 			product_remarks = #{productRemarks}
 		</if>
+		<if test="productStatus != null and productStatus != '' ">
+			product_status = #{productStatus}
+		</if>
 		WHERE product_id = #{productId}
 	</update>
 
-	<!--根据综合条件查询工厂信息 -->
-	<select id="getProductInfo" parameterType="Product" resultMap="productMap">
+	<!--根据综合条件查询产品信息 -->
+	<select id="getProductInfo" parameterType="Map" resultMap="productMap">
 		SELECT
 		<include refid="productColumns" />
 		FROM product
-		WHERE product_id = #{productId}
+		<where>
+			<if
+				test="productId != null and productId != ''and productId != 0 and productId != '0' ">
+				and product_id = #{productId}
+			</if>
+			<if test="productNo != null and productNo != '' ">
+				and product_no = #{productNo}
+			</if>
+			<if test="productName != null and productName != '' ">
+				and product_name = #{productName}
+			</if>
+			<if test="productCategory != null and productCategory != '' ">
+				and product_category = #{productCategory}
+			</if>
+			<if test="productColor != null and productColor != '' ">
+				and product_color = #{productColor}
+			</if>
+			<if test="productSize != null and productSize != '' ">
+				and product_size = #{productSize}
+			</if>
+			<if test="productMaterial != null and productMaterial != '' ">
+				and product_material = #{productMaterial}
+			</if>
+			<if test="productCollar != null and productCollar != '' ">
+				and product_collar = #{productCollar}
+			</if>
+			<if test="productPocket != null and productPocket != '' ">
+				and product_pocket = #{productPocket}
+			</if>
+			<if test="productRemarks != null and productRemarks != '' ">
+				and product_remarks = #{productRemarks}
+			</if>
+			<if test="productStatus != null and productStatus != '' ">
+				and product_status = #{productStatus}
+			</if>
+		</where>
 	</select>
 
-	<!--根据工厂名称模糊查询工厂信息 -->
+	<!--根据产品名称模糊查询产品信息 -->
 	<select id="findProductByLikeProductName" parameterType="String"
 		resultMap="productMap">
 		SELECT
 		<include refid="productColumns" />
 		FROM product
-		WHERE product_name like #{productName}
+		WHERE product_name like #{_parmeter}
 	</select>
-	<!--根据工厂名称精确查询工厂信息 -->
+	<!--根据产品名称精确查询产品信息 -->
 	<select id="findProductByEqualProductName" parameterType="String"
 		resultMap="productMap" resultType="Product">
 		SELECT
@@ -157,7 +202,17 @@
 		FROM product
 		WHERE product_name = #{productName}
 	</select>
-	<!--根据工厂id获取工厂信息 -->
+	
+	<!--根据产品名称精确查询产品信息 -->
+	<select id="findProductByEqualProductNo" parameterType="String"
+		resultMap="productMap" resultType="Product">
+		SELECT
+		<include refid="productColumns" />
+		FROM product
+		WHERE product_no = #{_parmeter}
+	</select>
+	
+	<!--根据产品id获取产品信息 -->
 	<select id="findProductByProductId" parameterType="String"
 		resultMap="productMap" resultType="Product">
 		SELECT

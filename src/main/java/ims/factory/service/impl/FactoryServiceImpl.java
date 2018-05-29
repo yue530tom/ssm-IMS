@@ -46,8 +46,9 @@ public class FactoryServiceImpl implements FactoryService {
 	public List<Factory> getFactoryInfo(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		if (factoryDao != null) {
-			factoryDao.getFactoryInfo(map);
+			return factoryDao.getFactoryInfo(map);
 		}
+		System.err.println("getFactoryInfo->factoryDao:null");
 		return null;
 	}
 

@@ -1,6 +1,7 @@
 package ims.product.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -47,7 +48,7 @@ public interface ProductDao {
 	 * @return @return:List<Product> 
 	 * @throws
 	 */
-	List<Product> getProductInfo(Product product);
+	List<Product> getProductInfo(Map<String, Object> map);
 
 	/**
 	 * 
@@ -58,7 +59,7 @@ public interface ProductDao {
 	 * @throws
 	 */
 	List<Product> findProductByLikeProductName(String productName);
-
+	List<Product> findProductByEqualProductNo(String productNo);
 	/**
 	 * 
 	 * @Title: findProductByEqualProductName 

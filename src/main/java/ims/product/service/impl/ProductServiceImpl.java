@@ -1,6 +1,7 @@
 package ims.product.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +43,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getProductInfo(Product product) {
+	public List<Product> getProductInfo(Map<String, Object> map) {
 		if (productDao!=null) {
-			return productDao.getProductInfo(product);
+			return productDao.getProductInfo(map);
 		}
 		return null;
 	}
@@ -75,5 +76,16 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return null;
 	}
+
+	@Override
+	public List<Product> findProductByEqualProductNo(String productNo) {
+		// TODO Auto-generated method stub
+		if (productDao!=null) {
+			return productDao.findProductByEqualProductNo(productNo);
+		}
+		return null;
+	}
+
+	
 
 }

@@ -123,7 +123,7 @@
 	</update>
 
 	<!--根据综合条件查询工厂信息 -->
-	<select id="getFactoryInfo" parameterType="Factory" resultMap="factoryMap">
+	<select id="getFactoryInfo" parameterType="Map" resultMap="factoryMap">
 		SELECT
 		<include refid="factoryColumns" />
 		FROM factory

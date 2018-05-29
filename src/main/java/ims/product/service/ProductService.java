@@ -1,6 +1,7 @@
 package ims.product.service;
 
 import java.util.List;
+import java.util.Map;
 
 import ims.product.domain.Product;
 
@@ -44,7 +45,7 @@ public interface ProductService {
 	 * @return @return:List<Product> 
 	 * @throws
 	 */
-	List<Product> getProductInfo(Product product);
+	List<Product> getProductInfo(Map<String, Object> map);
 
 	/**
 	 * 
@@ -55,7 +56,7 @@ public interface ProductService {
 	 * @throws
 	 */
 	List<Product> findProductByLikeProductName(String productName);
-
+	List<Product> findProductByEqualProductNo(String productNo);
 	/**
 	 * 
 	 * @Title: findProductByEqualProductName 

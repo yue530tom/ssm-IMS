@@ -13,6 +13,7 @@ public class Product {
 	private String productCollar;
 	private String productPocket;
 	private String productRemarks;
+	private String productStatus;
 
 	public long getProductId() {
 		return productId;
@@ -102,13 +103,21 @@ public class Product {
 		this.productRemarks = productRemarks;
 	}
 
+	public String getProductStatus() {
+		return productStatus;
+	}
+
+	public void setProductStatus(String productStatus) {
+		this.productStatus = productStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", productNo=" + productNo + ", productName=" + productName
 				+ ", productImg=" + productImg + ", productCategory=" + productCategory + ", productColor="
 				+ productColor + ", productSize=" + productSize + ", productMaterial=" + productMaterial
 				+ ", productCollar=" + productCollar + ", productPocket=" + productPocket + ", productRemarks="
-				+ productRemarks + "]";
+				+ productRemarks + ", productStatus=" + productStatus + "]";
 	}
 
 }

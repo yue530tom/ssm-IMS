@@ -702,16 +702,14 @@
 					</ul></li>
 				<li><a href="#">工厂<i class="im-office"></i></a>
 					<ul class="nav sub">
-						<li><a href="/factory/toFactoryPage">维护工厂<i
-								class="im-numbered-list"></i></a></li>
+						<li><a href="/factory/toFactoryPage">维护工厂<i class="im-numbered-list"></i></a></li>
 					</ul></li>
-				<li><a href="#">详情<i class="im-cogs"></i></a>
+				<li><a href="#">属性<i class="im-cogs"></i></a>
 					<ul class="nav sub">
-						<li><a href="/props/toPropsPage">维护详情<i
-								class="im-numbered-list"></i></a></li>
-						<li><a href="/props/toPropsDetailsPage">维护详情详情<i
-								class="im-quill"></i></a></li>
-					</ul></li>
+						<li><a href="/props/toPropsPage">维护属性<i class="im-numbered-list"></i></a></li>
+						<li><a href="/props/toPropsDetailsPage">维护属性详情<i class="im-quill"></i></a></li>
+					</ul>
+				</li>
 			</ul>
 			<!-- End #sideNav -->
 			<!-- Start .sidebar-panel -->

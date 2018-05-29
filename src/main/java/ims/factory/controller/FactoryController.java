@@ -128,15 +128,14 @@ public class FactoryController {
 					factory.setFactoryStatus(
 							new String(filterJson.get("factoryStatus").toString().getBytes("iso8859-1"), "utf-8"));
 				}
-				if (filterJson.has("propsRemarks")) {
-					filterMap.put("propsRemarks",
-							new String(filterJson.get("propsRemarks").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryRemarks(
-							new String(filterJson.get("propsRemarks").toString().getBytes("iso8859-1"), "utf-8"));
-				}
+				
+			}else {
+				//完善，如果filter为空，说明是初始化，我们要增加工厂状态的过滤
+				filterMap.put("factoryStatus","1");
 			}
 
 			System.out.println("filter:" + filter);
+			System.out.println("filterMap:" + filterMap);
 			/* System.out.println("props.toString():"+props.toString()); */
 			String page = request.getParameter("page");
 
@@ -168,7 +167,14 @@ public class FactoryController {
 				// 重置filterMap为空
 				// filterMap=null;
 			}
+			
+			
+			
+			
 
+			
+			
+			
 			int count = factoryService.getFactoryInfo(filterMap).size();// 获取总数
 			System.err.println("count:"+count);
 			int size = (int) Math.ceil((float) count / pageSize);
