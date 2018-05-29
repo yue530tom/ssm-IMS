@@ -197,7 +197,7 @@
 			$("#tr_" + i).append("<td>" + productName + "</td>");
 
 			
-			$("#tr_" + i).append("<td><img id='img_" + i+ "' src=''/></td>");
+			$("#tr_" + i).append("<td><img id='img_" + i+ "' src='' style='height:34px;width:34px;'/></td>");
 			$("#img_" + i).attr("src",productImg);
 			//$("#image").attr("src",productImg.replace(/ /, "+"));
 			//console.log(productImg);
