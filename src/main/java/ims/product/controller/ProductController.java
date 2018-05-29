@@ -27,6 +27,7 @@ public class ProductController {
 
 	private final ProductService productService;
 	private final int pageSize = 5;
+
 	@Autowired
 	public ProductController(ProductService productService) {
 		this.productService = productService;
@@ -60,39 +61,25 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/productList", method = RequestMethod.POST)
-	public void productList(HttpServletRequest request, HttpServletResponse response,HttpSession httpSession) throws IOException {
-		
-		
-		/*//获取图片  
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;  
-//      根据前台name名称得到上传的文件  
-        MultipartFile img = multipartRequest.getFile("upimg");  
-//      定义一个数组，用于保存可上传的文件类型  
-        List<String> fileTypes = new ArrayList<String>();  
-        fileTypes.add("jpg");  
-        fileTypes.add("jpeg");  
-        fileTypes.add("bmp");  
-        fileTypes.add("png");  
-        String fileName = img.getOriginalFilename();  
-        if(!(fileName==null ||"".equals(fileName))){  
-            String extensionName = fileName.substring(fileName.lastIndexOf(".")+1);  
-            if(fileTypes.contains(extensionName)){  
-                //扩展名合法  
-                try{  
-                    byte[] content=img.getBytes();  
-                    System.err.println(content.toString());
-                }catch (IOException e){  
-                    e.printStackTrace();  
-                }  
-            }
-        }
-		if (img.isEmpty()) {
-			System.out.println("文件未上传");
-		} else {
-			byte[] content=img.getBytes();  
-            System.err.println(content.toString());
-		}*/
-		
+	public void productList(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession)
+			throws IOException {
+
+		/*
+		 * //获取图片 MultipartHttpServletRequest multipartRequest =
+		 * (MultipartHttpServletRequest) request; // 根据前台name名称得到上传的文件
+		 * MultipartFile img = multipartRequest.getFile("upimg"); //
+		 * 定义一个数组，用于保存可上传的文件类型 List<String> fileTypes = new ArrayList<String>();
+		 * fileTypes.add("jpg"); fileTypes.add("jpeg"); fileTypes.add("bmp");
+		 * fileTypes.add("png"); String fileName = img.getOriginalFilename();
+		 * if(!(fileName==null ||"".equals(fileName))){ String extensionName =
+		 * fileName.substring(fileName.lastIndexOf(".")+1);
+		 * if(fileTypes.contains(extensionName)){ //扩展名合法 try{ byte[]
+		 * content=img.getBytes(); System.err.println(content.toString());
+		 * }catch (IOException e){ e.printStackTrace(); } } } if (img.isEmpty())
+		 * { System.out.println("文件未上传"); } else { byte[]
+		 * content=img.getBytes(); System.err.println(content.toString()); }
+		 */
+
 		
 		// 通过综合条件查询工厂信息
 		request.setCharacterEncoding("utf-8");
@@ -102,10 +89,12 @@ public class ProductController {
 		String method = "";
 		Product product = new Product();
 		try {
+			
+			//POST不用转字符，GET需要转
 			if (filter != null) {
 				JSONObject filterJson = new JSONObject(filter);
 				if (filterJson.has("method")) {
-					method = new String(filterJson.get("method").toString().getBytes("iso8859-1"), "utf-8");
+					method = filterJson.get("method").toString();
 				}
 				if (filterJson.has("productId")) {
 					filterMap.put("productId", filterJson.get("productId"));
@@ -116,64 +105,44 @@ public class ProductController {
 					product.setProductNo(Long.valueOf(filterJson.get("productNo").toString()));
 				}
 				if (filterJson.has("productName")) {
-					filterMap.put("productName",
-							new String(filterJson.get("productName").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductName(
-							new String(filterJson.get("productName").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productName", filterJson.get("productName").toString());
+					product.setProductName(filterJson.get("productName").toString());
 				}
 				if (filterJson.has("productImg")) {
-					filterMap.put("productImg",
-							new String(filterJson.get("productImg").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductImg(
-							new String(filterJson.get("productImg").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productImg", filterJson.get("productImg").toString());
+					product.setProductImg(filterJson.get("productImg").toString());
 				}
 				if (filterJson.has("productCategory")) {
-					filterMap.put("productCategory",
-							new String(filterJson.get("productCategory").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductCategory(
-							new String(filterJson.get("productCategory").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productCategory", filterJson.get("productCategory").toString());
+					product.setProductCategory(filterJson.get("productCategory").toString());
 				}
 				if (filterJson.has("productColor")) {
-					filterMap.put("productColor",
-							new String(filterJson.get("productColor").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductColor(
-							new String(filterJson.get("productColor").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productColor", filterJson.get("productColor").toString());
+					product.setProductColor(filterJson.get("productColor").toString());
 				}
 				if (filterJson.has("productSize")) {
-					filterMap.put("productSize",
-							new String(filterJson.get("productSize").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductSize(
-							new String(filterJson.get("productSize").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productSize", filterJson.get("productSize").toString());
+					product.setProductSize(filterJson.get("productSize").toString());
 				}
 				if (filterJson.has("productMaterial")) {
-					filterMap.put("productMaterial",
-							new String(filterJson.get("productMaterial").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductMaterial(
-							new String(filterJson.get("productMaterial").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productMaterial", filterJson.get("productMaterial").toString());
+					product.setProductMaterial(filterJson.get("productMaterial").toString());
 				}
 				if (filterJson.has("productCollar")) {
-					filterMap.put("productCollar",
-							new String(filterJson.get("productCollar").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductCollar(
-							new String(filterJson.get("productCollar").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productCollar", filterJson.get("productCollar").toString());
+					product.setProductCollar(filterJson.get("productCollar").toString());
 				}
 				if (filterJson.has("productPocket")) {
-					filterMap.put("productPocket",
-							new String(filterJson.get("productPocket").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductPocket(
-							new String(filterJson.get("productPocket").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productPocket", filterJson.get("productPocket").toString());
+					product.setProductPocket(filterJson.get("productPocket").toString());
 				}
 				if (filterJson.has("productRemarks")) {
-					filterMap.put("productRemarks",
-							new String(filterJson.get("productRemarks").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductRemarks(
-							new String(filterJson.get("productRemarks").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productRemarks", filterJson.get("productRemarks").toString());
+					product.setProductRemarks(filterJson.get("productRemarks").toString());
 				}
 				if (filterJson.has("productStatus")) {
-					filterMap.put("productStatus",
-							new String(filterJson.get("productStatus").toString().getBytes("iso8859-1"), "utf-8"));
-					product.setProductStatus(
-							new String(filterJson.get("productStatus").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("productStatus", filterJson.get("productStatus").toString());
+					product.setProductStatus(filterJson.get("productStatus").toString());
 				}
 			} else {
 				// 完善，如果filter为空，说明是初始化，我们要增加工厂状态的过滤
@@ -197,7 +166,7 @@ public class ProductController {
 				product.setProductStatus("1");
 				// 添加之前做判断 是否具有同名属性
 
-				if (productService.findProductByEqualProductNo(String.valueOf(product.getProductNo())).size() ==0) {
+				if (productService.findProductByEqualProductNo(String.valueOf(product.getProductNo())).size() == 0) {
 					productService.addProduct(product);
 				} else {
 					js.put("msg", "相同编号的产品已存在，请查看");
@@ -243,13 +212,13 @@ public class ProductController {
 				tempJsonObject.put("productRemarks", propsTmp.getProductRemarks());
 				tempJsonObject.put("productStatus", propsTmp.getProductStatus());
 				jsonArray.put(tempJsonObject);
-				System.err.println("propsTmp.getProductImg():"+propsTmp.getProductImg().replaceAll(" ", "+"));
+				System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
 			}
 
 			js.put("list", jsonArray);
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(js.toString());
-			
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

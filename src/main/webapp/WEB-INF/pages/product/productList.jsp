@@ -551,7 +551,7 @@
 		$("#productQueryId").attr("value", "");
 		$("#productNo").attr("value", "");
 		$("#productName").attr("value", "");
-		/* $("#productImg").attr("value", ""); */
+		$("#productImg").attr("value", "");
 		$("#productCategory").attr("value", "");
 		$("#productColor").attr("value", "");
 		$("#productSize").attr("value", "");
@@ -825,7 +825,7 @@
 					</ul></li>
 				<li><a href="#">产品<i class="im-office"></i></a>
 					<ul class="nav sub">
-						<li><a href="/product/toFactoryPage">维护产品<i
+						<li><a href="/factory/toFactoryPage">维护工厂<i
 								class="im-numbered-list"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs"></i></a>
