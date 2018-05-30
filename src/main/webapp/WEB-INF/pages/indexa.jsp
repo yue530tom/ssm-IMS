@@ -163,16 +163,23 @@
 					</form>
 				</li>
 				<li><a href="/userTest">控制面板 <i class="im-stats"></i></a></li>
+				<li><a href="#">购买<i class="im-coin"></i></a>
+					<ul class="nav sub">
+						<li><a href="/view/toViewPage">产品浏览<i class="im-numbered-list"></i></a></li>
+						<li><a href="/buy/toCartPage">维护购物车<i class="im-numbered-list"></i></a></li>
+					</ul>
+				</li>
+				<li><a href="#">订单<i class="im-coin"></i></a>
+					<ul class="nav sub">
+						<li><a href="/order/toOrderPage">维护订单<i class="im-numbered-list"></i></a></li>
+					</ul>
+				</li>
 				<li><a href="#">产品<i class="im-library"></i></a>
 					<ul class="nav sub">
 						<li><a href="/product/toProductPage">维护产品<i
 								class="im-numbered-list"></i></a></li>
-					</ul></li>
-				<li><a href="#">订单<i class="im-coin"></i></a>
-					<ul class="nav sub">
-						<li><a href="/order/toOrderPage">维护订单<i
-								class="im-numbered-list"></i></a></li>
-					</ul></li>
+					</ul>
+				</li>
 				<li><a href="#">工厂<i class="im-office"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="im-numbered-list"></i></a></li>

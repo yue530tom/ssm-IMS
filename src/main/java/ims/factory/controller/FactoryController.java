@@ -40,7 +40,7 @@ public class FactoryController {
 
 	@RequestMapping(value = "/toFactoryPage", method = RequestMethod.GET)
 	public String toFactoryListPage() {
-		return "factory/factoryList";
+		return "factory/factory";
 	}
 
 	@RequestMapping(value = "/factoryAdd", method = RequestMethod.POST)

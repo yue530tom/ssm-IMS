@@ -451,117 +451,20 @@
 			<div class="navbar">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="/userTest"> <i
-						class="im-windows8 text-logo-element animated bounceIn"></i><span
-						class="text-logo">spr</span><span class="text-slogan">flat</span>
+						class="im-google-drive text-logo-element animated bounceIn"></i><span
+						class="text-logo">DEER</span><span class="text-slogan">SAGA</span>
 					</a>
 				</div>
+
 				<nav class="top-nav" role="navigation">
-					<ul class="nav navbar-nav pull-left">
-						<li id="toggle-sidebar-li"><a href="#" id="toggle-sidebar"><i
-								class="en-arrow-left2"></i> </a></li>
-						<li><a href="#" class="full-screen"><i
-								class="fa-fullscreen"></i></a></li>
-						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
-								class="ec-cog"></i><span class="notification">10</span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#"><i class="en-database"></i> Database <span
-										class="notification">3</span></a></li>
-								<li><a href="#"><i class="st-cube"></i> Packages <span
-										class="notification blue">17</span></a></li>
-								<li><a href="#"><i class="st-health"></i> Disconnects <span
-										class="notification yellow">1</span></a></li>
-								<li><a href="#"><i class="im-images"></i> Images <span
-										class="notification teal">320</span></a></li>
-								<li><a href="#"><i class="st-users"></i> Users <span
-										class="notification orange">2k</span></a></li>
-								<li><a href="#"><i class="st-meter"></i> Traffic <span
-										class="notification magenta">2tb</span></a></li>
-								<li><a href="#"><i class="im-coin"></i> Finances <span
-										class="notification pink">+3k</span></a></li>
-								<li><a href="#"><i class="st-folder"></i> Directories <span
-										class="notification green">17</span></a></li>
-								<li><a href="#"><i class="st-bag"></i> Orders <span
-										class="notification purple">12</span></a></li>
-								<li><a href="#"><i class="ec-contract"></i> Contracts <span
-										class="notification dark">7</span></a></li>
-							</ul></li>
-						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
-								class="ec-mail"></i><span class="notification">4</span></a>
-							<ul class="dropdown-menu email" role="menu">
-								<li class="mail-head">
-									<div class="clearfix">
-										<div class="pull-left">
-											<a href="email-inbox.html"><i class="ec-archive"></i></a>
-										</div>
-										<span>Inbox</span>
-										<div class="pull-right">
-											<a href="email-inbox.html"><i class="st-pencil"></i></a>
-										</div>
-									</div>
-								</li>
-								<li class="search-email">
-									<form>
-										<input type="text" name="search"
-											placeholder="Search for emails">
-										<button type="submit">
-											<i class="ec-search"></i>
-										</button>
-									</form>
-								</li>
-								<li class="mail-list clearfix"><a href="#"> <img
-										src="/resources/assets/img/avatars/128.jpg"
-										class="mail-avatar pull-left" alt="avatar">
-										<p class="name">
-											<span class="status"><i class="en-dot"></i></span> Jason
-											Rivera <span class="notification">2</span> <span class="time">12:30
-												am</span>
-										</p>
-										<p class="msg">I contact you regarding my account please
-											can you set up my pass ...</p>
-								</a></li>
-								<li class="mail-list clearfix"><a href="#"> <img
-										src="/resources/assets/img/avatars/129.jpg"
-										class="mail-avatar pull-left" alt="avatar">
-										<p class="name">
-											<span class="status off"><i class="en-dot"></i></span> Steeve
-											Mclark <span class="notification">6</span> <span class="time">10:26
-												am</span>
-										</p>
-										<p class="msg">Good job dude awesome work here, please add
-											theese features ...</p>
-								</a></li>
-								<li class="mail-list clearfix"><a href="#"> <img
-										src="/resources/assets/img/avatars/130.jpg"
-										class="mail-avatar pull-left" alt="avatar">
-										<p class="name">
-											<span class="status off"><i class="en-dot"></i></span> Fellix
-											Jones <span class="notification">1</span> <span class="time">7:15
-												am</span>
-										</p>
-										<p class="msg">I have some issues when try to reach my
-											product page can you ...</p>
-								</a></li>
-								<li class="mail-list clearfix"><a href="#"> <img
-										src="/resources/assets/img/avatars/131.jpg"
-										class="mail-avatar pull-left" alt="avatar">
-										<p class="name">
-											<span class="status"><i class="en-dot"></i></span> Tina
-											Dowsen <span class="notification">5</span> <span class="time">03:46
-												am</span>
-										</p>
-										<p class="msg">Hello Sugge, i want to apply for your
-											referal program , please ...</p>
-								</a></li>
-								<li class="mail-more"><a href="email-inbox.html">View
-										all <i class="en-arrow-right7"></i>
-								</a></li>
-							</ul></li>
+					<ul class="nav navbar-nav pull-left" style="verticle-align:middle;">
+						<li id="toggle-sidebar-li"><a href="#" id="toggle-sidebar" ><i
+								class="en-arrow-left2" style="height:50px;padding-top:15px"></i> </a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right">
-						<li><a href="#" id="toggle-header-area"><i
-								class="ec-download"></i></a></li>
-						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
-								class="br-alarm"></i> <span class="notification">5</span></a>
+						
+						<li class="dropdown" ><a href="#" data-toggle="dropdown" ><i
+								class="br-alarm" style="height:50px;padding-top:15px"></i> <span class="notification" style="margin-top:20px">5</span></a>
 							<ul class="dropdown-menu notification-menu right" role="menu">
 								<li class="clearfix"><i class="ec-chat"></i> <a href="#"
 									class="notification-user"> Ric Jones </a> <span
@@ -584,22 +487,10 @@
 									class="notification-action"> add support </span> <a href="#"
 									class="notification-link"> ticket</a></li>
 							</ul></li>
-						<li class="dropdown"><a href="#" data-toggle="dropdown">
-								<img class="user-avatar"
-								src="/resources/assets/img/avatars/48.jpg" alt="SuggeElson">SuggeElson
-						</a>
-							<ul class="dropdown-menu right" role="menu">
-								<li><a href="profile.html"><i class="st-user"></i>
-										Profile</a></li>
-								<li><a href="file.html"><i class="st-cloud"></i> Files</a>
-								</li>
-								<li><a href="#"><i class="st-settings"></i> Settings</a></li>
-								<li><a href="login.html"><i class="im-exit"></i> Logout</a>
-								</li>
-							</ul></li>
+						
 						<li id="toggle-right-sidebar-li"><a href="#"
-							id="toggle-right-sidebar"><i class="ec-users"></i> <span
-								class="notification">3</span></a></li>
+							id="toggle-right-sidebar"><i class="ec-users" style="height:50px;padding-top:15px"></i> <span
+								class="notification" style="margin-top:20px">3</span></a></li>
 					</ul>
 				</nav>
 			</div>
@@ -668,18 +559,24 @@
 						</button>
 					</form>
 				</li>
-				
 				<li><a href="/userTest">控制面板 <i class="im-stats"></i></a></li>
+				<li><a href="#">购买<i class="im-coin"></i></a>
+					<ul class="nav sub">
+						<li><a href="/view/toViewPage">产品浏览<i class="im-numbered-list"></i></a></li>
+						<li><a href="/buy/toCartPage">维护购物车<i class="im-numbered-list"></i></a></li>
+					</ul>
+				</li>
+				<li><a href="#">订单<i class="im-coin"></i></a>
+					<ul class="nav sub">
+						<li><a href="/order/toOrderPage">维护订单<i class="im-numbered-list"></i></a></li>
+					</ul>
+				</li>
 				<li><a href="#">产品<i class="im-library"></i></a>
 					<ul class="nav sub">
 						<li><a href="/product/toProductPage">维护产品<i
 								class="im-numbered-list"></i></a></li>
-					</ul></li>
-				<li><a href="#">订单<i class="im-coin"></i></a>
-					<ul class="nav sub">
-						<li><a href="/order/toOrderPage">维护订单<i
-								class="im-numbered-list"></i></a></li>
-					</ul></li>
+					</ul>
+				</li>
 				<li><a href="#">工厂<i class="im-office"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="im-numbered-list"></i></a></li>

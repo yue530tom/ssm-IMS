@@ -12,13 +12,13 @@ import ims.order.service.OrderService;
 
 
 @Controller
-@RequestMapping("/order")
-public class OrderController {
+@RequestMapping("/view")
+public class ViewController {
 
 	private final OrderService orderService;
 
 	@Autowired
-	public OrderController(OrderService orderService) {
+	public ViewController(OrderService orderService) {
 		this.orderService = orderService;
 	}
 
@@ -27,9 +27,9 @@ public class OrderController {
 		return "order/orderAdd";
 	}
 
-	@RequestMapping(value = "/toOrderPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/toViewPage", method = RequestMethod.GET)
 	public String toOrderListPage() {
-		return "order/order";
+		return "order/view";
 	}
 
 	@RequestMapping(value = "/orderAdd", method = RequestMethod.POST)

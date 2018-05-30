@@ -80,7 +80,7 @@ public class ProductController {
 		for(int propsCount=0;propsCount<6;propsCount++) {
 			model.addAttribute("propsDetails"+(propsCount+1), propsDetails.get(propsCount));
 		}
-		return "product/productList";
+		return "product/product";
 	}
 
 	@RequestMapping(value = "/productAdd", method = RequestMethod.POST)

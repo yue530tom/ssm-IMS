@@ -115,7 +115,7 @@
 <script src="/resources/assets/js/pages/dashboard.js"></script>
 <style type="text/css">
 .align-center {
-	margin: 0 auto; /* 居中 这个是必须的，，其它的详情非必须 */
+	margin: 0 auto; /* 居中 这个是必须的，，其它的属性非必须 */
 	width: 300px; /* 给个宽度 顶到浏览器的两边就看不出居中效果了 */
 	height: 50px; /* 给个宽度 顶到浏览器的两边就看不出居中效果了 */
 	background: #f3f5f6; /* 背景色 */
@@ -128,35 +128,13 @@
 }
 </style>
 <script type="text/javascript">
-	var arrCategory=[];
-	var arrCategoryReverse=[];
 	$(document).ready(function() {
-		
-		//初始化
-		initPropsSelectOption();
+
 		initTable("{}");
-		//console.log("$(document).ready:" + $("#buffer_span").text());
-		
+		console.log("$(document).ready:" + $("#buffer_span").text());
+
 	});
 
-	
-	function initPropsSelectOption(){
-		props = ${props}
-		//console.log(props);
-		$("#selectadd").empty();
-		$("#selectquery").empty();
-		$("#selectmodify").empty();
-		for (var i = 0; i < props.length; i++) {
-			var queryPropsId = props[i].queryPropsId;
-			var queryPropsName = props[i].queryPropsName;
-			
-			$("#selectadd").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
-			$("#selectquery").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
-			$("#selectmodify").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
-			arrCategory[queryPropsId]=queryPropsName;
-			arrCategoryReverse[queryPropsName]=queryPropsId;
-		}
-	}
 	function initTable(filter) {
 		var data = null;
 		if (filter != "{}") {
@@ -166,10 +144,9 @@
 		$.ajax({
 			type : "GET",
 			data : data,
-			url : "/props/propsDetailsList",
+			url : "/factory/factoryList",
 			dataType : "JSON",
 			success : function(json) {
-				console.log(json);
 				refreshList(json);
 				initPage(json);
 			},
@@ -182,8 +159,8 @@
 	function refreshList(json) {
 		var ja = json.list;
 		var string = JSON.stringify(json);
-		//console.log("json.list:" + json.list.length);
-		//console.log("json.msg:" + json.msg);
+		console.log("json.list:" + json.list.length);
+		console.log("json.msg:" + json.msg);
 		if (json.msg != null) {
 			document.getElementById('tip_message').style.display = 'block';
 			$("#tip_message").html(json.msg);
@@ -193,36 +170,41 @@
 					"document.getElementById('tip_message').style.display='none'",
 					2000);
 		}
-		//刷新修改详情值
+		//刷新修改属性值
 		//刷新列表
-		$("#table_propsDetailslist").empty();
-		$("#table_propsDetailslist")
+		$("#table_propslist").empty();
+		$("#table_propslist")
 				.append(
-						'<tr><th>详情编号</th><th>归类</th><th>详情名称</th><th>详情描述</th><th>详情备注</th><th>详情状态</th><th>操作</th></tr>');
+						'<tr><th>工厂编号</th><th>工厂名称</th><th>联系人</th><th>联系电话</th><th>座机</th><th>工厂地址</th><th>工厂规模</th><th>工厂备注</th><th>工厂状态</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
-			var queryPropsDetailsId = ja[i].queryPropsDetailsId;
-			var queryPropsId = ja[i].queryPropsId;
-			var queryPropsDetailsName = ja[i].queryPropsDetailsName;
-			var queryPropsDetailsDesc = ja[i].queryPropsDetailsDesc;
-			var queryPropsDetailsRemarks = ja[i].queryPropsDetailsRemarks;
-			var queryPropsDetailsStatus = ja[i].queryPropsDetailsStatus;
-			$("#table_propsDetailslist").append(
+			var factoryId = ja[i].factoryId;
+			var factoryName = ja[i].factoryName;
+			var factoryContacts = ja[i].factoryContacts;
+			var factoryPhone = ja[i].factoryPhone;
+			var factoryTelephone = ja[i].factoryTelephone;
+			var factoryAddress = ja[i].factoryAddress;
+			var factoryScale = ja[i].factoryScale;
+			var factoryRemarks = ja[i].factoryRemarks;
+			var factoryStatus = ja[i].factoryStatus;
+			$("#table_propslist").append(
 					'<tr onclick="getDataToModify(this)" id="tr_' + i
 							+ '"></tr>');
-			$("#tr_" + i).append('<td>' + queryPropsDetailsId + '</td>');
-			$("#tr_" + i).append("<td>" + arrCategory[queryPropsId] + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsDetailsName + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsDetailsDesc + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsDetailsRemarks + "</td>");
-			console.log("queryPropsDetailsStatus:"+queryPropsDetailsStatus);
-			if(queryPropsDetailsStatus==1){
+			$("#tr_" + i).append('<td>' + factoryId + '</td>');
+			$("#tr_" + i).append("<td>" + factoryName + "</td>");
+			$("#tr_" + i).append("<td>" + factoryContacts + "</td>");
+			$("#tr_" + i).append("<td>" + factoryPhone + "</td>");
+			$("#tr_" + i).append('<td>' + factoryTelephone + '</td>');
+			$("#tr_" + i).append("<td>" + factoryAddress + "</td>");
+			$("#tr_" + i).append("<td>" + factoryScale + "</td>");
+			$("#tr_" + i).append("<td>" + factoryRemarks + "</td>");
+			if (factoryStatus == 1) {
 				$("#tr_" + i).append("<td>有效</td>");
-			}else{
+			} else {
 				$("#tr_" + i).append("<td>废弃</td>");
 			}
-			$("#tr_" + i)
-					.append(
-							'<td><button class="btn btn-primary" onclick="doFilterDelete('+queryPropsDetailsId+');">删除</button></td>');
+			$("#tr_" + i).append(
+					'<td><button class="btn btn-primary" onclick="doFilterDelete('
+							+ factoryId + ');">删除</button></td>');
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
@@ -259,7 +241,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/props/propsDetailsList",
+				url : "/factory/factoryList",
 				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -284,7 +266,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/props/propsDetailsList",
+				url : "/factory/factoryList",
 				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -308,7 +290,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/props/propsDetailsList",
+				url : "/factory/factoryList",
 				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -352,21 +334,33 @@
 	function doFilterQuery() {
 		var filterJs = {};
 		filterJs["method"] = "query";
-		if ($("#selectquery").val() != "") {
-			filterJs["propsId"] = $("#selectquery").val();
+		if ($("#factoryQueryId").val() != "") {
+			filterJs["factoryId"] = $("#factoryQueryId").val();
 		}
-		if ($("#queryPropsDetailsId").val() != "") {
-			filterJs["propsDetailsId"] = $("#queryPropsDetailsId").val();
+		if ($("#factoryName").val() != "") {
+			filterJs["factoryName"] = $("#factoryName").val();
 		}
-
-		if ($("#queryPropsDetailsName").val() != "") {
-			filterJs["propsDetailsName"] = $("#queryPropsDetailsName").val();
+		if ($("#factoryContacts").val() != "") {
+			filterJs["factoryContacts"] = $("#factoryContacts").val();
 		}
-		if ($("#queryPropsDetailsDesc").val() != "") {
-			filterJs["propsDetailsDesc"] = $("#queryPropsDetailsDesc").val();
+		if ($("#factoryPhone").val() != "") {
+			filterJs["factoryPhone"] = $("#factoryPhone").val();
 		}
-		if ($("input[name='queryPropsDetailsStatus']:checked").val() != "") {
-			filterJs["propsDetailsStatus"] = $("input[name='queryPropsDetailsStatus']:checked").val();
+		if ($("#factoryTelephone").val() != "") {
+			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
+		}
+		if ($("#factoryAddress").val() != "") {
+			filterJs["factoryAddress"] = $("#factoryAddress").val();
+		}
+		if ($("#factoryScale").val() != "") {
+			filterJs["factoryScale"] = $("#factoryScale").val();
+		}
+		if ($("#factoryRemarks").val() != "") {
+			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
+		}
+		if ($("input[name='factoryStatus']:checked").val() != "") {
+			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked")
+					.val();
 		}
 
 		$("#buffer_span").text(JSON.stringify(filterJs));
@@ -376,21 +370,29 @@
 	function doFilterModify() {
 		var filterJs = {};
 		filterJs["method"] = "modify";
-		if ($("#selectmodify").val() != "") {
-			filterJs["propsId"] = $("#selectmodify").val();
+		if ($("#factoryId").val() != "") {
+			filterJs["factoryId"] = $("#factoryId").val();
 		}
-		if ($("#modifyPropsDetailsId").val() != "") {
-			filterJs["propsDetailsId"] = $("#modifyPropsDetailsId").val();
+		if ($("#factoryName").val() != "") {
+			filterJs["factoryName"] = $("#factoryName").val();
 		}
-
-		if ($("#modifyPropsDetailsName").val() != "") {
-			filterJs["propsDetailsName"] = $("#modifyPropsDetailsName").val();
+		if ($("#factoryContacts").val() != "") {
+			filterJs["factoryContacts"] = $("#factoryContacts").val();
 		}
-		if ($("#modifyPropsDetailsDesc").val() != "") {
-			filterJs["propsDetailsDesc"] = $("#modifyPropsDetailsDesc").val();
+		if ($("#factoryPhone").val() != "") {
+			filterJs["factoryPhone"] = $("#factoryPhone").val();
 		}
-		if ($("#modifyPropsDetailsRemarks").val() != "") {
-			filterJs["propsDetailsRemarks"] = $("#modifyPropsDetailsRemarks").val();
+		if ($("#factoryTelephone").val() != "") {
+			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
+		}
+		if ($("#factoryAddress").val() != "") {
+			filterJs["factoryAddress"] = $("#factoryAddress").val();
+		}
+		if ($("#factoryScale").val() != "") {
+			filterJs["factoryScale"] = $("#factoryScale").val();
+		}
+		if ($("#factoryRemarks").val() != "") {
+			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
@@ -399,60 +401,104 @@
 	function doFilterAdd() {
 		var filterJs = {};
 		filterJs["method"] = "add";
-		if ($("#selectadd").val() != "") {
-			filterJs["propsId"] = $("#selectadd").val();
+		if ($("#factoryName").val() != "") {
+			filterJs["factoryName"] = $("#factoryName").val();
 		}
-		if ($("#addPropsDetailsName").val() != "") {
-			filterJs["propsDetailsName"] = $("#addPropsDetailsName").val();
+		if ($("#factoryContacts").val() != "") {
+			filterJs["factoryContacts"] = $("#factoryContacts").val();
 		}
-
-		if ($("#addPropsDetailsDesc").val() != "") {
-			filterJs["propsDetailsDesc"] = $("#addPropsDetailsDesc").val();
+		if ($("#factoryPhone").val() != "") {
+			filterJs["factoryPhone"] = $("#factoryPhone").val();
 		}
-		if ($("#addPropsDetailsRemarks").val() != "") {
-			filterJs["propsDetailsRemarks"] = $("#addPropsDetailsRemarks").val();
+		if ($("#factoryTelephone").val() != "") {
+			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
+		}
+		if ($("#factoryAddress").val() != "") {
+			filterJs["factoryAddress"] = $("#factoryAddress").val();
+		}
+		if ($("#factoryScale").val() != "") {
+			filterJs["factoryScale"] = $("#factoryScale").val();
+		}
+		if ($("#factoryRemarks").val() != "") {
+			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
+		}
+		if ($("input[name='factoryStatus']:checked").val() != "") {
+			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked")
+					.val();
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
-	function doFilterDelete(tmpPropsDetailsId) {
+	function doFilterDelete(tmpFactoryId) {
 		var filterJs = {};
 		filterJs["method"] = "delete";
-		filterJs["propsDetailsId"]=tmpPropsDetailsId;
+		filterJs["factoryId"] = tmpFactoryId;
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
-	
+
 	/*
 	给修改赋值~
 	 */
 	function getDataToModify(row) {
 
-		$("#modifyPropsDetailsId")
+		$("#factoryId")
 				.attr(
 						"value",
-						window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[0].innerText);
-		$("#selectmodify").find("option:selected").text();
-		$("#selectmodify option[value="+arrCategoryReverse[window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[1].innerText]+"]").attr("selected","selected");
-/* 		$("#select_id option[value='1']").removeAttr("selected");根据值去除选中状态  
-		  
-		$("#select_id option[value='"+msg.data.categoryId+"']").attr("selected","selected");根据值让option选中   */
-		$("#modifyPropsDetailsName")
+						window.table_propslist.rows.item(row.rowIndex).childNodes[0].innerText);
+		$("#factoryName")
 				.attr(
 						"value",
-						window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[2].innerText);
-		$("#modifyPropsDetailsDesc")
+						window.table_propslist.rows.item(row.rowIndex).childNodes[1].innerText);
+		$("#factoryContacts")
 				.attr(
 						"value",
-						window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[3].innerText);
-		$("#modifyPropsDetailsRemarks")
+						window.table_propslist.rows.item(row.rowIndex).childNodes[2].innerText);
+		$("#factoryPhone")
 				.attr(
 						"value",
-						window.table_propsDetailslist.rows.item(row.rowIndex).childNodes[4].innerText);
+						window.table_propslist.rows.item(row.rowIndex).childNodes[3].innerText);
+		$("#factoryTelephone")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[4].innerText);
+		$("#factoryAddress")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[5].innerText);
+		$("#factoryScale")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[6].innerText);
+		$("#factoryRemarks")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[7].innerText);
 
-		/* var TAB = document.getElementById("table_propsDetailslist") ;  
+		/* var TAB = document.getElementById("table_propslist") ;  
+		
+		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[2].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[3].innerText);
+		document.getElementById("modifyPropsId").value = TAB.rows[row.rowIndex].cells[0].innerText; */
+
+	}
+	function reset() {
+
+		$("#factoryId").attr("value", "");
+		$("#factoryQueryId").attr("value", "");
+		$("#factoryName").attr("value", "");
+		$("#factoryContacts").attr("value", "");
+		$("#factoryPhone").attr("value", "");
+		$("#factoryTelephone").attr("value", "");
+		$("#factoryAddress").attr("value", "");
+		$("#factoryScale").attr("value", "");
+		$("#factoryRemarks").attr("value", "");
+
+		/* var TAB = document.getElementById("table_propslist") ;  
 		
 		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
 		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
@@ -471,117 +517,20 @@
 			<div class="navbar">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="/userTest"> <i
-						class="im-windows8 text-logo-element animated bounceIn"></i><span
-						class="text-logo">spr</span><span class="text-slogan">flat</span>
+						class="im-google-drive text-logo-element animated bounceIn"></i><span
+						class="text-logo">DEER</span><span class="text-slogan">SAGA</span>
 					</a>
 				</div>
+
 				<nav class="top-nav" role="navigation">
-					<ul class="nav navbar-nav pull-left">
-						<li id="toggle-sidebar-li"><a href="#" id="toggle-sidebar"><i
-								class="en-arrow-left2"></i> </a></li>
-						<li><a href="#" class="full-screen"><i
-								class="fa-fullscreen"></i></a></li>
-						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
-								class="ec-cog"></i><span class="notification">10</span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#"><i class="en-database"></i> Database <span
-										class="notification">3</span></a></li>
-								<li><a href="#"><i class="st-cube"></i> Packages <span
-										class="notification blue">17</span></a></li>
-								<li><a href="#"><i class="st-health"></i> Disconnects <span
-										class="notification yellow">1</span></a></li>
-								<li><a href="#"><i class="im-images"></i> Images <span
-										class="notification teal">320</span></a></li>
-								<li><a href="#"><i class="st-users"></i> Users <span
-										class="notification orange">2k</span></a></li>
-								<li><a href="#"><i class="st-meter"></i> Traffic <span
-										class="notification magenta">2tb</span></a></li>
-								<li><a href="#"><i class="im-coin"></i> Finances <span
-										class="notification pink">+3k</span></a></li>
-								<li><a href="#"><i class="st-folder"></i> Directories <span
-										class="notification green">17</span></a></li>
-								<li><a href="#"><i class="st-bag"></i> Orders <span
-										class="notification purple">12</span></a></li>
-								<li><a href="#"><i class="ec-contract"></i> Contracts <span
-										class="notification dark">7</span></a></li>
-							</ul></li>
-						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
-								class="ec-mail"></i><span class="notification">4</span></a>
-							<ul class="dropdown-menu email" role="menu">
-								<li class="mail-head">
-									<div class="clearfix">
-										<div class="pull-left">
-											<a href="email-inbox.html"><i class="ec-archive"></i></a>
-										</div>
-										<span>Inbox</span>
-										<div class="pull-right">
-											<a href="email-inbox.html"><i class="st-pencil"></i></a>
-										</div>
-									</div>
-								</li>
-								<li class="search-email">
-									<form>
-										<input type="text" name="search"
-											placeholder="Search for emails">
-										<button type="submit">
-											<i class="ec-search"></i>
-										</button>
-									</form>
-								</li>
-								<li class="mail-list clearfix"><a href="#"> <img
-										src="/resources/assets/img/avatars/128.jpg"
-										class="mail-avatar pull-left" alt="avatar">
-										<p class="name">
-											<span class="status"><i class="en-dot"></i></span> Jason
-											Rivera <span class="notification">2</span> <span class="time">12:30
-												am</span>
-										</p>
-										<p class="msg">I contact you regarding my account please
-											can you set up my pass ...</p>
-								</a></li>
-								<li class="mail-list clearfix"><a href="#"> <img
-										src="/resources/assets/img/avatars/129.jpg"
-										class="mail-avatar pull-left" alt="avatar">
-										<p class="name">
-											<span class="status off"><i class="en-dot"></i></span> Steeve
-											Mclark <span class="notification">6</span> <span class="time">10:26
-												am</span>
-										</p>
-										<p class="msg">Good job dude awesome work here, please add
-											theese features ...</p>
-								</a></li>
-								<li class="mail-list clearfix"><a href="#"> <img
-										src="/resources/assets/img/avatars/130.jpg"
-										class="mail-avatar pull-left" alt="avatar">
-										<p class="name">
-											<span class="status off"><i class="en-dot"></i></span> Fellix
-											Jones <span class="notification">1</span> <span class="time">7:15
-												am</span>
-										</p>
-										<p class="msg">I have some issues when try to reach my
-											product page can you ...</p>
-								</a></li>
-								<li class="mail-list clearfix"><a href="#"> <img
-										src="/resources/assets/img/avatars/131.jpg"
-										class="mail-avatar pull-left" alt="avatar">
-										<p class="name">
-											<span class="status"><i class="en-dot"></i></span> Tina
-											Dowsen <span class="notification">5</span> <span class="time">03:46
-												am</span>
-										</p>
-										<p class="msg">Hello Sugge, i want to apply for your
-											referal program , please ...</p>
-								</a></li>
-								<li class="mail-more"><a href="email-inbox.html">View
-										all <i class="en-arrow-right7"></i>
-								</a></li>
-							</ul></li>
+					<ul class="nav navbar-nav pull-left" style="verticle-align:middle;">
+						<li id="toggle-sidebar-li"><a href="#" id="toggle-sidebar" ><i
+								class="en-arrow-left2" style="height:50px;padding-top:15px"></i> </a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right">
-						<li><a href="#" id="toggle-header-area"><i
-								class="ec-download"></i></a></li>
-						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
-								class="br-alarm"></i> <span class="notification">5</span></a>
+						
+						<li class="dropdown" ><a href="#" data-toggle="dropdown" ><i
+								class="br-alarm" style="height:50px;padding-top:15px"></i> <span class="notification" style="margin-top:20px">5</span></a>
 							<ul class="dropdown-menu notification-menu right" role="menu">
 								<li class="clearfix"><i class="ec-chat"></i> <a href="#"
 									class="notification-user"> Ric Jones </a> <span
@@ -604,22 +553,10 @@
 									class="notification-action"> add support </span> <a href="#"
 									class="notification-link"> ticket</a></li>
 							</ul></li>
-						<li class="dropdown"><a href="#" data-toggle="dropdown">
-								<img class="user-avatar"
-								src="/resources/assets/img/avatars/48.jpg" alt="SuggeElson">SuggeElson
-						</a>
-							<ul class="dropdown-menu right" role="menu">
-								<li><a href="profile.html"><i class="st-user"></i>
-										Profile</a></li>
-								<li><a href="file.html"><i class="st-cloud"></i> Files</a>
-								</li>
-								<li><a href="#"><i class="st-settings"></i> Settings</a></li>
-								<li><a href="login.html"><i class="im-exit"></i> Logout</a>
-								</li>
-							</ul></li>
+						
 						<li id="toggle-right-sidebar-li"><a href="#"
-							id="toggle-right-sidebar"><i class="ec-users"></i> <span
-								class="notification">3</span></a></li>
+							id="toggle-right-sidebar"><i class="ec-users" style="height:50px;padding-top:15px"></i> <span
+								class="notification" style="margin-top:20px">3</span></a></li>
 					</ul>
 				</nav>
 			</div>
@@ -688,18 +625,24 @@
 						</button>
 					</form>
 				</li>
-
 				<li><a href="/userTest">控制面板 <i class="im-stats"></i></a></li>
+				<li><a href="#">购买<i class="im-coin"></i></a>
+					<ul class="nav sub">
+						<li><a href="/view/toViewPage">产品浏览<i class="im-numbered-list"></i></a></li>
+						<li><a href="/buy/toCartPage">维护购物车<i class="im-numbered-list"></i></a></li>
+					</ul>
+				</li>
+				<li><a href="#">订单<i class="im-coin"></i></a>
+					<ul class="nav sub">
+						<li><a href="/order/toOrderPage">维护订单<i class="im-numbered-list"></i></a></li>
+					</ul>
+				</li>
 				<li><a href="#">产品<i class="im-library"></i></a>
 					<ul class="nav sub">
 						<li><a href="/product/toProductPage">维护产品<i
 								class="im-numbered-list"></i></a></li>
-					</ul></li>
-				<li><a href="#">订单<i class="im-coin"></i></a>
-					<ul class="nav sub">
-						<li><a href="/order/toOrderPage">维护订单<i
-								class="im-numbered-list"></i></a></li>
-					</ul></li>
+					</ul>
+				</li>
 				<li><a href="#">工厂<i class="im-office"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="im-numbered-list"></i></a></li>
@@ -1020,66 +963,107 @@
 				<!-- Start .outlet -->
 				<!-- Page start here ( usual with .row ) -->
 				<div class="row">
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+					<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
 						<!-- col-lg-4 start here -->
 						<div class="panel panel-default plain">
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>新增详情
+									<i class="im-quill"></i>工厂属性
 								</h4>
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情编号</label>
-										<div class="col-lg-9">
-											<input id="addPropsDetailsId" name="addPropsDetailsId"
-												type="text" class="col-lg-4 form-control" disabled>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
+										style="margin-top: 0;">
+										<label class="col-lg-4 control-label">工厂编号</label>
+										<div class="col-lg-8">
+											<input id="factoryId" name="factoryId" type="text"
+												class="col-lg-4 form-control" disabled>
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情归类</label>
-										<div class="col-lg-9">
-											<select class="form-control select2" name="selectadd"
-												id="selectadd">
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情名称</label>
-										<div class="col-lg-9">
-											<input id="addPropsDetailsName" name="addPropsDetailsName"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入详情名称，格式为小于50位的字符">
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情描述</label>
-										<div class="col-lg-9">
-											<input id="addPropsDetailsDesc" name="addPropsDetailsDesc"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入详情描述，格式为小于50位的字符">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情备注</label>
-										<div class="col-lg-9">
-											<input id="addPropsDetailsRemarks"
-												name="addPropsDetailsRemarks" type="text"
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
+										style="margin-top: 0;">
+										<label class="col-lg-4 control-label">工厂编号</label>
+										<div class="col-lg-8">
+											<input id="factoryQueryId" name="factoryQueryId" type="text"
 												class="col-lg-4 form-control"
-												placeholder="请输入详情备注，格式为小于50位的字符">
+												placeholder="仅当查询时起作用，增加和修改不起作用">
 										</div>
 									</div>
-									<!-- End .form-group  -->
-									<div class="form-group">
-										<label class="col-lg-3 control-label"></label>
-										<div class="col-lg-9">
-											<button id="doAdd" class="btn btn-primary"
-												onclick="doFilterAdd();">新增</button>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">工厂名称</label>
+										<div class="col-lg-8">
+											<input id="factoryName" name="factoryName" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入属性名称，格式为小于50位的字符">
 										</div>
-
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">联系人</label>
+										<div class="col-lg-8">
+											<input id="factoryContacts" name="factoryContacts"
+												type="text" class="col-lg-4 form-control"
+												placeholder="请输入属性描述，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">联系手机</label>
+										<div class="col-lg-8">
+											<input id="factoryPhone" name="factoryPhone" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入属性备注，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">座机电话</label>
+										<div class="col-lg-8">
+											<input id="factoryTelephone" name="factoryTelephone"
+												type="text" class="col-lg-4 form-control"
+												placeholder="请输入属性备注，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">工厂地址</label>
+										<div class="col-lg-8">
+											<input id="factoryAddress" name="factoryAddress" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入属性备注，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">工厂规模</label>
+										<div class="col-lg-8">
+											<input id="factoryScale" name="factoryScale" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入属性备注，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">工厂备注</label>
+										<div class="col-lg-8">
+											<input id="factoryRemarks" name="factoryRemarks" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入属性备注，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">工厂状态</label>
+										<div class="col-lg-8" style="height: 34px">
+											<label class="radio col-lg-9"> <input
+												id="factoryStatus" type="radio" name="factoryStatus"
+												class="col-lg-4 form-control" value="1" checked="checked">有效
+												<input id="factoryStatuscp" type="radio"
+												name="factoryStatus" class="col-lg-4 form-control" value="0">无效
+											</label>
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label"></label>
+										<div class="col-lg-8">
+											<button id="reset" class="btn btn-primary"
+												onclick="reset();">重置</button>
+										</div>
 									</div>
 									<!-- End .form-group  -->
 								</div>
@@ -1088,138 +1072,38 @@
 						<!-- End .panel -->
 					</div>
 					<!-- col-lg-4 end here -->
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 						<!-- col-lg-4 start here -->
 						<div class="panel panel-default plain">
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>查询详情
+									<i class="im-quill"></i>操作盘
 								</h4>
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情编号</label>
-										<div class="col-lg-9">
-											<input id="queryPropsDetailsId" name="queryPropsDetailsId"
-												type="text" class="form-control"
-												placeholder="请输入详情id，格式为小于10位的数字">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情归类</label>
-										<div class="col-lg-9">
-											<select class="form-control select2" name="selectquery"
-												id="selectquery">
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情名称</label>
-										<div class="col-lg-9">
-											<input id="queryPropsDetailsName"
-												name="queryPropsDetailsName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情名称，格式为小于50位的字符">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情描述</label>
-										<div class="col-lg-9">
-											<input id="queryPropsDetailsDesc"
-												name="queryPropsDetailsDesc" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情描述，格式为小于50位的字符">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情状态</label>
-										<div class="col-lg-9" style="height: 34px">
-											<label class="radio col-lg-9"> <input
-												id="queryPropsDetailsStatus" type="radio"
-												name="queryPropsDetailsStatus" class="col-lg-4 form-control"
-												value="1" checked="checked">有效 <input
-												id="queryPropsDetailsStatuscp" type="radio"
-												name="queryPropsDetailsStatus" class="col-lg-4 form-control"
-												value="0">无效
-											</label>
-										</div>
-									</div>
+
 									<!-- End .form-group  -->
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doQuery" class="btn btn-primary"
-												onclick="doFilterQuery();">查询</button>
+											<button id="doAdd" class="btn btn-primary"
+												onclick="doFilterAdd();">新增</button>
 										</div>
 									</div>
-									<!-- End .form-group  -->
-								</div>
-							</div>
-						</div>
-						<!-- End .panel -->
-					</div>
-
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-						<!-- col-lg-4 start here -->
-						<div class="panel panel-default plain">
-							<!-- Start .panel -->
-							<div class="panel-heading white-bg">
-								<h4 class="panel-title">
-									<i class="im-quill"></i>修改详情
-								</h4>
-							</div>
-							<div class="panel-body">
-								<div class="form-horizontal hover-stripped">
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情编号</label>
-										<div class="col-lg-9">
-											<input id="modifyPropsDetailsId" name="modifyPropsDetailsId"
-												type="text" class="col-lg-4 form-control" disabled>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情归类</label>
-										<div class="col-lg-9">
-											<select class="form-control select2" name="selectmodify"
-												id="selectmodify">
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情名称</label>
-										<div class="col-lg-9">
-											<input id="modifyPropsDetailsName"
-												name="modifyPropsDetailsName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情名称，格式为小于50位的字符">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情描述</label>
-										<div class="col-lg-9">
-											<input id="modifyPropsDetailsDesc"
-												name="modifyPropsDetailsDesc" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情描述，格式为小于50位的字符">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情备注</label>
-										<div class="col-lg-9">
-											<input id="modifyPropsDetailsRemarks"
-												name="modifyPropsDetailsRemarks" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情备注，格式为小于50位的字符">
-										</div>
-									</div>
-									<!-- End .form-group  -->
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
 											<button id="doModify" class="btn btn-primary"
 												onclick="doFilterModify();">修改</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-3 control-label"></label>
+										<div class="col-lg-9">
+											<button id="doQuery" class="btn btn-primary"
+												onclick="doFilterQuery();">查询</button>
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -1238,19 +1122,22 @@
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>详情列表
+									<i class="im-quill"></i>工厂列表
 								</h4>
 							</div>
 							<div class="panel-body">
-								<table class="table display" id="table_propsDetailslist">
+								<table class="table display" id="table_propslist">
 									<thead>
 										<tr>
-											<th>详情编号</th>
-											<th>详情名称</th>
-											<th>详情描述</th>
-											<th>详情备注</th>
-											<th>详情状态</th>
-											<th>操作</th>
+											<th>工厂编号</th>
+											<th>工厂名称</th>
+											<th>联系人</th>
+											<th>联系电话</th>
+											<th>座机</th>
+											<th>工厂地址</th>
+											<th>工厂规模</th>
+											<th>工厂备注</th>
+											<th>工厂状态</th>
 										</tr>
 									</thead>
 								</table>

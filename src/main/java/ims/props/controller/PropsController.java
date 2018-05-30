@@ -53,12 +53,12 @@ public class PropsController {
 		}
 		//js.put("props", allProps);
 		model.addAttribute("props", allProps);
-		return "props/propsDetailsList";
+		return "props/propsDetails";
 	}
 
 	@RequestMapping(value = "/toPropsPage", method = RequestMethod.GET)
 	public String toPropsListPage() {
-		return "props/propsList";
+		return "props/props";
 	}
 
 	@RequestMapping(value = "/propsAdd", method = RequestMethod.POST)
