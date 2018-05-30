@@ -416,23 +416,23 @@
 	/* 	if ($("#productImg").val() != "") {
 			filterJs["productImg"] = $("#productImg").val();
 		} */
-		if ($("#productCategory").val() != "") {
-			filterJs["productCategory"] = $("#productCategory").val();
+		if (getCheck("category") != "") {
+			filterJs["productCategory"] = getCheck("category");
 		}
-		if ($("#productColor").val() != "") {
-			filterJs["productColor"] = $("#productColor").val();
+		if (getCheck("color") != "") {
+			filterJs["productColor"] = getCheck("color") ;
 		}
-		if ($("#productSize").val() != "") {
-			filterJs["productSize"] = $("#productSize").val();
+		if (getCheck("size") != "") {
+			filterJs["productSize"] = getCheck("size") ;
 		}
-		if ($("#productMaterial").val() != "") {
-			filterJs["productMaterial"] = $("#productMaterial").val();
+		if (getCheck("material") != "") {
+			filterJs["productMaterial"] = getCheck("material");
 		}
-		if ($("#productCollar").val() != "") {
-			filterJs["productCollar"] = $("#productCollar").val();
+		if (getCheck("collar") != "") {
+			filterJs["productCollar"] = getCheck("collar");
 		}
-		if ($("#productPocket").val() != "") {
-			filterJs["productPocket"] = $("#productPocket").val();
+		if (getCheck("pocket") != "") {
+			filterJs["productPocket"] = getCheck("pocket");
 		}
 		if ($("#productRemarks").val() != "") {
 			filterJs["productRemarks"] = $("#productRemarks").val();
@@ -461,23 +461,23 @@
 		if ($("#buffer_img").html() != null&&$("#buffer_img").html() != "") {
 			filterJs["productImg"] = $("#buffer_img").html();
 		} 
-		if ($("#productCategory").val() != "") {
-			filterJs["productCategory"] = $("#productCategory").val();
+		if (getCheck("category") != "") {
+			filterJs["productCategory"] = getCheck("category");
 		}
-		if ($("#productColor").val() != "") {
-			filterJs["productColor"] = $("#productColor").val();
+		if (getCheck("color") != "") {
+			filterJs["productColor"] = getCheck("color") ;
 		}
-		if ($("#productSize").val() != "") {
-			filterJs["productSize"] = $("#productSize").val();
+		if (getCheck("size") != "") {
+			filterJs["productSize"] = getCheck("size") ;
 		}
-		if ($("#productMaterial").val() != "") {
-			filterJs["productMaterial"] = $("#productMaterial").val();
+		if (getCheck("material") != "") {
+			filterJs["productMaterial"] = getCheck("material");
 		}
-		if ($("#productCollar").val() != "") {
-			filterJs["productCollar"] = $("#productCollar").val();
+		if (getCheck("collar") != "") {
+			filterJs["productCollar"] = getCheck("collar");
 		}
-		if ($("#productPocket").val() != "") {
-			filterJs["productPocket"] = $("#productPocket").val();
+		if (getCheck("pocket") != "") {
+			filterJs["productPocket"] = getCheck("pocket");
 		}
 		if ($("#productRemarks").val() != "") {
 			filterJs["productRemarks"] = $("#productRemarks").val();
@@ -504,23 +504,23 @@
 		if ($("#buffer_img").html() != null&&$("#buffer_img").html() != "") {
 			filterJs["productImg"] = $("#buffer_img").html();
 		} 
-		if ($("#productCategory").val() != "") {
-			filterJs["productCategory"] = $("#productCategory").val();
+		if (getCheck("category") != "") {
+			filterJs["productCategory"] = getCheck("category");
 		}
-		if ($("#productColor").val() != "") {
-			filterJs["productColor"] = $("#productColor").val();
+		if (getCheck("color") != "") {
+			filterJs["productColor"] = getCheck("color") ;
 		}
-		if ($("#productSize").val() != "") {
-			filterJs["productSize"] = $("#productSize").val();
+		if (getCheck("size") != "") {
+			filterJs["productSize"] = getCheck("size") ;
 		}
-		if ($("#productMaterial").val() != "") {
-			filterJs["productMaterial"] = $("#productMaterial").val();
+		if (getCheck("material") != "") {
+			filterJs["productMaterial"] = getCheck("material");
 		}
-		if ($("#productCollar").val() != "") {
-			filterJs["productCollar"] = $("#productCollar").val();
+		if (getCheck("collar") != "") {
+			filterJs["productCollar"] = getCheck("collar");
 		}
-		if ($("#productPocket").val() != "") {
-			filterJs["productPocket"] = $("#productPocket").val();
+		if (getCheck("pocket") != "") {
+			filterJs["productPocket"] = getCheck("pocket");
 		}
 		if ($("#productRemarks").val() != "") {
 			filterJs["productRemarks"] = $("#productRemarks").val();
@@ -668,7 +668,20 @@
 			coll[i].checked=false;
 		}
 	}
-  
+	function getCheck(name){
+		var coll=document.getElementsByName(name);
+		var result="";
+		for(var i=0;i<coll.length;i++){
+			if(coll[i].checked){
+				result=result+","+coll[i].value;
+			}
+		}
+		if(result!=""){
+			return result.substring(1);
+		}else{
+			return "";
+		}
+	}
 </script>
 </head>
 <body>
