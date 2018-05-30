@@ -15,22 +15,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ims.product.domain.Product;
 import ims.product.service.ProductService;
+import ims.props.domain.Props;
+import ims.props.domain.PropsDetails;
+import ims.props.service.PropsDetailsService;
+import ims.props.service.PropsService;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 
 	private final ProductService productService;
+	private final PropsService propsService;
+	private final PropsDetailsService propsDetailsService;
 	private final int pageSize = 5;
 
 	@Autowired
-	public ProductController(ProductService productService) {
+	public ProductController(ProductService productService,PropsService propsService,PropsDetailsService propsDetailsService) {
 		this.productService = productService;
+		this.propsService=propsService;
+		this.propsDetailsService= propsDetailsService;
 	}
 
 	@RequestMapping(value = "/toProductAddPage", method = RequestMethod.GET)
@@ -38,8 +47,39 @@ public class ProductController {
 		return "product/productAdd";
 	}
 
+	//需要传数据过去
 	@RequestMapping(value = "/toProductPage", method = RequestMethod.GET)
-	public String toProductListPage() {
+	public String toProductListPage(Model model) throws JSONException {
+		HashMap<String, Object> filterMap= new HashMap<>();
+		filterMap.put("propsStatus", 1);
+		List<Props> list = propsService.getPropsInfo(filterMap);
+		JSONArray allProps = new JSONArray();
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (Props propsTmp : list) {
+			JSONObject tem_jsonoObject = new JSONObject();
+			tem_jsonoObject.put("propsId", propsTmp.getPropsId());
+			tem_jsonoObject.put("propsName", propsTmp.getPropsName());
+			allProps.put(tem_jsonoObject);
+		}
+		
+		filterMap= new HashMap<>();
+		filterMap.put("propsDetailsStatus", 1);
+		List<PropsDetails> listDetails = propsDetailsService.getPropsDetailsInfo(filterMap);
+		ArrayList<JSONArray> propsDetails = new ArrayList<>();
+		for(int propsCount=0;propsCount<6;propsCount++) {
+			propsDetails.add(new JSONArray());
+		}
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (PropsDetails propsDetailsTmp : listDetails) {
+			JSONObject tem_jsonoObject = new JSONObject();
+			tem_jsonoObject.put("propsDetailsId", propsDetailsTmp.getPropsDetailsId());
+			tem_jsonoObject.put("propsId", propsDetailsTmp.getPropsId());
+			tem_jsonoObject.put("propsDetailsName", propsDetailsTmp.getPropsDetailsName());
+			propsDetails.get(Integer.valueOf(String.valueOf(propsDetailsTmp.getPropsId()-1))).put(tem_jsonoObject);
+		}
+		for(int propsCount=0;propsCount<6;propsCount++) {
+			model.addAttribute("propsDetails"+(propsCount+1), propsDetails.get(propsCount));
+		}
 		return "product/productList";
 	}
 
@@ -202,7 +242,12 @@ public class ProductController {
 				tempJsonObject.put("productId", propsTmp.getProductId());
 				tempJsonObject.put("productNo", propsTmp.getProductNo());
 				tempJsonObject.put("productName", propsTmp.getProductName());
-				tempJsonObject.put("productImg", propsTmp.getProductImg().replaceAll(" ", "+"));
+				if(propsTmp.getProductImg()!=null&&propsTmp.getProductImg()!="") {
+					tempJsonObject.put("productImg", propsTmp.getProductImg().replaceAll(" ", "+"));
+				}else {
+					tempJsonObject.put("productImg", "");
+				}
+				
 				tempJsonObject.put("productCategory", propsTmp.getProductCategory());
 				tempJsonObject.put("productColor", propsTmp.getProductColor());
 				tempJsonObject.put("productSize", propsTmp.getProductSize());
@@ -212,7 +257,7 @@ public class ProductController {
 				tempJsonObject.put("productRemarks", propsTmp.getProductRemarks());
 				tempJsonObject.put("productStatus", propsTmp.getProductStatus());
 				jsonArray.put(tempJsonObject);
-				System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
+				//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
 			}
 
 			js.put("list", jsonArray);

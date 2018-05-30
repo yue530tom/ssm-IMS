@@ -135,7 +135,7 @@
 			product_pocket = #{productPocket},
 		</if>
 		<if test="productRemarks != null and productRemarks != '' ">
-			product_remarks = #{productRemarks}
+			product_remarks = #{productRemarks},
 		</if>
 		<if test="productStatus != null and productStatus != '' ">
 			product_status = #{productStatus}

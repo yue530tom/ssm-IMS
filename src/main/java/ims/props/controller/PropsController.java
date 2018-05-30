@@ -153,12 +153,22 @@ public class PropsController {
 				}
 			}
 			if (method.equals("modify")) {
-				props.setPropsStatus("1");
-				propsService.updatePropsByPropsId(props);
+				if (props.getPropsId()<=6) {
+					js.put("msg", "该属性是初始化属性，不允许修改，默认初始化属性id范围为1~6");
+				}else {
+					props.setPropsStatus("1");
+					propsService.updatePropsByPropsId(props);
+				}
+				
 			}
 			if (method.equals("delete")) {
-				props.setPropsStatus("0");
-				propsService.updatePropsByPropsId(props);
+				if (props.getPropsId()<=6) {
+					js.put("msg", "该属性是初始化属性，不允许删除，默认初始化属性id范围为1~6");
+				}else {
+					props.setPropsStatus("0");
+					propsService.updatePropsByPropsId(props);
+				}
+				
 				//重置filterMap为空
 				//filterMap=null;
 			}

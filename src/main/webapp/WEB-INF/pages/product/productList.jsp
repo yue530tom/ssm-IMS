@@ -128,13 +128,68 @@
 }
 </style>
 <script type="text/javascript">
+	var arrProps=[];
+	var arrPropsReverse=[];
 	$(document).ready(function() {
 
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
-
+		initPropsSelectOption();
 	});
 
+	function initPropsSelectOption(){
+		propsDetails1 = ${propsDetails1}
+		propsDetails2 = ${propsDetails2}
+		propsDetails3 = ${propsDetails3}
+		propsDetails4 = ${propsDetails4}
+		propsDetails5 = ${propsDetails5}
+		propsDetails6 = ${propsDetails6}
+		
+		for (var i = 0; i < propsDetails1.length; i++) {
+			$("#productCategory").append("<input type='checkbox' name='category' value='"+propsDetails1[i].propsDetailsId+"'/>"+propsDetails1[i].propsDetailsName);
+			arrProps[propsDetails1[i].propsDetailsId]=propsDetails1[i].propsDetailsName;
+			arrPropsReverse[propsDetails1[i].propsDetailsName]=propsDetails1[i].propsDetailsId;
+		}
+		for (var i = 0; i < propsDetails2.length; i++) {
+			$("#productColor").append("<input type='checkbox' name='color' value='"+propsDetails2[i].propsDetailsId+"'/>"+propsDetails2[i].propsDetailsName);
+			arrProps[propsDetails2[i].propsDetailsId]=propsDetails2[i].propsDetailsName;
+			arrPropsReverse[propsDetails2[i].propsDetailsName]=propsDetails2[i].propsDetailsId;
+		}
+		for (var i = 0; i < propsDetails3.length; i++) {
+			$("#productSize").append("<input type='checkbox' name='size' value='"+propsDetails3[i].propsDetailsId+"'/>"+propsDetails3[i].propsDetailsName);
+			arrProps[propsDetails3[i].propsDetailsId]=propsDetails3[i].propsDetailsName;
+			arrPropsReverse[propsDetails3[i].propsDetailsName]=propsDetails3[i].propsDetailsId;
+		}
+		for (var i = 0; i < propsDetails4.length; i++) {
+			$("#productMaterial").append("<input type='checkbox' name='material' value='"+propsDetails4[i].propsDetailsId+"'/>"+propsDetails4[i].propsDetailsName);
+			arrProps[propsDetails4[i].propsDetailsId]=propsDetails4[i].propsDetailsName;
+			arrPropsReverse[propsDetails4[i].propsDetailsName]=propsDetails4[i].propsDetailsId;
+		}
+		for (var i = 0; i < propsDetails5.length; i++) {
+			$("#productCollar").append("<input type='checkbox' name='collar' value='"+propsDetails5[i].propsDetailsId+"'/>"+propsDetails5[i].propsDetailsName);
+			arrProps[propsDetails5[i].propsDetailsId]=propsDetails5[i].propsDetailsName;
+			arrPropsReverse[propsDetails5[i].propsDetailsName]=propsDetails5[i].propsDetailsId;
+		}
+		for (var i = 0; i < propsDetails6.length; i++) {
+			$("#productPocket").append("<input type='checkbox' name='pocket' value='"+propsDetails6[i].propsDetailsId+"'/>"+propsDetails6[i].propsDetailsName);
+			arrProps[propsDetails6[i].propsDetailsId]=propsDetails6[i].propsDetailsName;
+			arrPropsReverse[propsDetails6[i].propsDetailsName]=propsDetails6[i].propsDetailsId;
+		}
+		//console.log(props);
+		/* $("#selectadd").empty();
+		$("#selectquery").empty();
+		$("#selectmodify").empty();
+		for (var i = 0; i < props.length; i++) {
+			var queryPropsId = props[i].queryPropsId;
+			var queryPropsName = props[i].queryPropsName;
+			
+			$("#selectadd").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
+			$("#selectquery").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
+			$("#selectmodify").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
+			arrCategory[queryPropsId]=queryPropsName;
+			arrCategoryReverse[queryPropsName]=queryPropsId;
+		} */
+	}
 	function initTable(filter) {
 		var data = null;
 		if (filter != "{}") {
@@ -196,18 +251,21 @@
 			$("#tr_" + i).append('<td>' + productNo + '</td>');
 			$("#tr_" + i).append("<td>" + productName + "</td>");
 
-			
-			$("#tr_" + i).append("<td><img id='img_" + i+ "' src='' style='height:34px;width:34px;'/></td>");
-			$("#img_" + i).attr("src",productImg);
+			if(productImg!=null&&productImg!=""){
+				$("#tr_" + i).append("<td><img id='img_" + i+ "' src='' style='height:34px;width:34px;'/></td>");
+				$("#img_" + i).attr("src",productImg);
+			}else{
+				$("#tr_" + i).append("<td><img id='img_" + i+ "' src=''/></td>");
+			}
 			//$("#image").attr("src",productImg.replace(/ /, "+"));
 			//console.log(productImg);
 			//console.log(productName+document.getElementById("image").src);
-			$("#tr_" + i).append("<td>" + productCategory + "</td>");
-			$("#tr_" + i).append('<td>' + productColor + '</td>');
-			$("#tr_" + i).append("<td>" + productSize + "</td>");
-			$("#tr_" + i).append("<td>" + productMaterial + "</td>");
-			$("#tr_" + i).append("<td>" + productCollar + "</td>");
-			$("#tr_" + i).append("<td>" + productPocket + "</td>");
+			$("#tr_" + i).append("<td>" + code2name(productCategory) + "</td>");
+			$("#tr_" + i).append('<td>' + code2name(productColor) + '</td>');
+			$("#tr_" + i).append("<td>" + code2name(productSize) + "</td>");
+			$("#tr_" + i).append("<td>" + code2name(productMaterial) + "</td>");
+			$("#tr_" + i).append("<td>" + code2name(productCollar) + "</td>");
+			$("#tr_" + i).append("<td>" + code2name(productPocket) + "</td>");
 			$("#tr_" + i).append("<td>" + productRemarks + "</td>");
 			if (productStatus == 1) {
 				$("#tr_" + i).append("<td>有效</td>");
@@ -400,9 +458,9 @@
 		if ($("#productName").val() != "") {
 			filterJs["productName"] = $("#productName").val();
 		}
-	/* 	if ($("#productImg").val() != "") {
-			filterJs["productImg"] = $("#productImg").val();
-		} */
+		if ($("#buffer_img").html() != null&&$("#buffer_img").html() != "") {
+			filterJs["productImg"] = $("#buffer_img").html();
+		} 
 		if ($("#productCategory").val() != "") {
 			filterJs["productCategory"] = $("#productCategory").val();
 		}
@@ -443,7 +501,7 @@
 			filterJs["productName"] = $("#productName").val();
 		}
 		//$("#buffer_img").text(evt.target.result);
-		if ($("#buffer_img").html() != "") {
+		if ($("#buffer_img").html() != null&&$("#buffer_img").html() != "") {
 			filterJs["productImg"] = $("#buffer_img").html();
 		} 
 		if ($("#productCategory").val() != "") {
@@ -506,31 +564,13 @@
 				.attr(
 						"value",
 						window.table_propslist.rows.item(row.rowIndex).childNodes[3].innerText); */
-		$("#productCategory")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[4].innerText);
-		$("#productColor")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[5].innerText);
-		$("#productSize")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[6].innerText);
+		check("category",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[4].innerText));
+		check("color",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[5].innerText));
+		check("size",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[6].innerText));
+		check("material",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[7].innerText));
+		check("collar",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[8].innerText));
+		check("pocket",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[9].innerText));
 
-		$("#productMaterial")
-		.attr(
-				"value",
-				window.table_propslist.rows.item(row.rowIndex).childNodes[7].innerText);
-		$("#productCollar")
-		.attr(
-				"value",
-				window.table_propslist.rows.item(row.rowIndex).childNodes[8].innerText);
-		$("#productPocket")
-		.attr(
-				"value",
-				window.table_propslist.rows.item(row.rowIndex).childNodes[9].innerText);
 		$("#productRemarks")
 		.attr(
 				"value",
@@ -552,12 +592,14 @@
 		$("#productNo").attr("value", "");
 		$("#productName").attr("value", "");
 		$("#productImg").attr("value", "");
-		$("#productCategory").attr("value", "");
-		$("#productColor").attr("value", "");
-		$("#productSize").attr("value", "");
-		$("#productMaterial").attr("value", "");
-		$("#productCollar").attr("value", "");
-		$("#productPocket").attr("value", "");
+		
+		uncheck("category");
+		uncheck("color");
+		uncheck("size");
+		uncheck("material");
+		uncheck("collar");
+		uncheck("pocket");
+		
 		$("#productRemarks").attr("value", "");
 		/* var TAB = document.getElementById("table_propslist") ;  
 		
@@ -584,6 +626,49 @@
 		//https://www.cnblogs.com/youhong/p/7221080.html?utm_source=itdadao&utm_medium=referral
 	}
 	
+	function code2name(code){
+		var result="";
+		if(code!=null&&code!=""){
+			var arr = code.split(",");
+			for(index in arr){
+				result=result+","+arrProps[arr[index]];
+			}
+			return result.substring(1);
+		}else{
+			return result;
+		}
+	}
+	function name2code(name){
+		var result="";
+		if(name!=null&&name!=""){
+			var arr = name.split(",");
+			for(index in arr){
+				result=result+","+arrPropsReverse[arr[index]];
+			}
+			return result.substring(1);
+		}else{
+			return result;
+		}
+	}
+	function check(name,code){
+		var coll=document.getElementsByName(name);
+		if(code!=null&&code!=""){
+			var arr = code.split(",");
+			for(index in arr){
+				for (var i = 0; i < coll.length; i++) {
+					if(arr[index]==coll[i].value)
+						coll[i].checked=true;
+				}
+			}
+		}
+	}
+	function uncheck(name){
+		var coll=document.getElementsByName(name);
+		for(var i=0;i<coll.length;i++){
+			coll[i].checked=false;
+		}
+	}
+  
 </script>
 </head>
 <body>
@@ -1190,7 +1275,7 @@
 												placeholder="请输入属性名称，格式为小于50位的字符">
 										</div>
 									</div>
-												<!-- 		<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+									<!-- 		<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品图片</label>
 										<div class="col-lg-8">
 											<input id="productImg" name="productImg"
@@ -1198,64 +1283,47 @@
 												placeholder="请输入属性描述，格式为小于50位的字符">
 										</div>
 									</div> -->
-									
+
 									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品图片</label>
 										<div class="col-lg-8">
-											<input type="file" name="productImg" id="productImg" onchange="selectImage(this);" class="form-control">
+											<input type="file" name="productImg" id="productImg"
+												onchange="selectImage(this);" class="form-control">
 										</div>
 									</div>
 									<!-- <img id="image"src="" style="height:92px;width:146px;"/> -->
-									
+
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品归类</label>
-										<div class="col-lg-8">
-											<input id="productCategory" name="productCategory"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
-										</div>
+										<div class="col-lg-8" id="productCategory"
+											style="padding: 6px 12px;"></div>
 									</div>
-									
+
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品颜色</label>
-										<div class="col-lg-8">
-											<input id="productColor" name="productColor" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
-										</div>
+										<div class="col-lg-8" id="productColor"
+											style="padding: 6px 12px;"></div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品尺寸</label>
-										<div class="col-lg-8">
-											<input id="productSize" name="productSize" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
-										</div>
+										<div class="col-lg-8" id="productSize"
+											style="padding: 6px 12px;"></div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品材质</label>
-										<div class="col-lg-8">
-											<input id="productMaterial" name="productMaterial"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
-										</div>
+										<div class="col-lg-8" id="productMaterial"
+											style="padding: 6px 12px;"></div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品衣领</label>
-										<div class="col-lg-8">
-											<input id="productCollar" name="productCollar" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
-										</div>
+										<div class="col-lg-8" id="productCollar"
+											style="padding: 6px 12px;"></div>
 									</div>
 
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品衣兜</label>
-										<div class="col-lg-8">
-											<input id="productPocket" name="productPocket" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
-										</div>
+										<div class="col-lg-8" id="productPocket"
+											style="padding: 6px 12px;"></div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品备注</label>
@@ -1389,8 +1457,8 @@
 									type="button" value="确定" class="btn btn-default btn-xs"
 									onclick="jumpPage();" />
 							</div>
-							<span id="buffer_span" style="display: none">{}</span>
-							<span id="buffer_img" style="display: none"></span>
+							<span id="buffer_span" style="display: none">{}</span> <span
+								id="buffer_img" style="display: none"></span>
 						</div>
 						<!-- End .panel -->
 					</div>
