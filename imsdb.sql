@@ -21,16 +21,39 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `board`;
 CREATE TABLE `board` (
-  `board_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '论坛板块id',
-  `board_name` varchar(150) NOT NULL DEFAULT '' COMMENT '论坛板块名称',
-  `board_desc` varchar(300) NOT NULL DEFAULT '' COMMENT '论坛板块描述',
-  `board_post_num` int(10) NOT NULL DEFAULT '0' COMMENT '帖子数目',
+  `board_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '板块id',
+  `board_name` varchar(150) NOT NULL DEFAULT '' COMMENT '板块名称',
+  `board_desc` varchar(300) NOT NULL DEFAULT '' COMMENT '板块描述',
+  `board_post_num` int(10) NOT NULL DEFAULT '0' COMMENT '板块发布数量',
   PRIMARY KEY (`board_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of board
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `cart`
+-- ----------------------------
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE `cart` (
+  `cart_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '购物车id',
+  `product_id` int(10) NOT NULL COMMENT '产品id',
+  `product_count` int(10) DEFAULT NULL COMMENT '数量',
+  `product_price` int(10) DEFAULT NULL COMMENT '单价',
+  `product_category` varchar(50) DEFAULT NULL COMMENT '产品归类',
+  `product_color` varchar(50) DEFAULT NULL COMMENT '产品颜色',
+  `product_size` varchar(50) DEFAULT NULL COMMENT '产品尺码',
+  `product_material` varchar(50) DEFAULT NULL COMMENT '产品材质',
+  `product_collar` varchar(50) DEFAULT NULL COMMENT '产品衣领',
+  `product_pocket` varchar(50) DEFAULT NULL COMMENT '产品衣兜',
+  PRIMARY KEY (`cart_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cart
+-- ----------------------------
+
 
 -- ----------------------------
 -- Table structure for `factory`
@@ -49,11 +72,18 @@ CREATE TABLE `factory` (
   `factory_modify` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   `factory_status` varchar(1) DEFAULT NULL COMMENT '工厂是否启用',
   PRIMARY KEY (`factory_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of factory
 -- ----------------------------
+INSERT INTO `factory` VALUES ('1', '工厂', '令', '13426492912', '01012345678', '静安中心', '30', '无需备注修改', null, '2018-05-29 10:34:24', '1');
+INSERT INTO `factory` VALUES ('2', '工厂2', '令', '13426492912', '01012345678', '静安中心', '30', '无需备注修改', null, '2018-05-29 10:35:23', '0');
+INSERT INTO `factory` VALUES ('3', '棉服长一号', '棉服长二号队长', 'xx', null, null, null, null, null, null, '1');
+INSERT INTO `factory` VALUES ('4', '棉服长二号', '棉服长二号队长', 'xx', null, null, null, null, null, null, '1');
+INSERT INTO `factory` VALUES ('5', '棉服长三号', '棉服长二号队长', 'xx', null, null, null, null, null, null, '1');
+INSERT INTO `factory` VALUES ('6', '棉服长四号', '棉服长二号队长', 'xx', null, null, null, null, null, null, '1');
+INSERT INTO `factory` VALUES ('7', '棉服长五号', '棉服长二号队长', 'xx', null, null, null, null, null, null, '1');
 
 -- ----------------------------
 -- Table structure for `login_log`
@@ -101,6 +131,7 @@ CREATE TABLE `order` (
 DROP TABLE IF EXISTS `orderdetails`;
 CREATE TABLE `orderdetails` (
   `orderdetails_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '订单明细id',
+  `order_id` int(10) NOT NULL COMMENT '订单id',
   `orderdetails_product_id` int(10) NOT NULL COMMENT '订单产品id',
   `orderdetails_product_num` int(10) DEFAULT NULL COMMENT '订单产品对应数量',
   `orderdetails_product_price` int(10) DEFAULT NULL COMMENT '订单产品对应单价',
@@ -119,28 +150,31 @@ CREATE TABLE `orderdetails` (
 -- Records of orderdetails
 -- ----------------------------
 
--- ----------------------------
--- Table structure for `post`
--- ----------------------------
-DROP TABLE IF EXISTS `post`;
-CREATE TABLE `post` (
-  `post_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '帖子ID',
-  `post_board_id` int(10) NOT NULL DEFAULT '0' COMMENT '论坛板块ID',
-  `post_user_name` varchar(30) NOT NULL DEFAULT '0' COMMENT '发表者名称',
-  `post_title` varchar(50) NOT NULL COMMENT '帖子名称',
-  `post_content` text NOT NULL COMMENT '帖子内容',
-  `post_good_count` int(10) NOT NULL DEFAULT '0' COMMENT '点赞',
-  `post_bad_count` int(10) NOT NULL DEFAULT '0' COMMENT '踩数',
-  `post_view_count` int(10) NOT NULL DEFAULT '0' COMMENT '游览次数',
-  `post_reply_count` int(10) NOT NULL DEFAULT '0' COMMENT '回帖数目',
-  `post_status` int(2) NOT NULL DEFAULT '0' COMMENT '帖子状态:0:正常 1:锁定',
-  `post_create_time` datetime NOT NULL COMMENT '创建时间',
-  `post_update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of post
+-- Table structure for `product`
+-- ----------------------------
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `product_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '产品id',
+  `product_no` int(10) NOT NULL COMMENT '产品编号',
+  `product_name` varchar(50) DEFAULT NULL COMMENT '产品名称',
+  `product_img` mediumblob COMMENT '产品图片',
+  `product_category` varchar(50) DEFAULT NULL COMMENT '产品归类',
+  `product_color` varchar(50) DEFAULT NULL COMMENT '产品颜色',
+  `product_size` varchar(50) DEFAULT NULL COMMENT '产品尺码',
+  `product_material` varchar(50) DEFAULT NULL COMMENT '产品材质',
+  `product_collar` varchar(50) DEFAULT NULL COMMENT '产品衣领',
+  `product_pocket` varchar(50) DEFAULT NULL COMMENT '产品衣兜',
+  `product_create` timestamp NULL DEFAULT NULL COMMENT '产品创建时间',
+  `product_modify` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '产品修改时间',
+  `product_remarks` varchar(1024) DEFAULT NULL COMMENT '产品备注',
+  `product_status` varchar(10) DEFAULT NULL COMMENT '产品状态',
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of product
 -- ----------------------------
 
 -- ----------------------------
@@ -156,12 +190,17 @@ CREATE TABLE `props` (
   `props_modify` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '属性修改时间',
   `props_status` varchar(1) DEFAULT NULL COMMENT '属性状态',
   PRIMARY KEY (`props_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of props
 -- ----------------------------
-INSERT INTO `props` VALUES ('1', '颜色', '服装颜色', '使用主色，不是使用不识别的颜色', null, null, '1');
+INSERT INTO `props` VALUES ('1', '分类', '服装分类', '服装分类', null, '2018-05-30 17:10:29', '1');
+INSERT INTO `props` VALUES ('2', '颜色', '服装颜色', '主要颜色', null, '2018-05-30 10:18:59', '1');
+INSERT INTO `props` VALUES ('3', '身长', '尺码', '按当地尺寸', null, '2018-05-30 10:19:23', '1');
+INSERT INTO `props` VALUES ('4', '材质', '服装布料', '服装布料', null, '2018-05-30 10:31:13', '1');
+INSERT INTO `props` VALUES ('5', '衣领类型', '衣领类型', '衣领类型', null, '2018-05-30 10:31:10', '1');
+INSERT INTO `props` VALUES ('6', '衣兜数量', '衣兜数量', '衣兜数量', null, '2018-05-30 10:31:07', '1');
 
 -- ----------------------------
 -- Table structure for `props_details`
@@ -177,11 +216,24 @@ CREATE TABLE `props_details` (
   `props_details_modify` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '属性明细修改时间',
   `props_details_status` varchar(1) DEFAULT NULL COMMENT '属性明细状态',
   PRIMARY KEY (`props_details_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of props_details
 -- ----------------------------
+INSERT INTO `props_details` VALUES ('6', '1', '冬装', '女棉服', null, null, null, '1');
+INSERT INTO `props_details` VALUES ('7', '2', '红色', '红色', null, null, null, '1');
+INSERT INTO `props_details` VALUES ('8', '3', 'M', 'M', null, null, null, '1');
+INSERT INTO `props_details` VALUES ('9', '4', '涤纶', '涤纶', null, null, null, '1');
+INSERT INTO `props_details` VALUES ('10', '5', '毛领', '银狐', null, null, null, '1');
+INSERT INTO `props_details` VALUES ('11', '6', '4', '内外各两个', null, null, null, '1');
+INSERT INTO `props_details` VALUES ('12', '1', '夏装', '薄款', null, null, null, '1');
+INSERT INTO `props_details` VALUES ('13', '3', 'L', 'L', 'L', null, null, '1');
+INSERT INTO `props_details` VALUES ('14', '3', 'XL', 'XL', 'XL', null, null, '1');
+INSERT INTO `props_details` VALUES ('15', '3', 'XXL', 'XXL', 'XXL', null, null, '1');
+INSERT INTO `props_details` VALUES ('16', '3', 'XXXL', 'XXXL', 'XXXL', null, null, '1');
+INSERT INTO `props_details` VALUES ('17', '1', '秋装', '秋装', '秋装', null, null, '1');
+INSERT INTO `props_details` VALUES ('18', '2', '绿色', '绿色', '绿色', null, null, '1');
 
 -- ----------------------------
 -- Table structure for `reply`
