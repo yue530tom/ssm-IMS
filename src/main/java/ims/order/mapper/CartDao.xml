@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ims.order.dao.CartDao">
+	<!--User结果集 -->
+	<resultMap id="cartMap" type="Cart">
+		<id property="cartId" column="cart_id" />
+		<result property="productId" column="product_id" />
+		<result property="productCount" column="product_count" />
+		<result property="productPrice" column="product_price" />
+		<result property="productCategory" column="product_category" />
+		<result property="productColor" column="product_color" />
+		<result property="productSize" column="product_size" />
+		<result property="productMaterial" column="product_material" />
+		<result property="productCollar" column="product_collar" />
+		<result property="productPocket" column="product_pocket" />
+	</resultMap>
+
+	<sql id="cartColumns">
+		cart_id,product_id,product_count,product_price,product_category,product_color,product_size,product_material,product_collar,product_pocket
+	</sql>
+
+	<!--插入订单信息 -->
+	<insert id="addCart" parameterType="Cart" keyProperty="cartId"
+		useGeneratedKeys="true">
+		INSERT INTO cart
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="productCount != null">
+				product_count,
+			</if>
+			<if test="productPrice != null">
+				product_price,
+			</if>
+			<if test="productCategory != null">
+				product_category,
+			</if>
+			<if test="productColor != null">
+				product_color,
+			</if>
+			<if test="productSize != null">
+				product_size,
+			</if>
+			<if test="productMaterial != null">
+				product_material,
+			</if>
+			<if test="productCollar != null">
+				product_collar,
+			</if>
+			<if test="productPocket != null">
+				product_pocket,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">
+				#{productId, jdbcType=INTEGER},
+			</if>
+			<if test="productCount != null">
+				#{productCount, jdbcType=INTEGER},
+			</if>
+			<if test="productPrice != null">
+				#{productPrice, jdbcType=INTEGER},
+			</if>
+			<if test="productCategory != null">
+				#{productCategory, jdbcType=VARCHAR},
+			</if>
+			<if test="productColor != null">
+				#{productColor, jdbcType=VARCHAR},
+			</if>
+			<if test="productSize != null">
+				#{productSize, jdbcType=INTEGER},
+			</if>
+			<if test="productMaterial != null">
+				#{productMaterial, jdbcType=VARCHAR},
+			</if>
+			<if test="productCollar != null">
+				#{productCollar, jdbcType=VARCHAR},
+			</if>
+			<if test="productPocket != null">
+				#{productPocket, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<!--根据用户名删除用户信息 -->
+	<delete id="deleteCartByCartId" parameterType="long">
+		DELETE FROM
+		cart
+		WHERE cart_id = #{cartId}
+	</delete>
+
+	<!--更新用户信息 -->
+	<update id="updateCartByCartId" parameterType="Cart">
+		UPDATE cart
+		SET
+		<if test="productId != null and productId != '' ">
+			product_id = #{productId},
+		</if>
+		<if test="productCount != null and productCount != '' ">
+			product_count = #{productCount},
+		</if>
+		<if test="productPrice != null and productPrice != '' ">
+			product_price = #{productPrice},
+		</if>
+		<if test="productCategory != null and productCategory != '' ">
+			product_category = #{productCategory},
+		</if>
+		<if test="productColor != null and productColor != '' ">
+			product_color = #{productColor},
+		</if>
+		<if test="productSize != null and productSize != '' ">
+			product_size = #{productSize},
+		</if>
+		<if test="productMaterial != null and productMaterial != '' ">
+			product_material = #{productMaterial},
+		</if>
+		<if test="productCollar != null and productCollar != '' ">
+			product_collar = #{productCollar},
+		</if>
+		<if test="productPocket != null and productPocket != '' ">
+			product_pocket = #{productPocket}
+		</if>
+		WHERE cart_id = #{cartId}
+	</update>
+
+	<!--根据综合条件查询订单信息 -->
+	<select id="getCartInfo" parameterType="Cart" resultMap="cartMap">
+		SELECT
+		<include refid="cartColumns" />
+		FROM cart
+		WHERE cart_id = #{cartId}
+	</select>
+
+	<!--根据订单名称模糊查询订单信息 -->
+	<select id="findCartByLikeCartName" parameterType="String"
+		resultMap="cartMap">
+		SELECT
+		<include refid="cartColumns" />
+		FROM cart
+		WHERE cart_no like #{cartNo}
+	</select>
+	<!--根据订单名称精确查询订单信息 -->
+	<select id="findCartByEqualCartName" parameterType="String"
+		resultMap="cartMap" resultType="Cart">
+		SELECT
+		<include refid="cartColumns" />
+		FROM cart
+		WHERE cart_no = #{cartNo}
+	</select>
+	<!--根据订单id获取订单信息 -->
+	<select id="findCartByCartId" parameterType="String"
+		resultMap="cartMap" resultType="Cart">
+		SELECT
+		<include refid="cartColumns" />
+		FROM cart
+		WHERE cart_id = #{cartId}
+	</select>
+
+</mapper>

@@ -891,8 +891,6 @@
 			</div>
 			<!-- End .row -->
 			<!--  #f3f5f6 -->
-			<div id="tip_message"
-				style="background: #FF4500; text-align: center; color: #0000FF;"></div>
 			<div class="outlet">
 				<!-- Start .outlet -->
 				<!-- Page start here ( usual with .row ) -->
@@ -1132,6 +1130,6 @@
 		<div class="clearfix"></div>
 	</div>
 	<!-- End #content -->
-
+<div id="tip_message" style="font-size:30px;width:500px;z-index: 9999;position: fixed ;background: #C0C0C0; text-align: center; color: #0000FF;top:50%; left:50%; right: auto;  bottom: auto ;margin-left:-250px" ></div>
 </body>
 </html>

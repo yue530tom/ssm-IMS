@@ -131,10 +131,10 @@
 	var arrProps=[];
 	var arrPropsReverse=[];
 	$(document).ready(function() {
-
+		initPropsSelectOption();
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
-		initPropsSelectOption();
+		
 	});
 
 	function initPropsSelectOption(){
@@ -175,20 +175,6 @@
 			arrProps[propsDetails6[i].propsDetailsId]=propsDetails6[i].propsDetailsName;
 			arrPropsReverse[propsDetails6[i].propsDetailsName]=propsDetails6[i].propsDetailsId;
 		}
-		//console.log(props);
-		/* $("#selectadd").empty();
-		$("#selectquery").empty();
-		$("#selectmodify").empty();
-		for (var i = 0; i < props.length; i++) {
-			var queryPropsId = props[i].queryPropsId;
-			var queryPropsName = props[i].queryPropsName;
-			
-			$("#selectadd").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
-			$("#selectquery").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
-			$("#selectmodify").append('<option value="'+queryPropsId+'">'+queryPropsName+'</option>');
-			arrCategory[queryPropsId]=queryPropsName;
-			arrCategoryReverse[queryPropsName]=queryPropsId;
-		} */
 	}
 	function initTable(filter) {
 		var data = null;
@@ -225,12 +211,17 @@
 					"document.getElementById('tip_message').style.display='none'",
 					2000);
 		}
+		/* console.log("arrProps:"+arrProps);
+		console.log("arrPropsReverse:"+arrPropsReverse); 
+		for (var i in arrProps) {
+			console.log("arrProps["+i+"]="+arrProps[i]);
+		}
+		for (var i in arrPropsReverse) {
+			console.log("arrPropsReverse["+i+"]="+arrPropsReverse[i]);
+		}*/
 		//刷新修改属性值
 		//刷新列表
-		$("#table_propslist").empty();
-		$("#table_propslist")
-				.append(
-						'<tr><th>产品id</th><th>产品编号</th><th>产品名称</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>产品备注</th><th>产品状态</th></tr>');
+		$("#div_propslist").empty();
 		for (var i = 0; i < ja.length; i++) {
 			var productId = ja[i].productId;
 			var productNo = ja[i].productNo;
@@ -244,41 +235,163 @@
 			var productPocket = ja[i].productPocket;
 			var productRemarks = ja[i].productRemarks;
 			var productStatus = ja[i].productStatus;
-			$("#table_propslist").append(
-					'<tr onclick="getDataToModify(this)" id="tr_' + i
-							+ '"></tr>');
-			$("#tr_" + i).append('<td>' + productId + '</td>');
-			$("#tr_" + i).append('<td>' + productNo + '</td>');
-			$("#tr_" + i).append("<td>" + productName + "</td>");
-
-			if(productImg!=null&&productImg!=""){
-				$("#tr_" + i).append("<td><img id='img_" + i+ "' src='' style='height:34px;width:34px;'/></td>");
-				$("#img_" + i).attr("src",productImg);
+			
+			$("#div_propslist").append("<div class='form-group col-lg-3 col-md-3 col-sm-3 col-xs-3'><label class='col-lg-4 control-label'><img id='img_" + i+ "' src='' style='height:200px;width:100px;'/></label><div class='col-lg-8' id='div_"+i+"'	style='padding: 6px 12px;'>");
+			if(productId!=null&&productId!=""){
+				$("#div_"+i).append("<div id='div_productId_"+i+"' style='display:none'>产品id:"+productId+"</div>");
 			}else{
-				$("#tr_" + i).append("<td><img id='img_" + i+ "' src=''/></td>");
+				$("#div_"+i).append("<div id='div_productId_"+i+"'  style='display:none'>产品id:</div>");
 			}
-			//$("#image").attr("src",productImg.replace(/ /, "+"));
-			//console.log(productImg);
-			//console.log(productName+document.getElementById("image").src);
-			$("#tr_" + i).append("<td>" + code2name(productCategory) + "</td>");
-			$("#tr_" + i).append('<td>' + code2name(productColor) + '</td>');
-			$("#tr_" + i).append("<td>" + code2name(productSize) + "</td>");
-			$("#tr_" + i).append("<td>" + code2name(productMaterial) + "</td>");
-			$("#tr_" + i).append("<td>" + code2name(productCollar) + "</td>");
-			$("#tr_" + i).append("<td>" + code2name(productPocket) + "</td>");
-			$("#tr_" + i).append("<td>" + productRemarks + "</td>");
-			if (productStatus == 1) {
-				$("#tr_" + i).append("<td>有效</td>");
-			} else {
-				$("#tr_" + i).append("<td>废弃</td>");
+			if(productNo!=null&&productNo!=""){
+				$("#div_"+i).append("<div id='div_productNo_"+i+"'>产品编码:"+productNo+"</div>");
+			}else{
+				$("#div_"+i).append("<div id='div_productNo_"+i+"'>产品编码:</div>");
 			}
-			$("#tr_" + i).append(
-					'<td><button class="btn btn-primary" onclick="doFilterDelete('
-							+ productId + ');">删除</button></td>');
+			if(productName!=null&&productName!=""){
+				$("#div_"+i).append("<div id='div_productName_"+i+"'>产品名称:"+productName+"</div>");
+			}else{
+				$("#div_"+i).append("<div id='div_productName_"+i+"'>产品名称:</div>");
+			}
+			$("#div_"+i).append("<div id='div_category_"+i+"'>产品归类:");
+			if(productCategory!=null&&productCategory!=""){
+				code2checkbox("#div_category_"+i,productCategory,"category_"+i);
+			}
+			$("#div_"+i).append("</div>");
+
+					
+			$("#div_"+i).append('<div id="div_color_'+i+'">产品颜色:');
+			if(productColor!=null&&productColor!=""){
+				code2checkbox("#div_color_"+i,productColor,"color_"+i);
+			}
+			$("#div_"+i).append('</div>');
+			
+	
+			
+			$("#div_"+i).append('<div id="div_size_'+i+'">产品尺寸:');
+			if(productSize!=null&&productSize!=""){
+				code2checkbox("#div_size_"+i,productSize,"size_"+i);
+			}
+			$("#div_"+i).append('</div>');
+			
+	
+			$("#div_"+i).append('<div id="div_material_'+i+'">产品材质:');
+			if(productMaterial!=null&&productMaterial!=""){
+				code2checkbox("#div_material_"+i,productMaterial,"material_"+i);
+			}
+			$("#div_"+i).append('</div>');
+			
+		
+			
+			$("#div_"+i).append('<div id="div_collar_'+i+'">产品衣领:');
+			if(productCollar!=null&&productCollar!=""){
+				code2checkbox("#div_collar_"+i,productCollar,"collar_"+i);
+			}
+			$("#div_"+i).append('</div>');
+			
+		
+			$("#div_"+i).append('<div id="div_pocket_'+i+'">产品衣兜:');
+			if(productPocket!=null&&productPocket!=""){
+				code2checkbox("#div_pocket_"+i,productPocket,"pocket_"+i);
+			}
+			$("#div_"+i).append('</div>');
+			
+			$("#div_"+i).append('<div>数量:<input type="text" id="btn_num_'+i+'"/></div>');
+			$("#div_"+i).append('<div>价格:<input type="text" id="btn_price_'+i+'"/></div>');
+			
+			
+			$("#div_"+i).append('<div id="addtocart_'+i+'"><button id="addtocart_"+'+i+' class="btn btn-primary" onclick="addtocart('+i+');">加入购物车</button></div>');
+			
+			$("#div_propslist").append('</div></div>');
+			if(productImg!=null&&productImg!=""){
+				$("#img_" + i).attr("src",productImg);
+			}
+			
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
 
+	
+	function addtocart(id){
+		//获取属性
+		//增加到购物车
+		
+		var filterJs = {};
+		filterJs["method"] = "addtocart";
+		
+		if (($("#div_productId_"+id).html()).split(":").length==2) {
+			filterJs["productId"] = ($("#div_productId_"+id).html()).split(":")[1] ;
+		}
+		if (($("#div_productNo_"+id).html()).split(":").length==2) {
+			filterJs["productNo"] = ($("#div_productNo_"+id).html()).split(":")[1] ;
+		}
+		if (($("#div_productName_"+id).html()).split(":").length==2) {
+			filterJs["productName"] = ($("#div_productName_"+id).html()).split(":")[1] ;
+		}
+		if ($("#btn_num_"+id).val()!="") {
+			filterJs["productCount"] = $("#btn_num_"+id).val();
+		}
+		if ($("#btn_price_"+id).val()!="") {
+			filterJs["productPrice"] = $("#btn_price_"+id).val();
+		}
+		
+		if (getCheck("category_"+id) != "") {
+			filterJs["productCategory"] = getCheck("category_"+id);
+		}
+		if (getCheck("color_"+id) != "") {
+			filterJs["productColor"] = getCheck("color_"+id) ;
+		}
+		if (getCheck("size_"+id) != "") {
+			filterJs["productSize"] = getCheck("size_"+id) ;
+		}
+		if (getCheck("material_"+id) != "") {
+			filterJs["productMaterial"] = getCheck("material_"+id);
+		}
+		if (getCheck("collar_"+id) != "") {
+			filterJs["productCollar"] = getCheck("collar_"+id);
+		}
+		if (getCheck("pocket_"+id) != "") {
+			filterJs["productPocket"] = getCheck("pocket_"+id);
+		}
+		if ($("#productRemarks").val() != "") {
+			filterJs["productRemarks"] = $("#productRemarks").val();
+		}
+		
+		$("#buffer_span").text(JSON.stringify(filterJs));
+		console.log("doFilterQuery:" + $("#buffer_span").text());
+		addtocartPost(JSON.stringify(filterJs));
+	}
+	
+	function addtocartPost(filter){
+		var data=null;
+		if (filter != "{}") {
+			data = "filter=" + filter;
+		}
+		$.ajax({
+			type : "POST",
+			data : data,
+			url : "/buy/addToCart",
+			dataType : "JSON",
+			success : function(json) {
+				reback(json);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				//  alert(textStatus+errorThrown.getMessage());
+			}
+		});
+	}
+	function reback(json) {
+
+		console.log("json.msg:" + json.msg);
+		if (json.msg != null) {
+			//document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").css({display:'block'});
+			$("#tip_message").html(json.msg);
+			console.log("document.getElementById:"+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+		}
+	}
 	function initPage(json) {
 		var curPage = 1;
 		var totalPage = json.page;
@@ -413,9 +526,6 @@
 		if ($("#productName").val() != "") {
 			filterJs["productName"] = $("#productName").val();
 		}
-	/* 	if ($("#productImg").val() != "") {
-			filterJs["productImg"] = $("#productImg").val();
-		} */
 		if (getCheck("category") != "") {
 			filterJs["productCategory"] = getCheck("category");
 		}
@@ -446,93 +556,7 @@
 		console.log("doFilterQuery:" + $("#buffer_span").text());
 		initTable(JSON.stringify(filterJs));
 	}
-	function doFilterModify() {
-		var filterJs = {};
-		filterJs["method"] = "modify";
-		if ($("#productId").val() != "") {
-			filterJs["productId"] = $("#productId").val();
-		}
-		if ($("#productNo").val() != "") {
-			filterJs["productNo"] = $("#productNo").val();
-		}
-		if ($("#productName").val() != "") {
-			filterJs["productName"] = $("#productName").val();
-		}
-		if ($("#buffer_img").html() != null&&$("#buffer_img").html() != "") {
-			filterJs["productImg"] = $("#buffer_img").html();
-		} 
-		if (getCheck("category") != "") {
-			filterJs["productCategory"] = getCheck("category");
-		}
-		if (getCheck("color") != "") {
-			filterJs["productColor"] = getCheck("color") ;
-		}
-		if (getCheck("size") != "") {
-			filterJs["productSize"] = getCheck("size") ;
-		}
-		if (getCheck("material") != "") {
-			filterJs["productMaterial"] = getCheck("material");
-		}
-		if (getCheck("collar") != "") {
-			filterJs["productCollar"] = getCheck("collar");
-		}
-		if (getCheck("pocket") != "") {
-			filterJs["productPocket"] = getCheck("pocket");
-		}
-		if ($("#productRemarks").val() != "") {
-			filterJs["productRemarks"] = $("#productRemarks").val();
-		}
-		if ($("input[name='productStatus']:checked").val() != "") {
-			filterJs["productStatus"] = $("input[name='productStatus']:checked")
-					.val();
-		}
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
-	}
-	function doFilterAdd() {
-		
-		var filterJs = {};
-		filterJs["method"] = "add";
-		if ($("#productNo").val() != "") {
-			filterJs["productNo"] = $("#productNo").val();
-		}
-		if ($("#productName").val() != "") {
-			filterJs["productName"] = $("#productName").val();
-		}
-		//$("#buffer_img").text(evt.target.result);
-		if ($("#buffer_img").html() != null&&$("#buffer_img").html() != "") {
-			filterJs["productImg"] = $("#buffer_img").html();
-		} 
-		if (getCheck("category") != "") {
-			filterJs["productCategory"] = getCheck("category");
-		}
-		if (getCheck("color") != "") {
-			filterJs["productColor"] = getCheck("color") ;
-		}
-		if (getCheck("size") != "") {
-			filterJs["productSize"] = getCheck("size") ;
-		}
-		if (getCheck("material") != "") {
-			filterJs["productMaterial"] = getCheck("material");
-		}
-		if (getCheck("collar") != "") {
-			filterJs["productCollar"] = getCheck("collar");
-		}
-		if (getCheck("pocket") != "") {
-			filterJs["productPocket"] = getCheck("pocket");
-		}
-		if ($("#productRemarks").val() != "") {
-			filterJs["productRemarks"] = $("#productRemarks").val();
-		}
-		if ($("input[name='productStatus']:checked").val() != "") {
-			filterJs["productStatus"] = $("input[name='productStatus']:checked")
-					.val();
-		}
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
-	}
+	
 	function doFilterDelete(tmpFactoryId) {
 		var filterJs = {};
 		filterJs["method"] = "delete";
@@ -545,53 +569,13 @@
 	/*
 	给修改赋值~
 	 */
-	function getDataToModify(row) {
-
-		$("#productId")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[0].innerText);
-		
-		$("#productNo")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[1].innerText);
-		$("#productName")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[2].innerText);
-		/* $("#productImg")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[3].innerText); */
-		check("category",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[4].innerText));
-		check("color",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[5].innerText));
-		check("size",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[6].innerText));
-		check("material",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[7].innerText));
-		check("collar",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[8].innerText));
-		check("pocket",name2code(window.table_propslist.rows.item(row.rowIndex).childNodes[9].innerText));
-
-		$("#productRemarks")
-		.attr(
-				"value",
-				window.table_propslist.rows.item(row.rowIndex).childNodes[10].innerText);
-		
-		/* var TAB = document.getElementById("table_propslist") ;  
-		
-		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[2].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[3].innerText);
-		document.getElementById("modifyPropsId").value = TAB.rows[row.rowIndex].cells[0].innerText; */
-
-	}
+	
 	function reset() {
 
 		$("#productId").attr("value", "");
 		$("#productQueryId").attr("value", "");
 		$("#productNo").attr("value", "");
 		$("#productName").attr("value", "");
-		$("#productImg").attr("value", "");
 		
 		uncheck("category");
 		uncheck("color");
@@ -680,6 +664,17 @@
 			return result.substring(1);
 		}else{
 			return "";
+		}
+	}
+	
+	function code2checkbox(divid,code,namegroup){
+		if(code!=null&&code!=""){
+			var arr = code.split(",");
+			//console.log("code:"+code);
+			for(index in arr){
+				//console.log("id:"+divid+"\tname:"+namegroup+"\tindex:"+index+"\tarr["+index+"]:"+arr[index]+"\tcode2name("+arr[index]+"):"+code2name(arr[index]));
+				$(divid).append("<input type='checkbox' name='"+namegroup+"' value='"+arr[index]+"'>"+code2name(arr[index]));
+			}
 		}
 	}
 </script>
@@ -1132,8 +1127,7 @@
 			</div>
 			<!-- End .row -->
 			<!--  #f3f5f6 -->
-			<div id="tip_message"
-				style="background: #FF4500; text-align: center; color: #0000FF;"></div>
+			
 			<div class="outlet">
 				<!-- Start .outlet -->
 				<!-- Page start here ( usual with .row ) -->
@@ -1149,14 +1143,6 @@
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
-										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">产品id</label>
-										<div class="col-lg-8">
-											<input id="productId" name="productId" type="text"
-												class="col-lg-4 form-control" disabled>
-										</div>
-									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
 										style="margin-top: 0;">
 										<label class="col-lg-4 control-label">产品id</label>
@@ -1183,22 +1169,8 @@
 												placeholder="请输入属性名称，格式为小于50位的字符">
 										</div>
 									</div>
-									<!-- 		<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">产品图片</label>
-										<div class="col-lg-8">
-											<input id="productImg" name="productImg"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
-										</div>
-									</div> -->
 
-									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">产品图片</label>
-										<div class="col-lg-8">
-											<input type="file" name="productImg" id="productImg"
-												onchange="selectImage(this);" class="form-control">
-										</div>
-									</div>
+									
 									<!-- <img id="image"src="" style="height:92px;width:146px;"/> -->
 
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -1241,15 +1213,6 @@
 												placeholder="请输入属性备注，格式为小于50位的字符">
 										</div>
 									</div>
-
-
-
-
-
-
-
-
-
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品状态</label>
 										<div class="col-lg-8" style="height: 34px">
@@ -1261,12 +1224,7 @@
 											</label>
 										</div>
 									</div>
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label"></label>
-										<div class="col-lg-8">
-											<button id="reset" class="btn btn-primary" onclick="reset();">重置</button>
-										</div>
-									</div>
+
 									<!-- End .form-group  -->
 								</div>
 							</div>
@@ -1286,19 +1244,10 @@
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
 
-									<!-- End .form-group  -->
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doAdd" class="btn btn-primary"
-												onclick="doFilterAdd();">新增</button>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label"></label>
-										<div class="col-lg-9">
-											<button id="doModify" class="btn btn-primary"
-												onclick="doFilterModify();">修改</button>
+											<button id="reset" class="btn btn-primary" onclick="reset();">重置</button>
 										</div>
 									</div>
 									<div class="form-group">
@@ -1315,7 +1264,7 @@
 						<!-- End .panel -->
 					</div>
 				</div>
-
+				
 				<div class="row">
 					<!-- col-lg-4 end here -->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1327,25 +1276,7 @@
 									<i class="im-quill"></i>产品列表
 								</h4>
 							</div>
-							<div class="panel-body">
-								<table class="table display" id="table_propslist">
-									<thead>
-										<tr>
-											<th>产品id</th>
-											<th>产品编号</th>
-											<th>产品名称</th>
-											<th>产品图片</th>
-											<th>产品归类</th>
-											<th>产品颜色</th>
-											<th>产品尺码</th>
-											<th>产品材质</th>
-											<th>产品衣领</th>
-											<th>产品衣兜</th>
-											<th>产品备注</th>
-											<th>产品状态</th>
-										</tr>
-									</thead>
-								</table>
+							<div class="panel-body" id="div_propslist">
 							</div>
 							<div style="margin-top: 3px;">
 
@@ -1380,6 +1311,6 @@
 		<div class="clearfix"></div>
 	</div>
 	<!-- End #content -->
-
+	<div id="tip_message" style="font-size:30px;width:500px;z-index: 9999;position: fixed ;background: #C0C0C0; text-align: center; color: #0000FF;top:50%; left:50%; right: auto;  bottom: auto ;margin-left:-250px" ></div>
 </body>
 </html>

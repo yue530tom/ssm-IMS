@@ -46,7 +46,10 @@ public class ProductController {
 	public String toProductAddPage() {
 		return "product/productAdd";
 	}
-
+	@RequestMapping(value = "/toOrderTest", method = RequestMethod.GET)
+	public String toOrderTest() {
+		return "order/test";
+	}
 	//需要传数据过去
 	@RequestMapping(value = "/toProductPage", method = RequestMethod.GET)
 	public String toProductListPage(Model model) throws JSONException {

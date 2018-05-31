@@ -184,6 +184,9 @@
 				and product_status = #{productStatus}
 			</if>
 		</where>
+		<if test="start!=null and size!=null">
+			limit #{start},#{size};
+		</if>
 	</select>
 
 	<!--根据产品名称模糊查询产品信息 -->
