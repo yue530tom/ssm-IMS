@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product findProductByProductId(int productId) {
+	public Product findProductByProductId(long productId) {
 		// TODO Auto-generated method stub
 		if (productDao!=null) {
 			return productDao.findProductByProductId(productId);

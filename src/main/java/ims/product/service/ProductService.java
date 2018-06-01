@@ -76,6 +76,6 @@ public interface ProductService {
 	 * @return @return: Product 
 	 * @throws
 	 */
-	Product findProductByProductId(int productId);
+	Product findProductByProductId(long productId);
 
 }

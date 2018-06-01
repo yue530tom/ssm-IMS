@@ -89,9 +89,11 @@
 	<delete id="deleteCartByCartId" parameterType="long">
 		DELETE FROM
 		cart
-		WHERE cart_id = #{cartId}
+		WHERE cart_id = #{_parameter}
 	</delete>
-
+	<delete id="cartClean">
+		DELETE FROM cart
+	</delete>
 	<!--更新用户信息 -->
 	<update id="updateCartByCartId" parameterType="Cart">
 		UPDATE cart
@@ -127,13 +129,17 @@
 	</update>
 
 	<!--根据综合条件查询订单信息 -->
-	<select id="getCartInfo" parameterType="Cart" resultMap="cartMap">
+	<select id="getCartInfo" parameterType="Map" resultMap="cartMap">
 		SELECT
 		<include refid="cartColumns" />
 		FROM cart
-		WHERE cart_id = #{cartId}
+		<if test="start!=null and size!=null">
+			limit #{start},#{size};
+		</if>
 	</select>
-
+	<insert id="cartCalc" parameterType="long">
+		insert into order_details(order_id,orderdetails_product_id,orderdetails_product_num,orderdetails_product_price,orderdetails_product_material,orderdetails_product_category,orderdetails_product_color,orderdetails_product_size,orderdetails_product_collar,orderdetails_product_pocket) values(#{_parameter},(SELECT product_id,product_count,product_price,product_material,product_category,product_color,product_size,product_collar,product_pocket FROM cart))
+	</insert>
 	<!--根据订单名称模糊查询订单信息 -->
 	<select id="findCartByLikeCartName" parameterType="String"
 		resultMap="cartMap">

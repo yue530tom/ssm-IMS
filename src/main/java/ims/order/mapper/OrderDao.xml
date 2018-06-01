@@ -24,7 +24,7 @@
 	<!--插入订单信息 -->
 	<insert id="addOrder" parameterType="Order" keyProperty="orderId"
 		useGeneratedKeys="true">
-		INSERT INTO order
+		INSERT INTO orders
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="orderNo != null">
 				order_no,
@@ -56,7 +56,7 @@
 		</trim>
 		<trim prefix="values(" suffix=")" suffixOverrides=",">
 			<if test="orderNo != null">
-				#{orderNo, jdbcType=VARCHAR},
+				#{orderNo, jdbcType=INTEGER},
 			</if>
 			<if test="orderCustName != null">
 				#{orderCustName, jdbcType=VARCHAR},
@@ -65,7 +65,7 @@
 				#{orderCustPhone, jdbcType=VARCHAR},
 			</if>
 			<if test="orderCustSend != null">
-				#{orderCustSend, jdbcType=INTEGER},
+				#{orderCustSend, jdbcType=VARCHAR},
 			</if>
 			<if test="orderSumMoney != null">
 				#{orderSumMoney, jdbcType=VARCHAR},
@@ -88,13 +88,13 @@
 	<!--根据用户名删除用户信息 -->
 	<delete id="deleteOrderByOrderId" parameterType="long">
 		DELETE FROM
-		order
+		orders
 		WHERE order_id = #{orderId}
 	</delete>
 
 	<!--更新用户信息 -->
 	<update id="updateOrderByOrderId" parameterType="Order">
-		UPDATE order
+		UPDATE orders
 		SET
 		<if test="orderNo != null and orderNo != '' ">
 			order_no = #{orderNo},
@@ -127,7 +127,7 @@
 	<select id="getOrderInfo" parameterType="Order" resultMap="orderMap">
 		SELECT
 		<include refid="orderColumns" />
-		FROM order
+		FROM orders
 		WHERE order_id = #{orderId}
 	</select>
 
@@ -136,7 +136,7 @@
 		resultMap="orderMap">
 		SELECT
 		<include refid="orderColumns" />
-		FROM order
+		FROM orders
 		WHERE order_no like #{orderNo}
 	</select>
 	<!--根据订单名称精确查询订单信息 -->
@@ -144,7 +144,7 @@
 		resultMap="orderMap" resultType="Order">
 		SELECT
 		<include refid="orderColumns" />
-		FROM order
+		FROM orders
 		WHERE order_no = #{orderNo}
 	</select>
 	<!--根据订单id获取订单信息 -->
@@ -152,7 +152,7 @@
 		resultMap="orderMap" resultType="Order">
 		SELECT
 		<include refid="orderColumns" />
-		FROM order
+		FROM orders
 		WHERE order_id = #{orderId}
 	</select>
 

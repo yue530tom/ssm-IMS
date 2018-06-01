@@ -357,7 +357,7 @@
 		}
 		
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		console.log("doFilterQuery:" + $("#buffer_span").text());
+		console.log("addtocart:" + $("#buffer_span").text());
 		addtocartPost(JSON.stringify(filterJs));
 	}
 	

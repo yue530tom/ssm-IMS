@@ -79,6 +79,6 @@ public interface ProductDao {
 	 * @return @return: Product 
 	 * @throws
 	 */
-	Product findProductByProductId(int productId);
+	Product findProductByProductId(long productId);
 
 }

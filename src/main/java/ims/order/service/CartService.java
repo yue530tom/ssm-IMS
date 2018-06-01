@@ -1,6 +1,7 @@
 package ims.order.service;
 
 import java.util.List;
+import java.util.Map;
 
 import ims.order.domain.Cart;
 
@@ -31,7 +32,7 @@ public interface CartService {
 	 * @Title: getCartInfo @Description: 综合查询的订单信息 @param: @return @return:
 	 * List<Cart> @throws
 	 */
-	List<Cart> getCartInfo(Cart cart);
+	List<Cart> getCartInfo(Map<String, Object> map);
 
 	/**
 	 * 
@@ -54,4 +55,8 @@ public interface CartService {
 	 * CartId @param: @return @return: Cart @throws
 	 */
 	Cart findCartByCartId(int cartId);
+	
+	void cartCalc(long orderId);
+	
+	void cartClean();
 }

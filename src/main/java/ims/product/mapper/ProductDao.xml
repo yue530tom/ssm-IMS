@@ -195,7 +195,7 @@
 		SELECT
 		<include refid="productColumns" />
 		FROM product
-		WHERE product_name like #{_parmeter}
+		WHERE product_name like #{_parameter}
 	</select>
 	<!--根据产品名称精确查询产品信息 -->
 	<select id="findProductByEqualProductName" parameterType="String"
@@ -212,16 +212,16 @@
 		SELECT
 		<include refid="productColumns" />
 		FROM product
-		WHERE product_no = #{_parmeter}
+		WHERE product_no = #{_parameter}
 	</select>
 	
 	<!--根据产品id获取产品信息 -->
-	<select id="findProductByProductId" parameterType="String"
+	<select id="findProductByProductId" parameterType="Long"
 		resultMap="productMap" resultType="Product">
 		SELECT
 		<include refid="productColumns" />
 		FROM product
-		WHERE product_id = #{productId}
+		WHERE product_id = #{_parameter}
 	</select>
 
 </mapper>

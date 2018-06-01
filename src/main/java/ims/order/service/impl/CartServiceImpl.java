@@ -1,6 +1,7 @@
 package ims.order.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -44,10 +45,10 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public List<Cart> getCartInfo(Cart cart) {
+	public List<Cart> getCartInfo(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		if (cartDao!=null) {
-			return cartDao.getCartInfo(cart);
+			return cartDao.getCartInfo(map);
 		}
 		return null;
 	}
@@ -77,6 +78,20 @@ public class CartServiceImpl implements CartService {
 			return cartDao.findCartByCartId(cartId);
 		}
 		return null;
+	}
+	@Override
+	public void cartCalc(long orderId) {
+		// TODO Auto-generated method stub
+		if (cartDao!=null) {
+			 cartDao.cartCalc(orderId);
+		}
+	}
+	@Override
+	public void cartClean() {
+		// TODO Auto-generated method stub
+		if (cartDao!=null) {
+			cartDao.cartClean();
+		}
 	}
 
 }

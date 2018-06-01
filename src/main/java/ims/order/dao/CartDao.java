@@ -1,6 +1,7 @@
 package ims.order.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -34,7 +35,7 @@ public interface CartDao {
 	 * @Title: getCartInfo @Description: 综合查询的订单信息 @param: @return @return:
 	 * List<Cart> @throws
 	 */
-	List<Cart> getCartInfo(Cart cart);
+	List<Cart> getCartInfo(Map<String, Object> map);
 
 	/**
 	 * 
@@ -57,4 +58,8 @@ public interface CartDao {
 	 * CartId @param: @return @return: Cart @throws
 	 */
 	Cart findCartByCartId(int cartId);
+	
+	void cartCalc(long orderId);
+	
+	void cartClean();
 }
