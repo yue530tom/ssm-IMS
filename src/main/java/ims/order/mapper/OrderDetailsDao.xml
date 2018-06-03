@@ -25,7 +25,7 @@
 	<!--插入工厂信息 -->
 	<insert id="addOrderDetails" parameterType="OrderDetails" keyProperty="orderDetailsID"
 		useGeneratedKeys="true">
-		INSERT INTO order
+		INSERT INTO order_details
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="orderDetailsProductId != null">
 				orderdetails_product_id,
@@ -97,13 +97,13 @@
 	<!--根据用户名删除用户信息 -->
 	<delete id="deleteOrderDetailsByOrderDetailsId" parameterType="long">
 		DELETE FROM
-		order
+		order_details
 		WHERE orderdetails_id = #{orderDetailsID}
 	</delete>
 
 	<!--更新用户信息 -->
 	<update id="updateOrderDetailsByOrderDetailsId" parameterType="OrderDetails">
-		UPDATE order
+		UPDATE order_details
 		SET
 		<if test="orderDetailsProductId != null and orderDetailsProductId != '' ">
 			orderdetails_product_id = #{orderDetailsProductId},
@@ -142,7 +142,7 @@
 	<select id="getOrderDetailsInfo" parameterType="OrderDetails" resultMap="orderDetailsMap">
 		SELECT
 		<include refid="orderColumns" />
-		FROM order
+		FROM order_details
 		WHERE orderdetails_id = #{orderDetailsID}
 	</select>
 
@@ -151,7 +151,7 @@
 		resultMap="orderDetailsMap">
 		SELECT
 		<include refid="orderColumns" />
-		FROM order
+		FROM order_details
 		WHERE orderdetails_product_id like #{orderDetailsProductId}
 	</select>
 	<!--根据工厂名称精确查询工厂信息 -->
@@ -159,7 +159,7 @@
 		resultMap="orderDetailsMap" resultType="OrderDetails">
 		SELECT
 		<include refid="orderColumns" />
-		FROM order
+		FROM order_details
 		WHERE orderdetails_product_id = #{orderDetailsProductId}
 	</select>
 	<!--根据工厂id获取工厂信息 -->
@@ -167,7 +167,7 @@
 		resultMap="orderDetailsMap" resultType="OrderDetails">
 		SELECT
 		<include refid="orderColumns" />
-		FROM order
+		FROM order_details
 		WHERE orderdetails_id = #{orderDetailsID}
 	</select>
 
