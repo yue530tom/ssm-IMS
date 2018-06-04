@@ -34,7 +34,10 @@ public class MainController {
     public String userTest() {
     	return "indexa";
     }
-
+    @RequestMapping("/help")
+    public String help() {
+        return "/help/index";
+    }
     /**
      * 显示用户登录页面
      *

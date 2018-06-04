@@ -193,6 +193,8 @@
 
 	function refreshList(json) {
 		var ja = json.list;
+		var sumMoney=json.sumMoney;
+		$("#orderSumMoney").attr("value",checkUndefined(sumMoney)+" RMB");
 		var string = JSON.stringify(json);
 		console.log("json.list:" + json.list.length);
 		console.log("json.msg:" + json.msg);
@@ -291,7 +293,14 @@
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
-
+	function checkUndefined(value){
+		 var undefined = void(0);
+		 if(value==undefined){
+			 return "";
+		 }else{
+			 return value;
+		 }
+	}
 	function initPage(json) {
 		var curPage = 1;
 		var totalPage = json.page;

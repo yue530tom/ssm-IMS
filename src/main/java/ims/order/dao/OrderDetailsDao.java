@@ -58,5 +58,9 @@ public interface OrderDetailsDao {
 	 * OrderDetailsId @param: @return @return: OrderDetails @throws
 	 */
 	OrderDetails findOrderDetailsByOrderDetailsId(int orderDetailsId);
+	
+	
+	void deleteOrderDetailsByOrderId(long orderId);
+
 
 }

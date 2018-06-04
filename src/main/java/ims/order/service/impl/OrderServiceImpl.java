@@ -1,6 +1,7 @@
 package ims.order.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,9 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void deleteOrderByOrderId(long orderId) {
 		// TODO Auto-generated method stub
-
+		if (orderDao!=null) {
+			orderDao.deleteOrderByOrderId(orderId);
+		}
 	}
 
 	@Override
@@ -38,8 +41,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getOrderInfo(Order order) {
+	public List<Order> getOrderInfo(Map<String, Object> map) {
 		// TODO Auto-generated method stub
+		if (orderDao!=null) {
+			return orderDao.getOrderInfo(map);
+		}
 		return null;
 	}
 

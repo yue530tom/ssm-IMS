@@ -61,4 +61,13 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		return null;
 	}
 
+	@Override
+	public void deleteOrderDetailsByOrderId(long orderId) {
+		// TODO Auto-generated method stub
+		if (orderDetailsDao != null) {
+			orderDetailsDao.deleteOrderDetailsByOrderId(orderId);
+		}
+
+	}
+
 }

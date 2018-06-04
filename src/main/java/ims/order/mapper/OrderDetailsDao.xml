@@ -98,9 +98,18 @@
 	<delete id="deleteOrderDetailsByOrderDetailsId" parameterType="long">
 		DELETE FROM
 		order_details
-		WHERE orderdetails_id = #{orderDetailsID}
+		WHERE orderdetails_id = #{_parameter}
 	</delete>
 
+	<!-- 	<delete id="deleteOrderDetailsByOrderId" parameterType="long">
+		DELETE FROM
+		order_details
+		WHERE order_id = #{_parameter}
+	</delete> -->
+	<update id="deleteOrderDetailsByOrderId" parameterType="long">
+		update order_details set orderdetails_status='0'
+		WHERE order_id = #{_parameter}
+	</update>
 	<!--更新用户信息 -->
 	<update id="updateOrderDetailsByOrderDetailsId" parameterType="OrderDetails">
 		UPDATE order_details

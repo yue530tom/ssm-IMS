@@ -1,5 +1,7 @@
 package ims.order.controller;
 
+import static org.mockito.Matchers.longThat;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -88,6 +90,8 @@ public class CartController {
 		for(int propsCount=0;propsCount<6;propsCount++) {
 			model.addAttribute("propsDetails"+(propsCount+1), propsDetails.get(propsCount));
 		}
+		//把总价格带过去
+		
 		return "order/cart";
 	}
 
@@ -108,13 +112,7 @@ public class CartController {
 		return "error";
 	}
 
-	@RequestMapping(value = "/orderList", method = RequestMethod.POST)
-	public String orderList(Order orderObj, HttpServletRequest request) {
-		//通过综合条件查询工厂信息
-		orderService.getOrderInfo(orderObj);
-		request.setAttribute("errorMessage", "同名工厂信息已经存在");
-		return "error";
-	}
+
 	@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
 	public void orderList(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("utf-8");
@@ -283,6 +281,8 @@ public class CartController {
 			JSONArray jsonArray = new JSONArray();
 			// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd
 			// HH:mm:ss");
+			//顺便把总价格带过去
+			long sumMoney=0;
 			for (Cart propsTmp : list) {
 				JSONObject tempJsonObject = new JSONObject();
 				tempJsonObject.put("cartId", propsTmp.getCartId());
@@ -305,11 +305,13 @@ public class CartController {
 				tempJsonObject.put("productCollar", propsTmp.getProductCollar());
 				tempJsonObject.put("productPocket", propsTmp.getProductPocket());
 
+				sumMoney=sumMoney+propsTmp.getProductCount()*propsTmp.getProductPrice();
 				jsonArray.put(tempJsonObject);
 				//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
 			}
 
 			js.put("list", jsonArray);
+			js.put("sumMoney", sumMoney);
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(js.toString());
 

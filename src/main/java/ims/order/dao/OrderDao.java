@@ -1,6 +1,7 @@
 package ims.order.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +36,7 @@ public interface OrderDao {
 	 * @Title: getOrderInfo @Description: 综合查询的订单信息 @param: @return @return:
 	 * List<Order> @throws
 	 */
-	List<Order> getOrderInfo(Order order);
+	List<Order> getOrderInfo(Map<String, Object> map);
 
 	/**
 	 * 

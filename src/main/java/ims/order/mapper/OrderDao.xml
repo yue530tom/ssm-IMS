@@ -15,10 +15,11 @@
 		<result property="orderCreate" column="order_create" />
 		<result property="orderModify" column="order_modify" />
 		<result property="orderRemarks" column="order_remarks" />
+		<result property="orderStatus" column="order_status" />
 	</resultMap>
 
 	<sql id="orderColumns">
-		order_id,order_no,order_cust_name,order_cust_phone,order_cust_send,order_sum_money,order_deposit,order_create,order_modify,order_remarks
+		order_id,order_no,order_cust_name,order_cust_phone,order_cust_send,order_sum_money,order_deposit,order_create,order_modify,order_remarks,order_status
 	</sql>
 
 	<!--插入订单信息 -->
@@ -53,6 +54,9 @@
 			<if test="orderRemarks != null">
 				order_remarks,
 			</if>
+			<if test="orderStatus != null">
+				order_remarks,
+			</if>
 		</trim>
 		<trim prefix="values(" suffix=")" suffixOverrides=",">
 			<if test="orderNo != null">
@@ -74,24 +78,30 @@
 				#{orderDeposit, jdbcType=VARCHAR},
 			</if>
 			<if test="orderCreate != null">
-				#{orderCreate, jdbcType=VARCHAR},
+				#{orderCreate, jdbcType=TIMESTAMP},
 			</if>
 			<if test="orderModify != null">
 				#{orderModify, jdbcType=TIMESTAMP},
 			</if>
 			<if test="orderRemarks != null">
-				#{orderRemarks, jdbcType=TIMESTAMP},
+				#{orderRemarks, jdbcType=VARCHAR},
+			</if>
+			<if test="orderStatus != null">
+				#{orderStatus, jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
 
 	<!--根据用户名删除用户信息 -->
-	<delete id="deleteOrderByOrderId" parameterType="long">
+	<!-- 	<delete id="deleteOrderByOrderId" parameterType="long">
 		DELETE FROM
 		orders
 		WHERE order_id = #{orderId}
-	</delete>
-
+	</delete> -->
+	<update id="deleteOrderByOrderId" parameterType="long">
+		update orders set order_status='0'
+		WHERE order_id = #{_parameter}
+	</update>
 	<!--更新用户信息 -->
 	<update id="updateOrderByOrderId" parameterType="Order">
 		UPDATE orders
@@ -124,11 +134,37 @@
 	</update>
 
 	<!--根据综合条件查询订单信息 -->
-	<select id="getOrderInfo" parameterType="Order" resultMap="orderMap">
+	<select id="getOrderInfo" parameterType="Map" resultMap="orderMap">
 		SELECT
 		<include refid="orderColumns" />
 		FROM orders
-		WHERE order_id = #{orderId}
+		<where>
+			<if
+				test="orderId != null and orderId != ''and orderId != 0 and orderId != '0' ">
+				and order_id = #{orderId}
+			</if>
+			<if test="orderNo != null and orderNo != '' ">
+				and order_no = #{orderNo}
+			</if>
+			<if test="productCustName != null and productCustName != '' ">
+				and order_cust_name = #{productCustName}
+			</if>
+			<if test="orderCustPhone != null and orderCustPhone != '' ">
+				and order_cust_phone = #{orderCustPhone}
+			</if>
+			<if test="orderCustSend != null and orderCustSend != '' ">
+				and order_cust_send = #{orderCustSend}
+			</if>
+			<if test="orderSumMoney != null and orderSumMoney != '' ">
+				and order_sum_money = #{orderSumMoney}
+			</if>
+			<if test="orderStatus != null and orderStatus != '' ">
+				and order_status = #{orderStatus}
+			</if>
+		</where>
+		<if test="start!=null and size!=null">
+			limit #{start},#{size};
+		</if>
 	</select>
 
 	<!--根据订单名称模糊查询订单信息 -->

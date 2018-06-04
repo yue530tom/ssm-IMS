@@ -1278,24 +1278,27 @@
 							</div>
 							<div class="panel-body" id="div_propslist">
 							</div>
-							<div style="margin-top: 3px;">
-
-								<span style="font-weight: lighter;">本页共<span
-									id="record_sum"></span>条记录
-								</span>
+							<div>
+								<div style="margin-top: 3px;">
+	
+									<span style="font-weight: lighter;">本页共<span
+										id="record_sum"></span>条记录
+									</span>
+								</div>
+	
+								<div id="pt_div">
+									<input type="button" id="btn_lastPage"	class="btn btn-primary" value="上一页"	onclick="lastPage();" />&nbsp;<span id="cur_page">0</span>&nbsp;
+									<input type="button" id="btn_nextPage" class="btn btn-primary" value="下一页" onclick="nextPage()" />
+									共<span id="tot_page"></span>页&nbsp;&nbsp;&nbsp;&nbsp; 跳至<input
+										type="text" style="width:50px" id="pageNum" />页 &nbsp; <input
+										type="button" value="确定" class="btn btn-primary"
+										onclick="jumpPage();" />
+	
+								</div>
 							</div>
 
-							<div id="pt_div">
-								<input type="button" id="btn_lastPage"
-									class="btn btn-default btn-xs" value="上一页"
-									onclick="lastPage();" />&nbsp;<span id="cur_page">0</span>&nbsp;
-								<input type="button" id="btn_nextPage"
-									class="btn btn-default btn-xs" value="下一页" onclick="nextPage()" />
-								共<span id="tot_page"></span>页&nbsp;&nbsp;&nbsp;&nbsp; 去<input
-									type="text" width="5px" id="pageNum" />页 &nbsp; <input
-									type="button" value="确定" class="btn btn-default btn-xs"
-									onclick="jumpPage();" />
-							</div>
+                        </div>
+							
 							<span id="buffer_span" style="display: none">{}</span> <span
 								id="buffer_img" style="display: none"></span>
 						</div>

@@ -15,6 +15,15 @@ public class Order {
 	private String orderCreate;
 	private String orderModify;
 	private String orderRemarks;
+	private String orderStatus;
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
 
 	public long getOrderId() {
 		return orderId;
@@ -99,9 +108,9 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", orderNo=" + orderNo + ", orderCustName=" + orderCustName
-				+ ", orderCustPhone=" + orderCustPhone + ", orderCustSend=" + orderCustSend + ", orderCreate="
-				+ orderCreate + ", orderSumMoney=" + orderSumMoney + ", orderDeposit=" + orderDeposit + ", orderModify="
-				+ orderModify + ", orderRemarks=" + orderRemarks + "]";
+				+ ", orderCustPhone=" + orderCustPhone + ", orderCustSend=" + orderCustSend + ", orderSumMoney="
+				+ orderSumMoney + ", orderDeposit=" + orderDeposit + ", orderCreate=" + orderCreate + ", orderModify="
+				+ orderModify + ", orderRemarks=" + orderRemarks + ", orderStatus=" + orderStatus + "]";
 	}
 
 }

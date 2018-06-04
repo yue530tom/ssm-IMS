@@ -1,6 +1,7 @@
 package ims.order.service;
 
 import java.util.List;
+import java.util.Map;
 
 import ims.order.domain.Order;
 
@@ -31,7 +32,7 @@ public interface OrderService {
 	 * @Title: getOrderInfo @Description: 综合查询的订单信息 @param: @return @return:
 	 * List<Order> @throws
 	 */
-	List<Order> getOrderInfo(Order order);
+	List<Order> getOrderInfo(Map<String, Object> map);
 
 	/**
 	 * 

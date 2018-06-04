@@ -73,22 +73,6 @@
 									class="notification-user"> Ric Jones </a> <span
 									class="notification-action"> replied to your </span> <a
 									href="#" class="notification-link"> comment</a></li>
-								<li class="clearfix"><i class="st-pencil"></i> <a href="#"
-									class="notification-user"> SuggeElson </a> <span
-									class="notification-action"> just write a </span> <a href="#"
-									class="notification-link"> post</a></li>
-								<li class="clearfix"><i class="ec-trashcan"></i> <a
-									href="#" class="notification-user"> SuperAdmin </a> <span
-									class="notification-action"> just remove </span> <a href="#"
-									class="notification-link"> 12 files</a></li>
-								<li class="clearfix"><i class="st-paperclip"></i> <a
-									href="#" class="notification-user"> C. Wiilde </a> <span
-									class="notification-action"> attach </span> <a href="#"
-									class="notification-link"> 3 files</a></li>
-								<li class="clearfix"><i class="st-support"></i> <a href="#"
-									class="notification-user"> John Simpson </a> <span
-									class="notification-action"> add support </span> <a href="#"
-									class="notification-link"> ticket</a></li>
 							</ul></li>
 						
 						<li id="toggle-right-sidebar-li"><a href="#"
@@ -163,31 +147,31 @@
 					</form>
 				</li>
 				<li><a href="/userTest">控制面板 <i class="im-stats"></i></a></li>
-				<li><a href="#">购买<i class="im-coin"></i></a>
+				<li><a href="#">购买<i class="im-cart3 color-red"></i></a>
 					<ul class="nav sub">
-						<li><a href="/view/toViewPage">产品浏览<i class="im-numbered-list"></i></a></li>
-						<li><a href="/buy/toCartPage">维护购物车<i class="im-numbered-list"></i></a></li>
+						<li><a href="/view/toViewPage">产品浏览<i class="fa-search"></i></a></li>
+						<li><a href="/buy/toCartPage">维护购物车<i class="im-cart3 "></i></a></li>
 					</ul>
 				</li>
-				<li><a href="#">订单<i class="im-coin"></i></a>
+				<li><a href="#">订单<i class="im-coin color-orange"></i></a>
 					<ul class="nav sub">
-						<li><a href="/order/toOrderPage">维护订单<i class="im-numbered-list"></i></a></li>
+						<li><a href="/order/toOrderPage">维护订单<i class="st-archive"></i></a></li>
 					</ul>
 				</li>
-				<li><a href="#">产品<i class="im-library"></i></a>
+				<li><a href="#">产品<i class="fa-barcode color-green"></i></a>
 					<ul class="nav sub">
 						<li><a href="/product/toProductPage">维护产品<i
-								class="im-numbered-list"></i></a></li>
+								class="en-archive color-blue"></i></a></li>
 					</ul>
 				</li>
-				<li><a href="#">工厂<i class="im-office"></i></a>
+				<li><a href="#">工厂<i class="im-office color-dark"></i></a>
 					<ul class="nav sub">
-						<li><a href="/factory/toFactoryPage">维护工厂<i class="im-numbered-list"></i></a></li>
+						<li><a href="/factory/toFactoryPage">维护工厂<i class="br-home"></i></a></li>
 					</ul></li>
-				<li><a href="#">属性<i class="im-cogs"></i></a>
+				<li><a href="#">属性<i class="im-cogs color-teal"></i></a>
 					<ul class="nav sub">
-						<li><a href="/props/toPropsPage">维护属性<i class="im-numbered-list"></i></a></li>
-						<li><a href="/props/toPropsDetailsPage">维护属性详情<i class="im-quill"></i></a></li>
+						<li><a href="/props/toPropsPage">维护属性<i class="st-settings"></i></a></li>
+						<li><a href="/props/toPropsDetailsPage">维护属性详情<i class="fa-info"></i></a></li>
 					</ul>
 				</li>
 			</ul>
@@ -399,94 +383,41 @@
 									aria-labelledby="dropdownMenu1">
 									<div class="option-dropdown">
 										<div class="shortcut-button">
-											<a href="#"> <i class="im-pie"></i> <span>Earning
-													Stats</span>
+											<a href="/view/toViewPage"> <i class="fa-search"></i> <span>产品浏览</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="#"> <i class="ec-images color-dark"></i> <span>Gallery</span>
+											<a href="/buy/toCartPage"> <i class="im-cart3 color-dark"></i> <span>购物车</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="#"> <i class="en-light-bulb color-orange"></i> <span>Fresh
-													ideas</span>
+											<a href="/order/toOrderPage"> <i class="im-coin color-orange"></i> <span>订单</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="#"> <i class="ec-link color-blue"></i> <span>Links</span>
+											<a href="/product/toProductPage"> <i class="fa-barcode color-blue"></i> <span>维护产品</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="#"> <i class="ec-support color-red"></i> <span>Support</span>
+											<a href="/factory/toFactoryPage"> <i class="im-office color-red"></i> <span>工厂</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="#"> <i class="st-lock color-teal"></i> <span>Lock
-													area</span>
+											<a href="/props/toPropsPage"> <i class="st-settings color-teal"></i> <span>属性</span>
 											</a>
 										</div>
-									</div>
-								</div>
-							</div>
-							<div class="btn-group dropdown">
-								<a class="btn dropdown-toggle" data-toggle="dropdown"
-									id="dropdownMenu2"><i class="ec-pencil s24"></i></a>
-								<div class="dropdown-menu pull-right" role="menu"
-									aria-labelledby="dropdownMenu2">
-									<div class="option-dropdown">
-										<div class="row">
-											<p class="col-lg-12">Quick post</p>
-											<form class="form-horizontal" role="form">
-												<div class="form-group">
-													<div class="col-lg-12">
-														<input type="text" class="form-control"
-															placeholder="Enter title">
-													</div>
-												</div>
-												<!-- End .form-group  -->
-												<div class="form-group">
-													<div class="col-lg-12">
-														<textarea class="form-control wysiwyg"
-															placeholder="Enter text"></textarea>
-													</div>
-												</div>
-												<!-- End .form-group  -->
-												<div class="form-group">
-													<div class="col-lg-12">
-														<input type="text" class="form-control tags1"
-															placeholder="Enter tags">
-													</div>
-												</div>
-												<!-- End .form-group  -->
-												<div class="form-group">
-													<div class="col-lg-12">
-														<button class="btn btn-default btn-xs">Save Draft</button>
-														<button class="btn btn-success btn-xs pull-right">Publish</button>
-													</div>
-												</div>
-												<!-- End .form-group  -->
-											</form>
+										<div class="shortcut-button">
+											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-green"></i> <span>属性明细</span>
+											</a>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="btn-group">
-								<a class="btn dropdown-toggle" data-toggle="dropdown"
-									id="dropdownMenu3"><i class="ec-help s24"></i></a>
-								<div class="dropdown-menu pull-right" role="menu"
-									aria-labelledby="dropdownMenu3">
-									<div class="option-dropdown">
-										<p>
-											First time visitor ? <a href="#" id="app-tour"
-												class="btn btn-success ml15">Take app tour</a>
-										</p>
-										<hr>
-										<p>
-											Or check the <a href="#" class="btn btn-danger ml15">FAQ</a>
-										</p>
-									</div>
-								</div>
+								<a href="/help" class="btn tip" title="help"> <i class="ec-help color-red s24"></i>
+								</a>
 							</div>
+							
 						</div>
 					</div>
 					<!-- End .option-buttons -->
@@ -509,8 +440,8 @@
 											<i class="br-cart s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">107</div>
-											<h3>Orders</h3>
+											<div id="tiles_order" class="number">107</div>
+											<h3>订单总数</h3>
 										</div>
 									</div>
 								</div>
@@ -522,7 +453,19 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">5</div>
-											<h3>Settings changed</h3>
+											<h3>当日订单</h3>
+										</div>
+									</div>
+								</div>
+								<div class="item">
+									<div class="tile green">
+										<!-- tile start here -->
+										<div class="tile-icon">
+											<i class="ec-cog s64"></i>
+										</div>
+										<div class="tile-content">
+											<div class="number">5</div>
+											<h3>当月订单</h3>
 										</div>
 									</div>
 								</div>
@@ -540,7 +483,7 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">24</div>
-											<h3>New Comments</h3>
+											<h3>热销冠军</h3>
 										</div>
 									</div>
 								</div>
@@ -552,7 +495,19 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">17</div>
-											<h3>New emails</h3>
+											<h3>热销亚军</h3>
+										</div>
+									</div>
+								</div>
+								<div class="item">
+									<div class="tile yellow">
+										<!-- tile start here -->
+										<div class="tile-icon">
+											<i class="ec-mail s64"></i>
+										</div>
+										<div class="tile-content">
+											<div class="number">11</div>
+											<h3>热销季军</h3>
 										</div>
 									</div>
 								</div>
@@ -623,7 +578,7 @@
 					</div>
 				</div>
 				<!-- End .row -->
-				<div class="row">
+				<div class="row"  style="height: 106px;">
 					<!-- Start .row -->
 					<div class="col-lg-6 col-md-6 sortable-layout">
 						<!-- Start col-lg-6 -->
