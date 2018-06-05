@@ -4,7 +4,9 @@ import static org.mockito.Matchers.longThat;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +123,8 @@ public class CartController {
 		String method = "";
 		Cart cart = new Cart();
 		JSONObject js = new JSONObject();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
 		try {
 			
 			//POST不用转字符，GET需要转
@@ -172,6 +176,8 @@ public class CartController {
 
 			
 			if (method.equals("addtocart")) {
+				cart.setProductCreate(sdf.format(now));
+				cart.setProductModify(sdf.format(now));
 				cartService.addCart(cart);
 				js.put("msg", "成功加入购物车");
 			}
@@ -237,8 +243,12 @@ public class CartController {
 					filterMap.put("orderRemarks", filterJson.get("orderRemarks"));
 					order.setOrderRemarks(filterJson.get("orderRemarks").toString());
 				}
-				
-				
+				if (filterJson.has("cartOperation")) {
+					filterMap.put("cartOperation",filterJson.get("cartOperation").toString());
+				}
+				if (filterJson.has("productDatetime")) {
+					filterMap.put("cartDatetime",filterJson.get("cartDatetime").toString());
+				}
 			}
 
 			System.out.println("filter:" + filter);
@@ -304,7 +314,8 @@ public class CartController {
 				tempJsonObject.put("productMaterial", propsTmp.getProductMaterial());
 				tempJsonObject.put("productCollar", propsTmp.getProductCollar());
 				tempJsonObject.put("productPocket", propsTmp.getProductPocket());
-
+/*				tempJsonObject.put("productCreate", propsTmp.getProductCreate());
+				tempJsonObject.put("productModify", propsTmp.getProductModify());*/
 				sumMoney=sumMoney+propsTmp.getProductCount()*propsTmp.getProductPrice();
 				jsonArray.put(tempJsonObject);
 				//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));

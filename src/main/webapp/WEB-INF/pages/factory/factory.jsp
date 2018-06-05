@@ -110,6 +110,8 @@
 <script src="/resources/assets/plugins/ui/weather/skyicons.js"></script>
 <script src="/resources/assets/plugins/ui/notify/jquery.gritter.js"></script>
 <script src="/resources/assets/plugins/ui/calendar/fullcalendar.js"></script>
+<script src="/resources/assets/plugins/forms/daterangepicker/daterangepicker.js"></script>
+<script src="/resources/assets/plugins/forms/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="/resources/assets/js/jquery.sprFlat.js"></script>
 <script src="/resources/assets/js/app.js"></script>
 <script src="/resources/assets/js/pages/dashboard.js"></script>
@@ -133,7 +135,28 @@
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
 
+		var d = new Date();
+		$("#datetime-picker").datetimepicker({
+		initialDate : d,
+		language : 'zh-CN',
+		format : 'yyyy-mm-dd',
+		todayHighlight : 1,
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		startView : 2,
+		minView : 2
+		});  
+		//提示成功信息      
 	});
+	function checkUndefined(value){
+		 var undefined = void(0);
+		 if(value==undefined){
+			 return "";
+		 }else{
+			 return value;
+		 }
+	}
 
 	function initTable(filter) {
 		var data = null;
@@ -175,7 +198,7 @@
 		$("#table_propslist").empty();
 		$("#table_propslist")
 				.append(
-						'<tr><th>工厂编号</th><th>工厂名称</th><th>联系人</th><th>联系电话</th><th>座机</th><th>工厂地址</th><th>工厂规模</th><th>工厂备注</th><th>工厂状态</th><th>操作</th></tr>');
+						'<tr><th>工厂编号</th><th>工厂名称</th><th>联系人</th><th>联系电话</th><th>座机</th><th>工厂地址</th><th>工厂规模</th><th>工厂备注</th><th>工厂状态</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
 			var factoryId = ja[i].factoryId;
 			var factoryName = ja[i].factoryName;
@@ -186,22 +209,26 @@
 			var factoryScale = ja[i].factoryScale;
 			var factoryRemarks = ja[i].factoryRemarks;
 			var factoryStatus = ja[i].factoryStatus;
+			var factoryCreate = ja[i].factoryCreate;
+			var factoryModify = ja[i].factoryModify;
 			$("#table_propslist").append(
 					'<tr onclick="getDataToModify(this)" id="tr_' + i
 							+ '"></tr>');
-			$("#tr_" + i).append('<td>' + factoryId + '</td>');
-			$("#tr_" + i).append("<td>" + factoryName + "</td>");
-			$("#tr_" + i).append("<td>" + factoryContacts + "</td>");
-			$("#tr_" + i).append("<td>" + factoryPhone + "</td>");
-			$("#tr_" + i).append('<td>' + factoryTelephone + '</td>');
-			$("#tr_" + i).append("<td>" + factoryAddress + "</td>");
-			$("#tr_" + i).append("<td>" + factoryScale + "</td>");
-			$("#tr_" + i).append("<td>" + factoryRemarks + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(factoryId) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryName) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryContacts) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryPhone) + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(factoryTelephone) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryAddress) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryScale) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryRemarks) + "</td>");
 			if (factoryStatus == 1) {
 				$("#tr_" + i).append("<td>有效</td>");
 			} else {
 				$("#tr_" + i).append("<td>废弃</td>");
 			}
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryCreate) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryModify) + "</td>");
 			$("#tr_" + i).append(
 					'<td><button class="btn btn-primary" onclick="doFilterDelete('
 							+ factoryId + ');">删除</button></td>');
@@ -354,6 +381,12 @@
 		}
 		if ($("#factoryScale").val() != "") {
 			filterJs["factoryScale"] = $("#factoryScale").val();
+		}
+		if ($("#datetime-picker").val() != "") {
+			filterJs["factoryDatetime"] = $("#datetime-picker").val();
+			if ($("#factoryOperation").val() != "") {
+				filterJs["factoryOperation"] = $("#factoryOperation").val();
+			}
 		}
 		if ($("#factoryRemarks").val() != "") {
 			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
@@ -780,6 +813,27 @@
 											</label>
 										</div>
 									</div>
+									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <label class="col-lg-4 control-label">创建日期</label>
+                                            <div class="col-lg-8 col-md-9">
+                                                <div class="row">
+                                                    <div class="col-lg-5 col-md-5">
+                                                        <select class="form-control" name="factoryOperation" id="factoryOperation">
+	                                                        <option value="1">大于</option>
+	                                                        <option value="0">小于</option>
+                                                        </select>
+                                                        <!-- <span class="help-block">创建日期</span> -->
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7">
+                                                        <div class="input-group">
+                                                            <input id="datetime-picker" class="form-control datetime-picker2" type="text" value="">
+                                                            <span class="input-group-addon"><i class="fa-calendar"></i></span>
+                                                        </div>
+                                                        <!-- <span class="help-block">Without time picker</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label"></label>
 										<div class="col-lg-8">

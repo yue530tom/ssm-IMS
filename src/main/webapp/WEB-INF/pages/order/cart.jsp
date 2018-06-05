@@ -110,6 +110,8 @@
 <script src="/resources/assets/plugins/ui/weather/skyicons.js"></script>
 <script src="/resources/assets/plugins/ui/notify/jquery.gritter.js"></script>
 <script src="/resources/assets/plugins/ui/calendar/fullcalendar.js"></script>
+<script src="/resources/assets/plugins/forms/daterangepicker/daterangepicker.js"></script>
+<script src="/resources/assets/plugins/forms/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="/resources/assets/js/jquery.sprFlat.js"></script>
 <script src="/resources/assets/js/app.js"></script>
 <script src="/resources/assets/js/pages/dashboard.js"></script>
@@ -135,7 +137,28 @@
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
 		initPropsSelectOption();
+		/* var d = new Date();
+		$("#datetime-picker").datetimepicker({
+		initialDate : d,
+		language : 'zh-CN',
+		format : 'yyyy-mm-dd',
+		todayHighlight : 1,
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		startView : 2,
+		minView : 2
+		});   */
+		//提示成功信息      
 	});
+	function checkUndefined(value){
+		 var undefined = void(0);
+		 if(value==undefined){
+			 return "";
+		 }else{
+			 return value;
+		 }
+	}
 
 	function initPropsSelectOption() {
 		propsDetails1 =  ${propsDetails1}
@@ -213,7 +236,7 @@
 		$("#table_propslist").empty();
 		$("#table_propslist")
 				.append(
-						'<tr><th>物品编号</th><th>产品id</th><th>产品数量</th><th>产品价格</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>操作</th></tr>');
+						'<tr><th>物品编号</th><th>产品id</th><th>产品数量</th><th>产品价格</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
 			var cartId = ja[i].cartId;
 			var productId = ja[i].productId;
@@ -774,7 +797,27 @@
 												placeholder="请输入属性描述，格式为小于50位的字符">
 										</div>
 									</div>
-									
+									<!-- <div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <label class="col-lg-4 control-label">创建日期</label>
+                                            <div class="col-lg-8 col-md-9">
+                                                <div class="row">
+                                                    <div class="col-lg-5 col-md-5">
+                                                        <select class="form-control" name="selectOperation" id="selectOperation">
+	                                                        <option value="1">大于</option>
+	                                                        <option value="0">小于</option>
+                                                        </select>
+                                                        <span class="help-block">创建日期</span>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7">
+                                                        <div class="input-group">
+                                                            <input id="datetime-picker" class="form-control datetime-picker2" type="text" value="">
+                                                            <span class="input-group-addon"><i class="fa-calendar"></i></span>
+                                                        </div>
+                                                        <span class="help-block">Without time picker</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div> -->
 									<!-- End .form-group  -->
 								</div>
 							</div>

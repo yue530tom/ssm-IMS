@@ -11,8 +11,8 @@ public class Factory {
 	private String factoryAddress;
 	private String factoryScale;
 	private String factoryRemarks;
-	private Date factoryCreate;
-	private Date factoryModify;
+	private String factoryCreate;
+	private String factoryModify;
 	private String factoryStatus;
 	
 	public long getFactoryId() {
@@ -65,24 +65,24 @@ public class Factory {
 		this.factoryRemarks = factoryRemarks;
 	}
 	
-	public Date getFactoryCreate() {
-		return factoryCreate;
-	}
-	public void setFactoryCreate(Date factoryCreate) {
-		this.factoryCreate = factoryCreate;
-	}
-	public Date getFactoryModify() {
-		return factoryModify;
-	}
-	public void setFactoryModify(Date factoryModify) {
-		this.factoryModify = factoryModify;
-	}
 	
 	public String getFactoryStatus() {
 		return factoryStatus;
 	}
 	public void setFactoryStatus(String factoryStatus) {
 		this.factoryStatus = factoryStatus;
+	}
+	public String getFactoryCreate() {
+		return factoryCreate;
+	}
+	public void setFactoryCreate(String factoryCreate) {
+		this.factoryCreate = factoryCreate;
+	}
+	public String getFactoryModify() {
+		return factoryModify;
+	}
+	public void setFactoryModify(String factoryModify) {
+		this.factoryModify = factoryModify;
 	}
 	@Override
 	public String toString() {
@@ -92,7 +92,7 @@ public class Factory {
 				+ factoryRemarks + ", factoryCreate=" + factoryCreate + ", factoryModify=" + factoryModify
 				+ ", factoryStatus=" + factoryStatus + "]";
 	}
-	
+
 
 	
 

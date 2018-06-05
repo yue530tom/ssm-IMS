@@ -14,6 +14,8 @@
 		<result property="factoryScale" column="factory_scale" />
 		<result property="factoryRemarks" column="factory_remarks" />
 		<result property="factoryStatus" column="factory_status" />
+		<result property="factoryCreate" column="factory_create" />
+		<result property="factoryModify" column="factory_modify" />
 	</resultMap>
 
 	<sql id="factoryColumns">
@@ -49,6 +51,9 @@
 			<if test="factoryCreate != null">
 				factory_create,
 			</if>
+			<if test="factoryModify != null">
+				factory_modify,
+			</if>
 			<if test="factoryStatus != null">
 				factory_status,
 			</if>
@@ -77,6 +82,9 @@
 			</if>
 			<if test="factoryCreate != null">
 				#{factoryCreate, jdbcType=TIMESTAMP},
+			</if>
+			<if test="factoryModfiy != null">
+				#{factoryModfiy, jdbcType=TIMESTAMP},
 			</if>
 			<if test="factoryStatus != null">
 				#{factoryStatus, jdbcType=VARCHAR},
@@ -116,6 +124,9 @@
 		<if test="factoryRemarks != null and factoryRemarks != '' ">
 			factory_remarks = #{factoryRemarks},
 		</if>
+		<if test="factoryModfiy != null and factoryModfiy != '' ">
+			factory_modify = #{factoryModfiy},
+		</if>
 		<if test="factoryStatus != null and factoryRemarks != '' ">
 			factory_status = #{factoryStatus}
 		</if>
@@ -152,6 +163,12 @@
 			</if>
 			<if test="factoryRemarks != null and factoryRemarks != '' ">
 				and factory_remarks = #{factoryRemarks}
+			</if>
+			<if test="factoryDatetime != null and factoryDatetime != '' and factoryOperation==1">
+				and factory_create &gt; #{factoryDatetime}
+			</if>
+			<if test="factoryDatetime != null and factoryDatetime != '' and factoryOperation==0">
+				and factory_create &lt; #{factoryDatetime}
 			</if>
 			<if test="factoryStatus != null and factoryStatus != '' ">
 				and factory_status = #{factoryStatus}

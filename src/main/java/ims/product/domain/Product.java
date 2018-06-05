@@ -14,6 +14,24 @@ public class Product {
 	private String productPocket;
 	private String productRemarks;
 	private String productStatus;
+	private String productCreate;
+	private String productModify;
+
+	public String getProductCreate() {
+		return productCreate;
+	}
+
+	public void setProductCreate(String productCreate) {
+		this.productCreate = productCreate;
+	}
+
+	public String getProductModify() {
+		return productModify;
+	}
+
+	public void setProductModify(String productModify) {
+		this.productModify = productModify;
+	}
 
 	public long getProductId() {
 		return productId;
@@ -117,7 +135,8 @@ public class Product {
 				+ ", productImg=" + productImg + ", productCategory=" + productCategory + ", productColor="
 				+ productColor + ", productSize=" + productSize + ", productMaterial=" + productMaterial
 				+ ", productCollar=" + productCollar + ", productPocket=" + productPocket + ", productRemarks="
-				+ productRemarks + ", productStatus=" + productStatus + "]";
+				+ productRemarks + ", productStatus=" + productStatus + ", productCreate=" + productCreate
+				+ ", productModify=" + productModify + "]";
 	}
 
 }

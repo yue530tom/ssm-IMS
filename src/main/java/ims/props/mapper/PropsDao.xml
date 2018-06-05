@@ -9,11 +9,13 @@
 		<result property="propsName" column="props_name" />
 		<result property="propsDesc" column="props_desc" />
 		<result property="propsRemarks" column="props_remarks" />
+		<result property="propsCreate" column="props_create" />
+		<result property="propsModify" column="props_modify" />
 		<result property="propsStatus" column="props_status" />
 	</resultMap>
 
 	<sql id="propsColumns">
-		props_id,props_name,props_desc,props_remarks,props_status
+		props_id,props_name,props_desc,props_remarks,props_create,props_modify,props_status
 	</sql>
 
 	<!--插入属性信息 -->
@@ -30,6 +32,12 @@
 			<if test="propsRemarks != null">
 				props_remarks,
 			</if>
+			<if test="propsCreate != null">
+				props_create,
+			</if>
+			<if test="propsModify != null">
+				props_modify,
+			</if>
 			<if test="propsStatus != null">
 				props_status,
 			</if>
@@ -43,6 +51,12 @@
 			</if>
 			<if test="propsRemarks != null">
 				#{propsRemarks, jdbcType=VARCHAR},
+			</if>
+			<if test="propsCreate != null">
+				#{propsCreate, jdbcType=TIMESTAMP},
+			</if>
+			<if test="propsModify != null">
+				#{propsModify, jdbcType=TIMESTAMP},
 			</if>
 			<if test="propsStatus != null">
 				#{propsStatus, jdbcType=VARCHAR}
@@ -70,6 +84,9 @@
 		<if test="propsRemarks != null and propsRemarks != '' ">
 			props_remarks = #{propsRemarks},
 		</if>
+		<if test="propsModify != null and propsModify != '' ">
+			props_modify = #{propsModify},
+		</if>
 		<if test="propsStatus != null and propsStatus != '' ">
 			props_status = #{propsStatus}
 		</if>
@@ -84,6 +101,9 @@
 		</if>
 		<if test="propsDesc != null and propsDesc != '' ">
 			props_desc = #{propsDesc},
+		</if>
+		<if test="propsModify != null and propsModify != '' ">
+			props_modify = #{propsModify},
 		</if>
 		<if test="propsRemarks != null and propsRemarks != '' ">
 			props_remarks = #{propsRemarks}
@@ -108,6 +128,12 @@
 			</if>
 			<if test="propsRemarks != null and propsRemarks != '' ">
 				and props_remarks = #{propsRemarks}
+			</if>
+			<if test="propsDatetime != null and propsDatetime != '' and propsOperation==1">
+				and props_create &gt; #{propsDatetime}
+			</if>
+			<if test="propsDatetime != null and propsDatetime != '' and propsOperation==0">
+				and props_create &lt; #{propsDatetime}
 			</if>
 			<if test="propsStatus != null and propsStatus != '' ">
 				and props_status = #{propsStatus}

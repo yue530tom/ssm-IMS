@@ -12,8 +12,22 @@ public class Cart {
 	private String productMaterial;
 	private String productCollar;
 	private String productPocket;
+	private String productCreate;
+	private String productModify;
 	public long getCartId() {
 		return cartId;
+	}
+	public String getProductCreate() {
+		return productCreate;
+	}
+	public void setProductCreate(String productCreate) {
+		this.productCreate = productCreate;
+	}
+	public String getProductModify() {
+		return productModify;
+	}
+	public void setProductModify(String productModify) {
+		this.productModify = productModify;
 	}
 	public void setCartId(long cartId) {
 		this.cartId = cartId;
@@ -77,7 +91,8 @@ public class Cart {
 		return "Cart [cartId=" + cartId + ", productId=" + productId + ", productCount=" + productCount
 				+ ", productPrice=" + productPrice + ", productCategory=" + productCategory + ", productColor="
 				+ productColor + ", productSize=" + productSize + ", productMaterial=" + productMaterial
-				+ ", productCollar=" + productCollar + ", productPocket=" + productPocket + "]";
+				+ ", productCollar=" + productCollar + ", productPocket=" + productPocket + ", productCreate="
+				+ productCreate + ", productModify=" + productModify + "]";
 	}
 	
 

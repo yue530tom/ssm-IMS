@@ -17,6 +17,8 @@
 		<result property="productPocket" column="product_pocket" />
 		<result property="productRemarks" column="product_remarks" />
 		<result property="productStatus" column="product_status" />
+		<result property="productCreate" column="product_create" />
+		<result property="productModify" column="product_modify" />
 	</resultMap>
 
 	<sql id="productColumns">
@@ -55,6 +57,15 @@
 			<if test="productPocket != null">
 				product_pocket,
 			</if>
+			
+			<if test="productCreate != null">
+				product_create,
+			</if>
+			<if test="productModify != null">
+				product_modify,
+			</if>
+			
+			
 			<if test="productRemarks != null">
 				product_remarks,
 			</if>
@@ -90,6 +101,16 @@
 			<if test="productPocket != null">
 				#{productPocket, jdbcType=VARCHAR},
 			</if>
+			
+			<if test="productCreate != null">
+				#{productCreate, jdbcType=TIMESTAMP},
+			</if>
+			<if test="productModify != null">
+				#{productModify, jdbcType=TIMESTAMP},
+			</if>
+			
+			
+			
 			<if test="productRemarks != null">
 				#{productRemarks, jdbcType=VARCHAR},
 			</if>
@@ -137,6 +158,9 @@
 		<if test="productRemarks != null and productRemarks != '' ">
 			product_remarks = #{productRemarks},
 		</if>
+		<if test="productModify != null and productModify != '' ">
+			product_modify = #{productModify},
+		</if>
 		<if test="productStatus != null and productStatus != '' ">
 			product_status = #{productStatus}
 		</if>
@@ -182,6 +206,12 @@
 			</if>
 			<if test="productStatus != null and productStatus != '' ">
 				and product_status = #{productStatus}
+			</if>
+			<if test="productDatetime != null and productDatetime != '' and productOperation==1">
+				and product_create &gt; #{productDatetime}
+			</if>
+			<if test="productDatetime != null and productDatetime != '' and productOperation==0">
+				and product_create &lt; #{productDatetime}
 			</if>
 		</where>
 		<if test="start!=null and size!=null">

@@ -124,8 +124,8 @@
 		<if test="orderDeposit != null and orderDeposit != '' ">
 			order_deposit = #{orderDeposit},
 		</if>
-		<if test="orderCreate != null and orderCreate != '' ">
-			order_create = #{orderCreate}
+		<if test="orderModify != null and orderModify != '' ">
+			order_modify = #{orderModify}
 		</if>
 		<if test="orderRemarks != null and orderRemarks != '' ">
 			order_remarks = #{orderRemarks}
@@ -157,6 +157,12 @@
 			</if>
 			<if test="orderSumMoney != null and orderSumMoney != '' ">
 				and order_sum_money = #{orderSumMoney}
+			</if>
+			<if test="orderDatetime != null and orderDatetime != '' and orderOperation==1">
+				and order_create &gt; #{orderDatetime}
+			</if>
+			<if test="orderDatetime != null and orderDatetime != '' and orderOperation==0">
+				and order_create &lt; #{orderDatetime}
 			</if>
 			<if test="orderStatus != null and orderStatus != '' ">
 				and order_status = #{orderStatus}

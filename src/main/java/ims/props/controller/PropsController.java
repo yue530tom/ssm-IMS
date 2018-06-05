@@ -2,7 +2,9 @@ package ims.props.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +101,8 @@ public class PropsController {
 		Map<String, Object> filterMap = new HashMap<String, Object>();
 		String method="";
 		Props props=new Props();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
 		try {
 			if(filter!=null) {
 			JSONObject filterJson = new JSONObject(filter);
@@ -118,6 +122,15 @@ public class PropsController {
 				filterMap.put("propsDesc",
 						new String(filterJson.get("propsDesc").toString().getBytes("iso8859-1"), "utf-8"));
 				props.setPropsDesc(new String(filterJson.get("propsDesc").toString().getBytes("iso8859-1"), "utf-8"));
+			}
+			if (filterJson.has("propsOperation")) {
+				filterMap.put("propsOperation",
+						new String(filterJson.get("propsOperation").toString().getBytes("iso8859-1"), "utf-8"));
+			}
+			if (filterJson.has("propsDatetime")) {
+				filterMap.put("propsDatetime",
+						new String(filterJson.get("propsDatetime").toString().getBytes("iso8859-1"), "utf-8"));
+				props.setPropsCreate(new String(filterJson.get("propsDatetime").toString().getBytes("iso8859-1"), "utf-8"));
 			}
 			if (filterJson.has("propsStatus")) {
 				filterMap.put("propsStatus",
@@ -144,6 +157,8 @@ public class PropsController {
 
 			if (method.equals("add")) {
 				props.setPropsStatus("1");
+				props.setPropsCreate(sdf.format(now));
+				props.setPropsModify(sdf.format(now));
 				//添加之前做判断 是否具有同名属性
 				
 				if(propsService.findPropsByEqualPropsName(props.getPropsName())==null) {
@@ -157,6 +172,7 @@ public class PropsController {
 					js.put("msg", "该属性是初始化属性，不允许修改，默认初始化属性id范围为1~6");
 				}else {
 					props.setPropsStatus("1");
+					props.setPropsModify(sdf.format(now));
 					propsService.updatePropsByPropsId(props);
 				}
 				
@@ -194,6 +210,8 @@ public class PropsController {
 				tem_jo.put("queryPropsDesc", propsTmp.getPropsDesc());
 				tem_jo.put("queryPropsRemarks", propsTmp.getPropsRemarks());
 				tem_jo.put("queryPropsStatus", propsTmp.getPropsStatus());
+				tem_jo.put("queryPropsCreate", propsTmp.getPropsCreate());
+				tem_jo.put("queryPropsModify", propsTmp.getPropsModify());
 				ja.put(tem_jo);
 			}
 			js.put("list", ja);
@@ -214,6 +232,8 @@ public class PropsController {
 		Map<String, Object> filterMap = new HashMap<String, Object>();
 		String method="";
 		PropsDetails propsDetails=new PropsDetails();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
 		try {
 			if(filter!=null) {
 			JSONObject filterJson = new JSONObject(filter);
@@ -237,6 +257,15 @@ public class PropsController {
 				filterMap.put("propsDetailsDesc",
 						new String(filterJson.get("propsDetailsDesc").toString().getBytes("iso8859-1"), "utf-8"));
 				propsDetails.setPropsDetailsDesc(new String(filterJson.get("propsDetailsDesc").toString().getBytes("iso8859-1"), "utf-8"));
+			}
+			if (filterJson.has("propsDetailsOperation")) {
+				filterMap.put("propsDetailsOperation",
+						new String(filterJson.get("propsDetailsOperation").toString().getBytes("iso8859-1"), "utf-8"));
+			}
+			if (filterJson.has("propsDetailsDatetime")) {
+				filterMap.put("propsDetailsDatetime",
+						new String(filterJson.get("propsDetailsDatetime").toString().getBytes("iso8859-1"), "utf-8"));
+				propsDetails.setPropsDetailsCreate(new String(filterJson.get("propsDetailsDatetime").toString().getBytes("iso8859-1"), "utf-8"));
 			}
 			if (filterJson.has("propsDetailsStatus")) {
 				filterMap.put("propsDetailsStatus",
@@ -263,6 +292,8 @@ public class PropsController {
 
 			if (method.equals("add")) {
 				propsDetails.setPropsDetailsStatus("1");
+				propsDetails.setPropsDetailsCreate(sdf.format(now));
+				propsDetails.setPropsDetailsModify(sdf.format(now));
 				//添加之前做判断 是否具有同名属性
 				System.err.println(propsDetails.toString());
 				if(propsDetailsService.findPropsDetailsByEqualPropsDetailsName(propsDetails.getPropsDetailsName())==null) {
@@ -273,6 +304,7 @@ public class PropsController {
 			}
 			if (method.equals("modify")) {
 				propsDetails.setPropsDetailsStatus("1");
+				propsDetails.setPropsDetailsModify(sdf.format(now));
 				propsDetailsService.updatePropsDetailsByPropsDetailsId(propsDetails);
 			}
 			if (method.equals("delete")) {
@@ -304,6 +336,8 @@ public class PropsController {
 				tem_jsonObject.put("queryPropsDetailsDesc", propsDetailsTmp.getPropsDetailsDesc());
 				tem_jsonObject.put("queryPropsDetailsRemarks", propsDetailsTmp.getPropsDetailsRemarks());
 				tem_jsonObject.put("queryPropsDetailsStatus", propsDetailsTmp.getPropsDetailsStatus());
+				tem_jsonObject.put("queryPropsDetailsCreate", propsDetailsTmp.getPropsDetailsCreate());
+				tem_jsonObject.put("queryPropsDetailsModify", propsDetailsTmp.getPropsDetailsModify());
 				
 				System.err.println("propsDetailsTmp.getPropsDetailsStatus():"+propsDetailsTmp.getPropsDetailsStatus());
 				jsonArrayList.put(tem_jsonObject);

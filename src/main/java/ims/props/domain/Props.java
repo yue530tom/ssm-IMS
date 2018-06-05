@@ -6,6 +6,24 @@ public class Props {
 	private String propsName;
 	private String propsDesc;
 	private String propsRemarks;
+	private String propsCreate;
+	private String propsModify;
+	public String getPropsCreate() {
+		return propsCreate;
+	}
+
+	public void setPropsCreate(String propsCreate) {
+		this.propsCreate = propsCreate;
+	}
+
+	public String getPropsModify() {
+		return propsModify;
+	}
+
+	public void setPropsModify(String propsModify) {
+		this.propsModify = propsModify;
+	}
+
 	private String propsStatus;
 
 	public long getPropsId() {
@@ -51,7 +69,8 @@ public class Props {
 	@Override
 	public String toString() {
 		return "Props [propsId=" + propsId + ", propsName=" + propsName + ", propsDesc=" + propsDesc + ", propsRemarks="
-				+ propsRemarks + ", propsStatus=" + propsStatus + "]";
+				+ propsRemarks + ", prppsCreate=" + propsCreate + ", propsModify=" + propsModify + ", propsStatus="
+				+ propsStatus + "]";
 	}
 
 

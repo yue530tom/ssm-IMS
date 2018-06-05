@@ -2,7 +2,9 @@ package ims.factory.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +72,8 @@ public class FactoryController {
 		Map<String, Object> filterMap = new HashMap<String, Object>();
 		String method = "";
 		Factory factory = new Factory();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
 		try {
 			if (filter != null) {
 				JSONObject filterJson = new JSONObject(filter);
@@ -122,6 +126,14 @@ public class FactoryController {
 					factory.setFactoryRemarks(
 							new String(filterJson.get("factoryRemarks").toString().getBytes("iso8859-1"), "utf-8"));
 				}
+				if (filterJson.has("factoryDatetime")) {
+					filterMap.put("factoryDatetime",
+							new String(filterJson.get("factoryDatetime").toString().getBytes("iso8859-1"), "utf-8"));
+				}
+				if (filterJson.has("factoryOperation")) {
+					filterMap.put("factoryOperation",
+							new String(filterJson.get("factoryOperation").toString().getBytes("iso8859-1"), "utf-8"));
+				}
 				if (filterJson.has("factoryStatus")) {
 					filterMap.put("factoryStatus",
 							new String(filterJson.get("factoryStatus").toString().getBytes("iso8859-1"), "utf-8"));
@@ -149,6 +161,8 @@ public class FactoryController {
 
 			if (method.equals("add")) {
 				factory.setFactoryStatus("1");
+				factory.setFactoryCreate(sdf.format(now));
+				factory.setFactoryModify(sdf.format(now));
 				// 添加之前做判断 是否具有同名属性
 
 				if (factoryService.findFactoryByEqualFactoryName(factory.getFactoryName()) == null) {
@@ -159,6 +173,7 @@ public class FactoryController {
 			}
 			if (method.equals("modify")) {
 				factory.setFactoryStatus("1");
+				factory.setFactoryModify(sdf.format(now));
 				factoryService.updateFactoryByFactoryId(factory);
 			}
 			if (method.equals("delete")) {

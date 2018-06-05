@@ -105,11 +105,27 @@
 <script
 	src="/resources/assets/plugins/forms/tags/jquery.tagsinput.min.js"></script>
 <script src="/resources/assets/plugins/forms/tinymce/tinymce.min.js"></script>
+<script src="/resources/assets/plugins/forms/daterangepicker/daterangepicker.js"></script>
+<script src="/resources/assets/plugins/forms/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="/resources/assets/plugins/misc/highlight/highlight.pack.js"></script>
 <script src="/resources/assets/plugins/misc/countTo/jquery.countTo.js"></script>
 <script src="/resources/assets/plugins/ui/weather/skyicons.js"></script>
 <script src="/resources/assets/plugins/ui/notify/jquery.gritter.js"></script>
 <script src="/resources/assets/plugins/ui/calendar/fullcalendar.js"></script>
+<script src="/resources/assets/plugins/forms/icheck/jquery.icheck.js"></script>
+        <script src="/resources/assets/plugins/forms/tags/jquery.tagsinput.min.js"></script>
+        <script src="/resources/assets/plugins/forms/tinymce/tinymce.min.js"></script>
+        <script src="/resources/assets/plugins/forms/switch/jquery.onoff.min.js"></script>
+        <script src="/resources/assets/plugins/forms/maxlength/bootstrap-maxlength.js"></script>
+        <script src="/resources/assets/plugins/forms/bootstrap-filestyle/bootstrap-filestyle.js"></script>
+        <script src="/resources/assets/plugins/forms/color-picker/spectrum.js"></script>
+        <script src="/resources/assets/plugins/forms/daterangepicker/daterangepicker.js"></script>
+        <script src="/resources/assets/plugins/forms/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+        <script src="/resources/assets/plugins/forms/globalize/globalize.js"></script>
+        <script src="/resources/assets/plugins/forms/maskedinput/jquery.maskedinput.js"></script>
+        <script src="/resources/assets/plugins/forms/select2/select2.js"></script>
+        <script src="/resources/assets/plugins/forms/dual-list-box/jquery.bootstrap-duallistbox.js"></script>
+        <script src="/resources/assets/plugins/forms/password/jquery-passy.js"></script>
 <script src="/resources/assets/js/jquery.sprFlat.js"></script>
 <script src="/resources/assets/js/app.js"></script>
 <script src="/resources/assets/js/pages/dashboard.js"></script>
@@ -143,8 +159,8 @@
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
 		//初始化页数
-		/* var d = new Date();
-		$(".form_date").datetimepicker({
+		var d = new Date();
+		$("#datetime-picker").datetimepicker({
 		initialDate : d,
 		language : 'zh-CN',
 		format : 'yyyy-mm-dd',
@@ -154,10 +170,17 @@
 		autoclose : 1,
 		startView : 2,
 		minView : 2
-		});  */
+		});  
 		//提示成功信息      
 	});
-
+	function checkUndefined(value){
+		 var undefined = void(0);
+		 if(value==undefined){
+			 return "";
+		 }else{
+			 return value;
+		 }
+	}
 	function initTable(filter) {
 		var data = null;
 		if (filter != "{}") {
@@ -198,25 +221,29 @@
 		$("#table_propslist").empty();
 		$("#table_propslist")
 				.append(
-						'<tr><th>属性编号</th><th>属性名称</th><th>属性描述</th><th>属性备注</th><th>属性状态</th><th>操作</th></tr>');
+						'<tr><th>属性编号</th><th>属性名称</th><th>属性描述</th><th>属性备注</th><th>属性状态</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
 			var queryPropsId = ja[i].queryPropsId;
 			var queryPropsName = ja[i].queryPropsName;
 			var queryPropsDesc = ja[i].queryPropsDesc;
 			var queryPropsRemarks = ja[i].queryPropsRemarks;
 			var queryPropsStatus = ja[i].queryPropsStatus;
+			var queryPropsCreate = ja[i].queryPropsCreate;
+			var queryPropsModify = ja[i].queryPropsModify;
 			$("#table_propslist").append(
 					'<tr onclick="getDataToModify(this)" id="tr_' + i
 							+ '"></tr>');
-			$("#tr_" + i).append('<td>' + queryPropsId + '</td>');
-			$("#tr_" + i).append("<td>" + queryPropsName + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsDesc + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsRemarks + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(queryPropsId) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsName) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsDesc) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsRemarks) + "</td>");
 			if(queryPropsStatus==1){
 				$("#tr_" + i).append("<td>有效</td>");
 			}else{
 				$("#tr_" + i).append("<td>废弃</td>");
 			}
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsCreate) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsModify) + "</td>");
 			$("#tr_" + i)
 					.append(
 							'<td><button class="btn btn-primary" onclick="doFilterDelete('+queryPropsId+');">删除</button></td>');
@@ -355,10 +382,16 @@
 		if ($("#queryPropsName").val() != "") {
 			filterJs["propsName"] = $("#queryPropsName").val();
 		}
-		if ($("#queryPropsDesc").val() != "") {
+		/* if ($("#queryPropsDesc").val() != "") {
 			filterJs["propsDesc"] = $("#queryPropsDesc").val();
+		} */
+		if ($("#datetime-picker").val() != "") {
+			filterJs["propsDatetime"] = $("#datetime-picker").val();
+			if ($("#selectOperation").val() != "") {
+				filterJs["propsOperation"] = $("#selectOperation").val();
+			}
 		}
-		if ($("input[name='queryPropsStatus']:checked").val() != "") {
+		if ($("select[name='queryPropsStatus']:checked").val() != "") {
 			filterJs["propsStatus"] = $("input[name='queryPropsStatus']:checked").val();
 		}
 
@@ -432,13 +465,6 @@
 						"value",
 						window.table_propslist.rows.item(row.rowIndex).childNodes[3].innerText);
 
-		/* var TAB = document.getElementById("table_propslist") ;  
-		
-		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[2].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[3].innerText);
-		document.getElementById("modifyPropsId").value = TAB.rows[row.rowIndex].cells[0].innerText; */
 
 	}
 </script>
@@ -702,14 +728,35 @@
 												placeholder="请输入属性名称，格式为小于50位的字符">
 										</div>
 									</div>
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label class="col-lg-3 control-label">属性描述</label>
 										<div class="col-lg-9">
 											<input id="queryPropsDesc" name="queryPropsDesc" type="text"
 												class="col-lg-4 form-control"
 												placeholder="请输入属性描述，格式为小于50位的字符">
 										</div>
-									</div>
+									</div> -->
+									<div class="form-group">
+                                            <label class="col-lg-3 control-label">创建日期</label>
+                                            <div class="col-lg-9 col-md-9">
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <select class="form-control" name="selectOperation" id="selectOperation">
+	                                                        <option value="1">大于</option>
+	                                                        <option value="0">小于</option>
+                                                        </select>
+                                                        <!-- <span class="help-block">创建日期</span> -->
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <div class="input-group">
+                                                            <input id="datetime-picker" class="form-control datetime-picker2" type="text" value="">
+                                                            <span class="input-group-addon"><i class="fa-calendar"></i></span>
+                                                        </div>
+                                                        <!-- <span class="help-block">Without time picker</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label">属性状态</label>
 										<div class="col-lg-9" style="height: 34px">
@@ -722,6 +769,7 @@
 											</label>
 										</div>
 									</div>
+									
 									<!-- End .form-group  -->
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>

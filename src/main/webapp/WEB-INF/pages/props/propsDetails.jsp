@@ -110,6 +110,8 @@
 <script src="/resources/assets/plugins/ui/weather/skyicons.js"></script>
 <script src="/resources/assets/plugins/ui/notify/jquery.gritter.js"></script>
 <script src="/resources/assets/plugins/ui/calendar/fullcalendar.js"></script>
+        <script src="/resources/assets/plugins/forms/daterangepicker/daterangepicker.js"></script>
+        <script src="/resources/assets/plugins/forms/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="/resources/assets/js/jquery.sprFlat.js"></script>
 <script src="/resources/assets/js/app.js"></script>
 <script src="/resources/assets/js/pages/dashboard.js"></script>
@@ -136,7 +138,18 @@
 		initPropsSelectOption();
 		initTable("{}");
 		//console.log("$(document).ready:" + $("#buffer_span").text());
-		
+		var d = new Date();
+		$("#datetime-picker").datetimepicker({
+		initialDate : d,
+		language : 'zh-CN',
+		format : 'yyyy-mm-dd',
+		todayHighlight : 1,
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		startView : 2,
+		minView : 2
+		});
 	});
 
 	
@@ -198,7 +211,7 @@
 		$("#table_propsDetailslist").empty();
 		$("#table_propsDetailslist")
 				.append(
-						'<tr><th>详情编号</th><th>归类</th><th>详情名称</th><th>详情描述</th><th>详情备注</th><th>详情状态</th><th>操作</th></tr>');
+						'<tr><th>详情编号</th><th>归类</th><th>详情名称</th><th>详情描述</th><th>详情备注</th><th>详情状态</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
 			var queryPropsDetailsId = ja[i].queryPropsDetailsId;
 			var queryPropsId = ja[i].queryPropsId;
@@ -206,27 +219,39 @@
 			var queryPropsDetailsDesc = ja[i].queryPropsDetailsDesc;
 			var queryPropsDetailsRemarks = ja[i].queryPropsDetailsRemarks;
 			var queryPropsDetailsStatus = ja[i].queryPropsDetailsStatus;
+			var queryPropsDetailsCreate=ja[i].queryPropsDetailsCreate;
+			var queryPropsDetailsModify=ja[i].queryPropsDetailsModify;
 			$("#table_propsDetailslist").append(
 					'<tr onclick="getDataToModify(this)" id="tr_' + i
 							+ '"></tr>');
-			$("#tr_" + i).append('<td>' + queryPropsDetailsId + '</td>');
-			$("#tr_" + i).append("<td>" + arrCategory[queryPropsId] + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsDetailsName + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsDetailsDesc + "</td>");
-			$("#tr_" + i).append("<td>" + queryPropsDetailsRemarks + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(queryPropsDetailsId) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(arrCategory[queryPropsId]) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsDetailsName) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsDetailsDesc) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsDetailsRemarks) + "</td>");
+
 			console.log("queryPropsDetailsStatus:"+queryPropsDetailsStatus);
 			if(queryPropsDetailsStatus==1){
 				$("#tr_" + i).append("<td>有效</td>");
 			}else{
 				$("#tr_" + i).append("<td>废弃</td>");
 			}
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsDetailsCreate) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(queryPropsDetailsModify) + "</td>");
 			$("#tr_" + i)
 					.append(
 							'<td><button class="btn btn-primary" onclick="doFilterDelete('+queryPropsDetailsId+');">删除</button></td>');
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
-
+	function checkUndefined(value){
+		 var undefined = void(0);
+		 if(value==undefined){
+			 return "";
+		 }else{
+			 return value;
+		 }
+	}
 	function initPage(json) {
 		var curPage = 1;
 		var totalPage = json.page;
@@ -362,8 +387,14 @@
 		if ($("#queryPropsDetailsName").val() != "") {
 			filterJs["propsDetailsName"] = $("#queryPropsDetailsName").val();
 		}
-		if ($("#queryPropsDetailsDesc").val() != "") {
+	/* 	if ($("#queryPropsDetailsDesc").val() != "") {
 			filterJs["propsDetailsDesc"] = $("#queryPropsDetailsDesc").val();
+		} */
+		if ($("#datetime-picker").val() != "") {
+			filterJs["propsDetailsDatetime"] = $("#datetime-picker").val();
+			if ($("#selectDetailsOperation").val() != "") {
+				filterJs["propsDetailsOperation"] = $("#selectDetailsOperation").val();
+			}
 		}
 		if ($("input[name='queryPropsDetailsStatus']:checked").val() != "") {
 			filterJs["propsDetailsStatus"] = $("input[name='queryPropsDetailsStatus']:checked").val();
@@ -739,15 +770,27 @@
 												placeholder="请输入详情名称，格式为小于50位的字符">
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label">详情描述</label>
-										<div class="col-lg-9">
-											<input id="queryPropsDetailsDesc"
-												name="queryPropsDetailsDesc" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情描述，格式为小于50位的字符">
-										</div>
-									</div>
+																	<div class="form-group">
+                                            <label class="col-lg-3 control-label">创建日期</label>
+                                            <div class="col-lg-9 col-md-9">
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <select class="form-control" name="selectDetailsOperation" id="selectDetailsOperation">
+	                                                        <option value="1">大于</option>
+	                                                        <option value="0">小于</option>
+                                                        </select>
+                                                        <!-- <span class="help-block">创建日期</span> -->
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <div class="input-group">
+                                                            <input id="datetime-picker" class="form-control datetime-picker2" type="text" value="">
+                                                            <span class="input-group-addon"><i class="fa-calendar"></i></span>
+                                                        </div>
+                                                        <!-- <span class="help-block">Without time picker</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label">详情状态</label>
 										<div class="col-lg-9" style="height: 34px">

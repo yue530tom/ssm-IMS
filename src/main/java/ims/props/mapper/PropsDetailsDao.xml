@@ -11,10 +11,12 @@
 		<result property="propsDetailsDesc" column="props_details_desc" />
 		<result property="propsDetailsRemarks" column="props_details_remarks" />
 		<result property="propsDetailsStatus" column="props_details_status" />
+		<result property="propsDetailsCreate" column="props_details_create" />
+		<result property="propsDetailsModify" column="props_details_modify" />
 	</resultMap>
 
 	<sql id="propsDetailsColumns">
-		props_details_id,props_id,props_details_name,props_details_desc,props_details_remarks,props_details_status
+		props_details_id,props_id,props_details_name,props_details_desc,props_details_remarks,props_details_status,props_details_create,props_details_modify
 	</sql>
 
 	<!--插入订单信息 -->
@@ -34,6 +36,12 @@
 			<if test="propsDetailsRemarks != null">
 				props_details_remarks,
 			</if>
+			<if test="propsDetailsCreate != null">
+				props_details_create,
+			</if>
+			<if test="propsDetailsModify != null">
+				props_details_modify,
+			</if>
 			<if test="propsDetailsStatus != null">
 				props_details_status,
 			</if>
@@ -51,6 +59,14 @@
 			<if test="propsDetailsRemarks != null">
 				#{propsDetailsRemarks, jdbcType=VARCHAR},
 			</if>
+			
+			<if test="propsDetailsCreate != null">
+				#{propsDetailsCreate, jdbcType=TIMESTAMP},
+			</if>
+			<if test="propsDetailsModify != null">
+				#{propsDetailsModify, jdbcType=TIMESTAMP},
+			</if>
+			
 			<if test="propsDetailsStatus != null">
 				#{propsDetailsStatus, jdbcType=VARCHAR},
 			</if>
@@ -80,6 +96,9 @@
 		<if test="propsDetailsRemarks != null and propsDetailsRemarks != '' ">
 			props_details_remarks = #{propsDetailsRemarks},
 		</if>
+		<if test="propsDetailsModify != null and propsDetailsModify != '' ">
+			props_details_modify = #{propsDetailsModify},
+		</if>
 		<if test="propsDetailsStatus != null and propsDetailsStatus != '' ">
 			props_details_status = #{propsDetailsStatus}
 		</if>
@@ -108,6 +127,12 @@
 			</if>
 			<if test="propsDetailsRemarks != null and propsDetailsRemarks != '' ">
 				and props_details_remarks = #{propsDetailsRemarks}
+			</if>
+			<if test="propsDetailsDatetime != null and propsDetailsDatetime != '' and propsDetailsOperation==1">
+				and props_details_create &gt; #{propsDetailsDatetime}
+			</if>
+			<if test="propsDetailsDatetime != null and propsDetailsDatetime != '' and propsDetailsOperation==0">
+				and props_details_create &lt; #{propsDetailsDatetime}
 			</if>
 			<if test="propsDetailsStatus != null and propsDetailsStatus != '' ">
 				and props_details_status = #{propsDetailsStatus}

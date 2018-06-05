@@ -104,6 +104,12 @@ public class OrderController {
 					filterMap.put("orderSumMoney", filterJson.get("orderSumMoney").toString());
 					order.setOrderSumMoney(filterJson.get("orderSumMoney").toString());
 				}
+				if (filterJson.has("orderDatetime")) {
+					filterMap.put("orderDatetime", filterJson.get("orderDatetime").toString());
+				}
+				if (filterJson.has("orderOperation")) {
+					filterMap.put("orderOperation", filterJson.get("orderOperation").toString());
+				}
 				if (filterJson.has("orderStatus")) {
 					filterMap.put("orderStatus", filterJson.get("orderStatus").toString());
 					order.setOrderStatus(filterJson.get("orderStatus").toString());
@@ -151,7 +157,8 @@ public class OrderController {
 				tempJsonObject.put("orderSumMoney", orderTmp.getOrderSumMoney());
 				tempJsonObject.put("orderDeposit", orderTmp.getOrderDeposit());
 				tempJsonObject.put("orderStatus", orderTmp.getOrderStatus());
-
+				tempJsonObject.put("orderCreate", orderTmp.getOrderCreate());
+				tempJsonObject.put("orderModify", orderTmp.getOrderModify());
 				jsonArray.put(tempJsonObject);
 			}
 

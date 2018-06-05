@@ -15,6 +15,8 @@
 		<result property="productMaterial" column="product_material" />
 		<result property="productCollar" column="product_collar" />
 		<result property="productPocket" column="product_pocket" />
+		<result property="productCreate" column="product_create" />
+		<result property="productmodify" column="product_modify" />
 	</resultMap>
 
 	<sql id="cartColumns">
@@ -53,6 +55,12 @@
 			<if test="productPocket != null">
 				product_pocket,
 			</if>
+			<if test="productCreate != null">
+				product_create,
+			</if>
+			<if test="productModify != null">
+				product_modify,
+			</if>
 		</trim>
 		<trim prefix="values(" suffix=")" suffixOverrides=",">
 			<if test="productId != null">
@@ -81,6 +89,12 @@
 			</if>
 			<if test="productPocket != null">
 				#{productPocket, jdbcType=VARCHAR},
+			</if>
+			<if test="productCreate != null">
+				#{productCreate, jdbcType=VARCHAR},
+			</if>
+			<if test="productModify != null">
+				#{productModify, jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -125,6 +139,9 @@
 		<if test="productPocket != null and productPocket != '' ">
 			product_pocket = #{productPocket}
 		</if>
+		<if test="productModify != null and productModify != '' ">
+			product_modify = #{productModify}
+		</if>
 		WHERE cart_id = #{cartId}
 	</update>
 
@@ -133,12 +150,20 @@
 		SELECT
 		<include refid="cartColumns" />
 		FROM cart
+		<where>
+			<if test="cartDatetime != null and cartDatetime != '' and cartOperation==1">
+				and product_create &gt; #{cartDatetime}
+			</if>
+			<if test="cartDatetime != null and cartDatetime != '' and cartOperation==0">
+				and product_create &lt; #{cartDatetime}
+			</if>
+		</where>
 		<if test="start!=null and size!=null">
 			limit #{start},#{size};
 		</if>
 	</select>
 	<insert id="cartCalc" parameterType="long">
-		insert into order_details(order_id,orderdetails_product_id,orderdetails_product_num,orderdetails_product_price,orderdetails_product_material,orderdetails_product_category,orderdetails_product_color,orderdetails_product_size,orderdetails_product_collar,orderdetails_product_pocket) SELECT #{_parameter},product_id,product_count,product_price,product_material,product_category,product_color,product_size,product_collar,product_pocket FROM cart
+		insert into order_details(order_id,orderdetails_product_id,orderdetails_product_num,orderdetails_product_price,orderdetails_product_material,orderdetails_product_category,orderdetails_product_color,orderdetails_product_size,orderdetails_product_collar,orderdetails_product_pocket,orderdetails_create,orderdetails_modify,orderdetails_status) SELECT #{_parameter},product_id,product_count,product_price,product_material,product_category,product_color,product_size,product_collar,product_pocket,SYSDATE(),SYSDATE(),1 FROM cart
 	</insert>
 	<!--根据订单名称模糊查询订单信息 -->
 	<select id="findCartByLikeCartName" parameterType="String"

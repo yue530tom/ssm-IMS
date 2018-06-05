@@ -1,7 +1,9 @@
 package ims.product.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +133,8 @@ public class ProductController {
 		Map<String, Object> filterMap = new HashMap<String, Object>();
 		String method = "";
 		Product product = new Product();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
 		try {
 			
 			//POST不用转字符，GET需要转
@@ -187,6 +191,12 @@ public class ProductController {
 					filterMap.put("productStatus", filterJson.get("productStatus").toString());
 					product.setProductStatus(filterJson.get("productStatus").toString());
 				}
+				if (filterJson.has("productOperation")) {
+					filterMap.put("productOperation",filterJson.get("productOperation").toString());
+				}
+				if (filterJson.has("productDatetime")) {
+					filterMap.put("productDatetime",filterJson.get("productDatetime").toString());
+				}
 			} else {
 				// 完善，如果filter为空，说明是初始化，我们要增加工厂状态的过滤
 				filterMap.put("productStatus", "1");
@@ -207,6 +217,8 @@ public class ProductController {
 
 			if (method.equals("add")) {
 				product.setProductStatus("1");
+				product.setProductCreate(sdf.format(now));
+				product.setProductModify(sdf.format(now));
 				// 添加之前做判断 是否具有同名属性
 
 				if (productService.findProductByEqualProductNo(String.valueOf(product.getProductNo())).size() == 0) {
@@ -217,6 +229,7 @@ public class ProductController {
 			}
 			if (method.equals("modify")) {
 				product.setProductStatus("1");
+				product.setProductModify(sdf.format(now));
 				productService.updateProductByProductId(product);
 			}
 			if (method.equals("delete")) {
@@ -259,6 +272,8 @@ public class ProductController {
 				tempJsonObject.put("productPocket", propsTmp.getProductPocket());
 				tempJsonObject.put("productRemarks", propsTmp.getProductRemarks());
 				tempJsonObject.put("productStatus", propsTmp.getProductStatus());
+				tempJsonObject.put("productCreate", propsTmp.getProductCreate());
+				tempJsonObject.put("productModify", propsTmp.getProductModify());
 				jsonArray.put(tempJsonObject);
 				//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
 			}

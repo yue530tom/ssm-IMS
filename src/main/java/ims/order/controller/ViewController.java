@@ -157,6 +157,15 @@ public class ViewController {
 					filterMap.put("productPocket", filterJson.get("productPocket").toString());
 					cart.setProductPocket(filterJson.get("productPocket").toString());
 				}
+				if (filterJson.has("productOperation")) {
+					filterMap.put("productOperation",
+							new String(filterJson.get("productOperation").toString().getBytes("iso8859-1"), "utf-8"));
+				}
+				if (filterJson.has("productDatetime")) {
+					filterMap.put("productDatetime",
+							new String(filterJson.get("productDatetime").toString().getBytes("iso8859-1"), "utf-8"));
+					cart.setProductCreate(new String(filterJson.get("productDatetime").toString().getBytes("iso8859-1"), "utf-8"));
+				}
 			} else {
 				// 完善，如果filter为空，说明是初始化，我们要增加工厂状态的过滤
 				js.put("msg", "未选择任何属性，请选择属性再添加");

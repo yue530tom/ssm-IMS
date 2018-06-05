@@ -110,6 +110,8 @@
 <script src="/resources/assets/plugins/ui/weather/skyicons.js"></script>
 <script src="/resources/assets/plugins/ui/notify/jquery.gritter.js"></script>
 <script src="/resources/assets/plugins/ui/calendar/fullcalendar.js"></script>
+<script src="/resources/assets/plugins/forms/daterangepicker/daterangepicker.js"></script>
+<script src="/resources/assets/plugins/forms/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="/resources/assets/js/jquery.sprFlat.js"></script>
 <script src="/resources/assets/js/app.js"></script>
 <script src="/resources/assets/js/pages/dashboard.js"></script>
@@ -135,7 +137,28 @@
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
 		initPropsSelectOption();
+		var d = new Date();
+		$("#datetime-picker").datetimepicker({
+		initialDate : d,
+		language : 'zh-CN',
+		format : 'yyyy-mm-dd',
+		todayHighlight : 1,
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		startView : 2,
+		minView : 2
+		});  
+		//提示成功信息      
 	});
+	function checkUndefined(value){
+		 var undefined = void(0);
+		 if(value==undefined){
+			 return "";
+		 }else{
+			 return value;
+		 }
+	}
 
 	function initPropsSelectOption(){
 		propsDetails1 = ${propsDetails1}
@@ -230,7 +253,7 @@
 		$("#table_propslist").empty();
 		$("#table_propslist")
 				.append(
-						'<tr><th>产品id</th><th>产品编号</th><th>产品名称</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>产品备注</th><th>产品状态</th></tr>');
+						'<tr><th>产品id</th><th>产品编号</th><th>产品名称</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>产品备注</th><th>创建日期</th><th>修改日期</th><th>产品状态</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
 			var productId = ja[i].productId;
 			var productNo = ja[i].productNo;
@@ -244,12 +267,14 @@
 			var productPocket = ja[i].productPocket;
 			var productRemarks = ja[i].productRemarks;
 			var productStatus = ja[i].productStatus;
+			var productCreate = ja[i].productCreate;
+			var productModify = ja[i].productModify;
 			$("#table_propslist").append(
 					'<tr onclick="getDataToModify(this)" id="tr_' + i
 							+ '"></tr>');
-			$("#tr_" + i).append('<td>' + productId + '</td>');
-			$("#tr_" + i).append('<td>' + productNo + '</td>');
-			$("#tr_" + i).append("<td>" + productName + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(productId) + '</td>');
+			$("#tr_" + i).append('<td>' + checkUndefined(productNo) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(productName) + "</td>");
 
 			if(productImg!=null&&productImg!=""){
 				$("#tr_" + i).append("<td><img id='img_" + i+ "' src='' style='height:34px;width:34px;'/></td>");
@@ -260,18 +285,20 @@
 			//$("#image").attr("src",productImg.replace(/ /, "+"));
 			//console.log(productImg);
 			//console.log(productName+document.getElementById("image").src);
-			$("#tr_" + i).append("<td>" + code2name(productCategory) + "</td>");
-			$("#tr_" + i).append('<td>' + code2name(productColor) + '</td>');
-			$("#tr_" + i).append("<td>" + code2name(productSize) + "</td>");
-			$("#tr_" + i).append("<td>" + code2name(productMaterial) + "</td>");
-			$("#tr_" + i).append("<td>" + code2name(productCollar) + "</td>");
-			$("#tr_" + i).append("<td>" + code2name(productPocket) + "</td>");
-			$("#tr_" + i).append("<td>" + productRemarks + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productCategory)) + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(code2name(productColor)) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productSize)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productMaterial)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productCollar)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productPocket)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productRemarks) + "</td>");
 			if (productStatus == 1) {
 				$("#tr_" + i).append("<td>有效</td>");
 			} else {
 				$("#tr_" + i).append("<td>废弃</td>");
 			}
+			$("#tr_" + i).append("<td>" + checkUndefined(productCreate) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productModify) + "</td>");
 			$("#tr_" + i).append(
 					'<td><button class="btn btn-primary" onclick="doFilterDelete('
 							+ productId + ');">删除</button></td>');
@@ -433,6 +460,12 @@
 		}
 		if (getCheck("pocket") != "") {
 			filterJs["productPocket"] = getCheck("pocket");
+		}
+		if ($("#datetime-picker").val() != "") {
+			filterJs["productDatetime"] = $("#datetime-picker").val();
+			if ($("#productOperation").val() != "") {
+				filterJs["productOperation"] = $("#productOperation").val();
+			}
 		}
 		if ($("#productRemarks").val() != "") {
 			filterJs["productRemarks"] = $("#productRemarks").val();
@@ -979,6 +1012,27 @@
 											</label>
 										</div>
 									</div>
+									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <label class="col-lg-4 control-label">创建日期</label>
+                                            <div class="col-lg-8 col-md-9">
+                                                <div class="row">
+                                                    <div class="col-lg-5 col-md-5">
+                                                        <select class="form-control" name="productOperation" id="productOperation">
+	                                                        <option value="1">大于</option>
+	                                                        <option value="0">小于</option>
+                                                        </select>
+                                                        <!-- <span class="help-block">创建日期</span> -->
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7">
+                                                        <div class="input-group">
+                                                            <input id="datetime-picker" class="form-control datetime-picker2" type="text" value="">
+                                                            <span class="input-group-addon"><i class="fa-calendar"></i></span>
+                                                        </div>
+                                                        <!-- <span class="help-block">Without time picker</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label"></label>
 										<div class="col-lg-8">

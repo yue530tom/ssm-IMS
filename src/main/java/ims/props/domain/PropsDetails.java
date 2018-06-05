@@ -7,6 +7,24 @@ public class PropsDetails {
 	private String propsDetailsName;
 	private String propsDetailsDesc;
 	private String propsDetailsRemarks;
+	private String propsDetailsCreate;
+	private String propsDetailsModify;
+	public String getPropsDetailsCreate() {
+		return propsDetailsCreate;
+	}
+
+	public void setPropsDetailsCreate(String propsDetailsCreate) {
+		this.propsDetailsCreate = propsDetailsCreate;
+	}
+
+	public String getPropsDetailsModify() {
+		return propsDetailsModify;
+	}
+
+	public void setPropsDetailsModify(String propsDetailsModify) {
+		this.propsDetailsModify = propsDetailsModify;
+	}
+
 	private String propsDetailsStatus;
 
 	public long getPropsDetailsId() {
@@ -61,7 +79,8 @@ public class PropsDetails {
 	public String toString() {
 		return "PropsDetails [propsDetailsId=" + propsDetailsId + ", propsId=" + propsId + ", propsDetailsName="
 				+ propsDetailsName + ", propsDetailsDesc=" + propsDetailsDesc + ", propsDetailsRemarks="
-				+ propsDetailsRemarks + ", propsDetailsStatus=" + propsDetailsStatus + "]";
+				+ propsDetailsRemarks + ", propsDetailsCreate=" + propsDetailsCreate + ", propsDetailsModify="
+				+ propsDetailsModify + ", propsDetailsStatus=" + propsDetailsStatus + "]";
 	}
 
 }
