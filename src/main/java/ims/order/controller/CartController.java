@@ -270,6 +270,7 @@ public class CartController {
 				js.put("msg", "从购物车移除编号为【"+cart.getCartId()+"】的清单");
 			}
 			if (method.equals("calc")) {
+				order.setOrderStatus("1");
 				orderService.addOrder(order);
 				long orderId= order.getOrderId();
 				cartService.cartCalc(orderId);

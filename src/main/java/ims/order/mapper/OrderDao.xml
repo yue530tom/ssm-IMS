@@ -55,7 +55,7 @@
 				order_remarks,
 			</if>
 			<if test="orderStatus != null">
-				order_remarks,
+				order_status,
 			</if>
 		</trim>
 		<trim prefix="values(" suffix=")" suffixOverrides=",">
