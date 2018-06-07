@@ -45,7 +45,364 @@
 	type="image/png">
 <!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
 <meta name="msapplication-TileColor" content="#3399cc" />
+<!-- Load pace first -->
+	<script src="/resources/assets/plugins/core/pace/pace.min.js"></script>
+	<!-- Important javascript libs(put in all pages) -->
+	<script src="/resources/assets/js/jquery-1.8.3.min.js"></script>
+	<script>
+        window.jQuery || document.write('<script src="/resources/assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
+        </script>
+	<script src="/resources/assets/js/jquery-ui.js"></script>
+	<script>
+        window.jQuery || document.write('<script src="/resources/assets/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
+        </script>
+	<!--[if lt IE 9]>
+  <script type="text/javascript" src="/resources/assets/js/libs/excanvas.min.js"></script>
+  <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <script type="text/javascript" src="/resources/assets/js/libs/respond.min.js"></script>
+<![endif]-->
+	<!-- Bootstrap plugins -->
+	<script src="/resources/assets/js/bootstrap/bootstrap.js"></script>
+	<!-- Core plugins ( not remove ever) -->
+	<!-- Handle responsive view functions -->
+	<script src="/resources/assets/js/jRespond.min.js"></script>
+	<!-- Custom scroll for sidebars,tables and etc. -->
+	<script
+		src="/resources/assets/plugins/core/slimscroll/jquery.slimscroll.min.js"></script>
+	<script
+		src="/resources/assets/plugins/core/slimscroll/jquery.slimscroll.horizontal.min.js"></script>
+	<!-- Resize text area in most pages -->
+	<script
+		src="/resources/assets/plugins/forms/autosize/jquery.autosize.js"></script>
+	<!-- Proivde quick search for many widgets -->
+	<script
+		src="/resources/assets/plugins/core/quicksearch/jquery.quicksearch.js"></script>
+	<!-- Bootbox confirm dialog for reset postion on panels -->
+	<script src="/resources/assets/plugins/ui/bootbox/bootbox.js"></script>
+	<!-- Other plugins ( load only nessesary plugins for every page) -->
+	<script src="/resources/assets/plugins/charts/flot/jquery.flot.js"></script>
+	<script src="/resources/assets/plugins/charts/flot/jquery.flot.pie.js"></script>
+	<script
+		src="/resources/assets/plugins/charts/flot/jquery.flot.resize.js"></script>
+	<script src="/resources/assets/plugins/charts/flot/jquery.flot.time.js"></script>
+	<script
+		src="/resources/assets/plugins/charts/flot/jquery.flot.growraf.js"></script>
+	<script
+		src="/resources/assets/plugins/charts/flot/jquery.flot.categories.js"></script>
+	<script
+		src="/resources/assets/plugins/charts/flot/jquery.flot.stack.js"></script>
+	<script
+		src="/resources/assets/plugins/charts/flot/jquery.flot.tooltip.min.js"></script>
+	<script src="/resources/assets/plugins/charts/flot/date.js"></script>
+	<script
+		src="/resources/assets/plugins/charts/sparklines/jquery.sparkline.js"></script>
+	<script
+		src="/resources/assets/plugins/charts/pie-chart/jquery.easy-pie-chart.js"></script>
+	<script src="/resources/assets/plugins/forms/icheck/jquery.icheck.js"></script>
+	<script
+		src="/resources/assets/plugins/forms/tags/jquery.tagsinput.min.js"></script>
+	<script src="/resources/assets/plugins/forms/tinymce/tinymce.min.js"></script>
+	<script
+		src="/resources/assets/plugins/misc/highlight/highlight.pack.js"></script>
+	<script src="/resources/assets/plugins/misc/countTo/jquery.countTo.js"></script>
+	<script src="/resources/assets/plugins/ui/weather/skyicons.js"></script>
+	<script src="/resources/assets/plugins/ui/notify/jquery.gritter.js"></script>
+	<script src="/resources/assets/plugins/ui/calendar/fullcalendar.js"></script>
+	<script src="/resources/assets/js/jquery.sprFlat.js"></script>
+	<script src="/resources/assets/js/app.js"></script>
+	<script src="/resources/assets/js/pages/dashboard.js"></script>
+	<script>
+	$(function() {
 
+		//first line chart
+		var d1 = [];
+		//here we generate randomdata data for chart
+		for (var i = 0; i < 8; i++) {
+			d1.push([new Date(Date.today().add(i).days()).getTime(),randNum()]);
+		}
+
+		var chartMinDate = d1[0][0]; //first day
+    	var chartMaxDate = d1[7][0];//last day
+
+    	var tickSize = [1, "day"];
+    	var tformat = "%d/%m/%y";
+
+    	var total = 0;
+    	//calculate total earnings for this period
+    	for (var i = 0; i < 8; i++) {
+			total = d1[i][1] + total;
+		}
+
+    	var options = {
+    		grid: {
+				show: true,
+			    aboveData: true,
+			    color: colours.white ,
+			    labelMargin: 20,
+			    axisMargin: 0, 
+			    borderWidth: 0,
+			    borderColor:null,
+			    minBorderMargin: 5 ,
+			    clickable: true, 
+			    hoverable: true,
+			    autoHighlight: true,
+			    mouseActiveRadius: 100,
+			},
+			series: {
+				grow: {
+		            active: true,
+		     		duration: 1500
+		        },
+	            lines: {
+            		show: true,
+            		fill: false,
+            		lineWidth: 2.5
+	            },
+	            points: {
+	            	show:true,
+	            	radius: 4,
+	            	lineWidth: 2.5,
+	            	fill: true,
+	            	fillColor: colours.blue
+	            }
+	        },
+	        colors: ['#fcfcfc'],
+	        legend: { 
+	        	position: "ne", 
+	        	margin: [0,-25], 
+	        	noColumns: 0,
+	        	labelBoxBorderColor: null,
+	        	labelFormatter: function(label, series) {
+				    return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ 'Total: $'+ total +'</div>';
+				},
+				backgroundColor: colours.blue,
+    			backgroundOpacity: 0.5,
+    			hideSquare: true //hide square color helper 
+	    	},
+	        shadowSize:0,
+	        tooltip: true, //activate tooltip
+			tooltipOpts: {
+				content: "$%y.0",
+				xDateFormat: "%d/%m",
+				shifts: {
+					x: -30,
+					y: -50
+				},
+				theme: 'dark',
+				defaultTheme: false
+			},
+			yaxis: { 
+				min: 0
+			},
+			xaxis: { 
+	        	mode: "time",
+	        	minTickSize: tickSize,
+	        	timeformat: tformat,
+	        	min: chartMinDate,
+	        	max: chartMaxDate,
+	        	tickLength: 0,
+	            
+	        }
+    	}
+
+		var plot = $.plot($("#stats-earnings"),[{
+    			label: "Earnings", 
+    			data: d1,
+    		}], options
+    	);
+
+	});
+
+	//second bars chart
+    $(function () {	
+    	
+    	var data = [ ["JAN", 1500], ["FEB", 1345], ["MAR", 1800], ["APR", 1670], ["MAY", 1780], ["JUN", 1500], ["JUL", 1350], ["AUG", 1700], ["SEP", 1890], ["OCT", 2000], ["NOV", 1950], ["DEC", 2000] ];
+    	
+    	//Replicate the existing bar data to reproduce bar fill effect
+    	var arr= [];
+    	for (var i = 0; i <= data.length -1; i++) {
+    		arr.push(data[i][1]);
+    	};
+    	var largest = Math.max.apply(Math, arr) + 50;
+    	d1 = [];
+    	for (var i = 0; i <= data.length -1; i++) {
+    		sum = largest - data[i][1];
+    		d1.push([data[i][0],sum]);
+    	};
+
+    	var options = {
+    		series : {
+				stack: true
+			},
+			bars: {
+				show:true,
+				barWidth: 0.6,
+				fill:1,
+				align: "center"
+			},
+			grid: {
+				show:true,
+				hoverable: true,
+				borderWidth: 0,
+			    borderColor:null
+			},
+	        colors: [colours.green, colours.gray],
+	        tooltip: true, //activate tooltip
+			tooltipOpts: {
+				content: "$%y.0",
+				shifts: {
+					x: -30,
+					y: -50
+				}
+			},
+			yaxis: {
+				tickLength: 0,
+				show:false
+			},
+			xaxis: { 
+	        	mode: "categories",
+				tickLength: 0
+	        }
+		};
+		 
+		$.plot($("#stats-earnings-bars"), [data, d1], options);
+	});
+
+	//second donut chart
+	$(function () {
+		var options = {
+			series: {
+				pie: { 
+					show: true,
+					innerRadius: 0.55,
+					highlight: {
+						opacity: 0.1
+					},
+					radius: 1,
+					stroke: {
+						width: 10
+					},
+					startAngle: 2.15
+				}					
+			},
+			legend:{
+				show:true,
+				labelFormatter: function(label, series) {
+				    return '<div style="font-weight:bold;font-size:13px;">'+ label +'</div>'
+				},
+				labelBoxBorderColor: null,
+				margin: 50,
+				width: 20,
+				padding: 1
+			},
+			grid: {
+	            hoverable: true,
+	            clickable: true,
+	        },
+	        tooltip: true, //activate tooltip
+			tooltipOpts: {
+				content: "%s : %y.1"+"%",
+				shifts: {
+					x: -30,
+					y: -50
+				},
+				theme: 'dark',
+				defaultTheme: false
+			}
+		};
+		var data = [
+		    { label: "Coding",  data: 68, color: colours.red},
+		    { label: "Design",  data: 20, color: colours.green},
+		    { label: "SEO",  data: 12, color: colours.blue}
+		];
+	    $.plot($("#stats-category-earnings"), data, options);
+
+	});
+
+	function() {
+
+		//visiotrs
+		var d1 = [["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]];
+		var d2 = [["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]];
+		
+    	var options = {
+    		grid: {
+				show: true,
+			    labelMargin: 20,
+			    axisMargin: 40, 
+			    borderWidth: 0,
+			    borderColor:null,
+			    minBorderMargin: 20,
+			    clickable: true, 
+			    hoverable: true,
+			    autoHighlight: true,
+			    mouseActiveRadius: 100
+			},
+			series: {
+				grow: {
+		            active: true,
+		     		duration: 1000
+		        },
+	            lines: {
+            		show: true,
+            		fill: false,
+            		lineWidth: 2.5
+	            },
+	            points: {
+	            	show:true,
+	            	radius: 5,
+	            	lineWidth: 3.0,
+	            	fill: true,
+	            	fillColor: colours.red,
+	            	strokeColor: colours.white 
+	            }
+	        },
+	        colors: [colours.dark, colours.blue],
+	        legend: { 
+	        	show:true,
+	        	position: "ne", 
+	        	margin: [0,-25], 
+	        	noColumns: 0,
+	        	labelBoxBorderColor: null,
+	        	labelFormatter: function(label, series) {
+				    return '&nbsp;'+label+'&nbsp;&nbsp;';
+				},
+				width: 40,
+				height: 1
+	    	},
+	        shadowSize:0,
+	        tooltip: true, //activate tooltip
+			tooltipOpts: {
+				content: "%y.0",
+				shifts: {
+					x: -45,
+					y: -50
+				},
+				defaultTheme: false
+			},
+			yaxis: { 
+				show:false
+			},
+			xaxis: { 
+	        	mode: "categories",
+	        	tickLength: 0
+	        }
+    	}
+
+		var plot = $.plot($("#stats-orders"),[
+			{
+    			label: "Visitors", 
+    			data: d1
+    		},
+    		{
+    			label: "Return visitors", 
+    			data: d2
+    		}
+    		], options
+    	);
+
+	}
+	</script>
 </head>
 <body>
 	<!-- Start #header -->
@@ -271,7 +628,7 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">24</div>
-											<h3>热销冠军</h3>
+											<h3>按数量</h3>
 										</div>
 									</div>
 								</div>
@@ -283,7 +640,7 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">17</div>
-											<h3>热销亚军</h3>
+											<h3>按订单</h3>
 										</div>
 									</div>
 								</div>
@@ -295,7 +652,19 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">11</div>
-											<h3>热销季军</h3>
+											<h3>按颜色</h3>
+										</div>
+									</div>
+								</div>
+								<div class="item">
+									<div class="tile yellow">
+										<!-- tile start here -->
+										<div class="tile-icon">
+											<i class="ec-mail s64"></i>
+										</div>
+										<div class="tile-content">
+											<div class="number">11</div>
+											<h3>按布料</h3>
 										</div>
 									</div>
 								</div>
@@ -313,7 +682,7 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">325</div>
-											<h3>New users</h3>
+											<h3>总件数</h3>
 										</div>
 									</div>
 								</div>
@@ -325,7 +694,30 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">2540</div>
-											<h3>Searches</h3>
+											<h3>总金额</h3>
+										</div>
+									</div>
+								</div>
+								<div class="item active">
+									<div class="tile green">
+										<div class="tile-icon">
+											<i class="ec-users s64"></i>
+										</div>
+										<div class="tile-content">
+											<div class="number">325</div>
+											<h3>近一个月件数</h3>
+										</div>
+									</div>
+								</div>
+								<div class="item">
+									<div class="tile purple">
+										<!-- tile start here -->
+										<div class="tile-icon">
+											<i class="ec-search s64"></i>
+										</div>
+										<div class="tile-content">
+											<div class="number">2540</div>
+											<h3>近一个月金额</h3>
 										</div>
 									</div>
 								</div>
@@ -344,7 +736,7 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">45</div>
-											<h3>New images</h3>
+											<h3>新品一</h3>
 										</div>
 									</div>
 								</div>
@@ -356,7 +748,19 @@
 										</div>
 										<div class="tile-content">
 											<div class="number">3548</div>
-											<h3>Posts shared</h3>
+											<h3>新品二</h3>
+										</div>
+									</div>
+								</div>
+								<div class="item">
+									<div class="tile magenta">
+										<!-- tile start here -->
+										<div class="tile-icon">
+											<i class="ec-share s64"></i>
+										</div>
+										<div class="tile-content">
+											<div class="number">3548</div>
+											<h3>新品三</h3>
 										</div>
 									</div>
 								</div>
@@ -375,18 +779,18 @@
 							<!-- Start .panel -->
 							<div class="panel-heading">
 								<h4 class="panel-title">
-									<i class="im-bars"></i> Page views
+									<i class="im-bars"></i> orders views
 								</h4>
 							</div>
 							<div class="panel-body">
-								<div id="stats-pageviews" style="width: 100%; height: 250px;"></div>
+								<div id="stats-orders" style="width: 100%; height: 250px;"></div>
 							</div>
 							<div class="panel-footer teal-bg">
 								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 									<div class="tile teal m0">
 										<div class="tile-content text-center pl0 pr0">
 											<div id="countToday" class="number">75</div>
-											<h3>Today</h3>
+											<h3>今天</h3>
 										</div>
 									</div>
 								</div>
@@ -394,7 +798,7 @@
 									<div class="tile teal m0">
 										<div class="tile-content text-center pl0 pr0">
 											<div id="countYesterday" class="number">69</div>
-											<h3>Yesterday</h3>
+											<h3>昨天</h3>
 										</div>
 									</div>
 								</div>
@@ -402,7 +806,7 @@
 									<div class="tile teal m0">
 										<div class="tile-content text-center pl0 pr0">
 											<div id="countWeek" class="number">380</div>
-											<h3>This Week</h3>
+											<h3>本周</h3>
 										</div>
 									</div>
 								</div>
@@ -410,7 +814,7 @@
 									<div class="tile teal m0">
 										<div class="tile-content text-center pl0 pr0">
 											<div id="countTotal" class="number">1254</div>
-											<h3>Total</h3>
+											<h3>总共</h3>
 										</div>
 									</div>
 								</div>
@@ -421,11 +825,11 @@
 							<!-- Start .panel -->
 							<div class="panel-heading">
 								<h4 class="panel-title">
-									<i class="st-camera"></i> Instagram activity
+									<i class="st-camera"></i> 推荐产品
 								</h4>
-								<div class="pull-right mt10">
+								<!-- 	<div class="pull-right mt10">
 									<a href="#" class="color-grayspr">@SuggeElson</a>
-								</div>
+								</div> -->
 							</div>
 							<div class="panel-body p0">
 								<div class="instagram-widget">
@@ -433,7 +837,7 @@
 										<div class="col-lg-4 col-md-4 col-xs-4 text-center">
 											<!-- col-lg-4 start here -->
 											<a href="#">
-												<p class="instagram-widget-text">Followers</p> <strong
+												<p class="instagram-widget-text">已定 </p> <strong
 												class="instagram-widget-number">1256</strong>
 											</a>
 										</div>
@@ -460,11 +864,11 @@
 											<!-- Indicators -->
 											<ol class="carousel-indicators dotstyle">
 												<li data-target="#instagram-widget" data-slide-to="0"
-													class="active"><a href="#">Image 1</a></li>
+													class="active"><a href="#">产品No.1</a></li>
 												<li data-target="#instagram-widget" data-slide-to="1"><a
-													href="#">Image 2</a></li>
+													href="#">产品No.2</a></li>
 												<li data-target="#instagram-widget" data-slide-to="2"><a
-													href="#">Image 3</a></li>
+													href="#">产品No.3</a></li>
 											</ol>
 											<div class="carousel-inner">
 												<figure class="item active">
@@ -527,7 +931,7 @@
 							<!-- Start .panel -->
 							<div class="panel-heading">
 								<h4 class="panel-title">
-									<i class="im-bars"></i> Week Earnings
+									<i class="im-bars"></i> 销售金额
 								</h4>
 							</div>
 							<div class="panel-body blue-bg">
@@ -538,50 +942,6 @@
 									style="height: 150px;"></div>
 								<div id="stats-earnings-bars" class="col-lg-6 col-md-12"
 									style="height: 150px;"></div>
-							</div>
-						</div>
-						<!-- End .panel -->
-						<div
-							class="weather-widget panel panel-primary plain toggle panelMove panelClose panelRefresh">
-							<!-- Start .panel -->
-							<div class="panel-heading">
-								<h4 class="panel-title">Weather now</h4>
-							</div>
-							<div class="panel-body blue-bg text-center">
-								<canvas id="weather-now" width="128" height="128"></canvas>
-								<p class="weather-location">
-									<strong>23&deg;C</strong> Madrid
-								</p>
-							</div>
-							<div class="panel-footer white-bg text-center">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-									<!-- col-lg-3 start here -->
-									<p class="weather-day">MON</p>
-									<canvas id="forecast-now" width="64" height="64"></canvas>
-									<p class="weather-degree">23&deg;C</p>
-								</div>
-								<!-- col-lg-3 end here -->
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-									<!-- col-lg-3 start here -->
-									<p class="weather-day">TUE</p>
-									<canvas id="forecast-day1" width="64" height="64"></canvas>
-									<p class="weather-degree">17&deg;C</p>
-								</div>
-								<!-- col-lg-3 end here -->
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-									<!-- col-lg-3 start here -->
-									<p class="weather-day">WED</p>
-									<canvas id="forecast-day2" width="64" height="64"></canvas>
-									<p class="weather-degree">15&deg;C</p>
-								</div>
-								<!-- col-lg-3 end here -->
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-									<!-- col-lg-3 start here -->
-									<p class="weather-day">THU</p>
-									<canvas id="forecast-day3" width="64" height="64"></canvas>
-									<p class="weather-degree">18&deg;C</p>
-								</div>
-								<!-- col-lg-3 end here -->
 							</div>
 						</div>
 						<!-- End .panel -->
@@ -677,72 +1037,7 @@
 	</div>
 	<!-- End #content -->
 	<!-- Javascripts -->
-	<!-- Load pace first -->
-	<script src="/resources/assets/plugins/core/pace/pace.min.js"></script>
-	<!-- Important javascript libs(put in all pages) -->
-	<script src="/resources/assets/js/jquery-1.8.3.min.js"></script>
-	<script>
-        window.jQuery || document.write('<script src="/resources/assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
-        </script>
-	<script src="/resources/assets/js/jquery-ui.js"></script>
-	<script>
-        window.jQuery || document.write('<script src="/resources/assets/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
-        </script>
-	<!--[if lt IE 9]>
-  <script type="text/javascript" src="/resources/assets/js/libs/excanvas.min.js"></script>
-  <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <script type="text/javascript" src="/resources/assets/js/libs/respond.min.js"></script>
-<![endif]-->
-	<!-- Bootstrap plugins -->
-	<script src="/resources/assets/js/bootstrap/bootstrap.js"></script>
-	<!-- Core plugins ( not remove ever) -->
-	<!-- Handle responsive view functions -->
-	<script src="/resources/assets/js/jRespond.min.js"></script>
-	<!-- Custom scroll for sidebars,tables and etc. -->
-	<script
-		src="/resources/assets/plugins/core/slimscroll/jquery.slimscroll.min.js"></script>
-	<script
-		src="/resources/assets/plugins/core/slimscroll/jquery.slimscroll.horizontal.min.js"></script>
-	<!-- Resize text area in most pages -->
-	<script
-		src="/resources/assets/plugins/forms/autosize/jquery.autosize.js"></script>
-	<!-- Proivde quick search for many widgets -->
-	<script
-		src="/resources/assets/plugins/core/quicksearch/jquery.quicksearch.js"></script>
-	<!-- Bootbox confirm dialog for reset postion on panels -->
-	<script src="/resources/assets/plugins/ui/bootbox/bootbox.js"></script>
-	<!-- Other plugins ( load only nessesary plugins for every page) -->
-	<script src="/resources/assets/plugins/charts/flot/jquery.flot.js"></script>
-	<script src="/resources/assets/plugins/charts/flot/jquery.flot.pie.js"></script>
-	<script
-		src="/resources/assets/plugins/charts/flot/jquery.flot.resize.js"></script>
-	<script src="/resources/assets/plugins/charts/flot/jquery.flot.time.js"></script>
-	<script
-		src="/resources/assets/plugins/charts/flot/jquery.flot.growraf.js"></script>
-	<script
-		src="/resources/assets/plugins/charts/flot/jquery.flot.categories.js"></script>
-	<script
-		src="/resources/assets/plugins/charts/flot/jquery.flot.stack.js"></script>
-	<script
-		src="/resources/assets/plugins/charts/flot/jquery.flot.tooltip.min.js"></script>
-	<script src="/resources/assets/plugins/charts/flot/date.js"></script>
-	<script
-		src="/resources/assets/plugins/charts/sparklines/jquery.sparkline.js"></script>
-	<script
-		src="/resources/assets/plugins/charts/pie-chart/jquery.easy-pie-chart.js"></script>
-	<script src="/resources/assets/plugins/forms/icheck/jquery.icheck.js"></script>
-	<script
-		src="/resources/assets/plugins/forms/tags/jquery.tagsinput.min.js"></script>
-	<script src="/resources/assets/plugins/forms/tinymce/tinymce.min.js"></script>
-	<script
-		src="/resources/assets/plugins/misc/highlight/highlight.pack.js"></script>
-	<script src="/resources/assets/plugins/misc/countTo/jquery.countTo.js"></script>
-	<script src="/resources/assets/plugins/ui/weather/skyicons.js"></script>
-	<script src="/resources/assets/plugins/ui/notify/jquery.gritter.js"></script>
-	<script src="/resources/assets/plugins/ui/calendar/fullcalendar.js"></script>
-	<script src="/resources/assets/js/jquery.sprFlat.js"></script>
-	<script src="/resources/assets/js/app.js"></script>
-	<script src="/resources/assets/js/pages/dashboard.js"></script>
+	
 <div id="tip_message" style="font-size:30px;width:500px;z-index: 9999;position: fixed ;background: #C0C0C0; text-align: center; color: #0000FF;top:50%; left:50%; right: auto;  bottom: auto ;margin-left:-250px" ></div>
 </body>
 </html>

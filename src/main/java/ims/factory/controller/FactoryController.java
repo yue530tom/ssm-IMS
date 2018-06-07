@@ -17,22 +17,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ims.factory.domain.Factory;
 import ims.factory.service.FactoryService;
+import ims.props.domain.Props;
+import ims.props.domain.PropsDetails;
+import ims.props.service.PropsDetailsService;
+import ims.props.service.PropsService;
 
 @Controller
 @RequestMapping("/factory")
 public class FactoryController {
 
 	private final FactoryService factoryService;
+	private final PropsService propsService;
+	private final PropsDetailsService propsDetailsService;
 	private final int pageSize = 5;
 
 	@Autowired
-	public FactoryController(FactoryService factoryService) {
+	public FactoryController(FactoryService factoryService,PropsService propsService,PropsDetailsService propsDetailsService) {
 		this.factoryService = factoryService;
+		this.propsService=propsService;
+		this.propsDetailsService=propsDetailsService;
 	}
 
 	@RequestMapping(value = "/toFactoryAddPage", method = RequestMethod.GET)
@@ -44,7 +53,45 @@ public class FactoryController {
 	public String toFactoryListPage() {
 		return "factory/factory";
 	}
-
+	@RequestMapping(value = "/toProducesPage", method = RequestMethod.GET)
+	public String toProducesPage(Model model) throws JSONException {
+		HashMap<String, Object> filterMap= new HashMap<>();
+		filterMap.put("propsStatus", 1);
+		List<Props> list = propsService.getPropsInfo(filterMap);
+		JSONArray allProps = new JSONArray();
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (Props propsTmp : list) {
+			JSONObject tem_jsonoObject = new JSONObject();
+			tem_jsonoObject.put("propsId", propsTmp.getPropsId());
+			tem_jsonoObject.put("propsName", propsTmp.getPropsName());
+			allProps.put(tem_jsonoObject);
+		}
+		
+		filterMap= new HashMap<>();
+		filterMap.put("propsDetailsStatus", 1);
+		List<PropsDetails> listDetails = propsDetailsService.getPropsDetailsInfo(filterMap);
+		ArrayList<JSONArray> propsDetails = new ArrayList<>();
+		for(int propsCount=0;propsCount<6;propsCount++) {
+			propsDetails.add(new JSONArray());
+		}
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (PropsDetails propsDetailsTmp : listDetails) {
+			JSONObject tem_jsonoObject = new JSONObject();
+			tem_jsonoObject.put("propsDetailsId", propsDetailsTmp.getPropsDetailsId());
+			tem_jsonoObject.put("propsId", propsDetailsTmp.getPropsId());
+			tem_jsonoObject.put("propsDetailsName", propsDetailsTmp.getPropsDetailsName());
+			propsDetails.get(Integer.valueOf(String.valueOf(propsDetailsTmp.getPropsId()-1))).put(tem_jsonoObject);
+		}
+		for(int propsCount=0;propsCount<6;propsCount++) {
+			model.addAttribute("propsDetails"+(propsCount+1), propsDetails.get(propsCount));
+		}
+		return "factory/produces";
+	}
+	
+	@RequestMapping(value = "/toProducesDetailsPage", method = RequestMethod.GET)
+	public String toProceducesDetailsPage() {
+		return "factory/producesdetails";
+	}
 	@RequestMapping(value = "/factoryAdd", method = RequestMethod.POST)
 	public String factoryAdd(Factory newFactoryObj, HttpServletRequest request) {
 		// 通过工厂名称精确查找工厂

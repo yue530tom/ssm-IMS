@@ -130,14 +130,12 @@
 }
 </style>
 <script type="text/javascript">
-	var arrProps = [];
-	var arrPropsReverse = [];
 	$(document).ready(function() {
 
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
-		initPropsSelectOption();
-		/* var d = new Date();
+
+		var d = new Date();
 		$("#datetime-picker").datetimepicker({
 		initialDate : d,
 		language : 'zh-CN',
@@ -148,7 +146,7 @@
 		autoclose : 1,
 		startView : 2,
 		minView : 2
-		});   */
+		});  
 		//提示成功信息      
 	});
 	function checkUndefined(value){
@@ -160,39 +158,6 @@
 		 }
 	}
 
-	function initPropsSelectOption() {
-		propsDetails1 =  ${propsDetails1}
-		propsDetails2 =  ${propsDetails2}
-		propsDetails3 =  ${propsDetails3}
-		propsDetails4 =  ${propsDetails4}
-		propsDetails5 =  ${propsDetails5}
-		propsDetails6 =  ${propsDetails6}
-
-		for (var i = 0; i < propsDetails1.length; i++) {
-			arrProps[propsDetails1[i].propsDetailsId] = propsDetails1[i].propsDetailsName;
-			arrPropsReverse[propsDetails1[i].propsDetailsName] = propsDetails1[i].propsDetailsId;
-		}
-		for (var i = 0; i < propsDetails2.length; i++) {
-			arrProps[propsDetails2[i].propsDetailsId] = propsDetails2[i].propsDetailsName;
-			arrPropsReverse[propsDetails2[i].propsDetailsName] = propsDetails2[i].propsDetailsId;
-		}
-		for (var i = 0; i < propsDetails3.length; i++) {
-			arrProps[propsDetails3[i].propsDetailsId] = propsDetails3[i].propsDetailsName;
-			arrPropsReverse[propsDetails3[i].propsDetailsName] = propsDetails3[i].propsDetailsId;
-		}
-		for (var i = 0; i < propsDetails4.length; i++) {
-			arrProps[propsDetails4[i].propsDetailsId] = propsDetails4[i].propsDetailsName;
-			arrPropsReverse[propsDetails4[i].propsDetailsName] = propsDetails4[i].propsDetailsId;
-		}
-		for (var i = 0; i < propsDetails5.length; i++) {
-			arrProps[propsDetails5[i].propsDetailsId] = propsDetails5[i].propsDetailsName;
-			arrPropsReverse[propsDetails5[i].propsDetailsName] = propsDetails5[i].propsDetailsId;
-		}
-		for (var i = 0; i < propsDetails6.length; i++) {
-			arrProps[propsDetails6[i].propsDetailsId] = propsDetails6[i].propsDetailsName;
-			arrPropsReverse[propsDetails6[i].propsDetailsName] = propsDetails6[i].propsDetailsId;
-		}
-	}
 	function initTable(filter) {
 		var data = null;
 		if (filter != "{}") {
@@ -200,9 +165,9 @@
 		}
 
 		$.ajax({
-			type : "POST",
+			type : "GET",
 			data : data,
-			url : "/buy/cartList",
+			url : "/factory/producesList",
 			dataType : "JSON",
 			success : function(json) {
 				refreshList(json);
@@ -216,12 +181,9 @@
 
 	function refreshList(json) {
 		var ja = json.list;
-		var sumMoney=json.sumMoney;
-		$("#orderSumMoney").attr("value",checkUndefined(sumMoney)+" RMB");
 		var string = JSON.stringify(json);
 		console.log("json.list:" + json.list.length);
 		console.log("json.msg:" + json.msg);
-		console.log("json.msg:" + json.list);
 		if (json.msg != null) {
 			document.getElementById('tip_message').style.display = 'block';
 			$("#tip_message").html(json.msg);
@@ -236,102 +198,44 @@
 		$("#table_propslist").empty();
 		$("#table_propslist")
 				.append(
-						'<tr><th>物品编号</th><th>产品id</th><th>产品数量</th><th>产品价格</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
+						'<tr><th>工厂编号</th><th>工厂名称</th><th>联系人</th><th>联系电话</th><th>座机</th><th>工厂地址</th><th>工厂规模</th><th>工厂备注</th><th>工厂状态</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
-			var cartId = ja[i].cartId;
-			var productId = ja[i].productId;
-			var productCount = ja[i].productCount;
-			var productPrice = ja[i].productPrice;
-			var productImg = ja[i].productImg;
-			var productCategory = ja[i].productCategory;
-			var productColor = ja[i].productColor;
-			var productSize = ja[i].productSize;
-			var productMaterial = ja[i].productMaterial;
-			var productCollar = ja[i].productCollar;
-			var productPocket = ja[i].productPocket;
-			var productCreate = ja[i].productCreate;
-			var productModify = ja[i].productModify;
-			$("#table_propslist").append('<tr id="tr_' + i+ '"></tr>');
-			if (cartId != null && cartId != "") {
-				$("#tr_" + i).append('<td>' + cartId + '</td>');
-			}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productId != null && productId != "") {
-				$("#tr_" + i).append('<td>' + productId + '</td>');
-			}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productCount != null && productCount != "") {
-				$("#tr_" + i).append("<td>" + productCount + "</td>");
-			}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productPrice != null && productPrice != "") {
-				$("#tr_" + i).append("<td>" + productPrice + "</td>");
-			}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productImg != null && productImg != "") {
-				$("#tr_" + i)
-						.append(
-								"<td><img id='img_" + i+ "' src='' style='height:34px;width:34px;'/></td>");
-				$("#img_" + i).attr("src", productImg);
+			var factoryId = ja[i].factoryId;
+			var factoryName = ja[i].factoryName;
+			var factoryContacts = ja[i].factoryContacts;
+			var factoryPhone = ja[i].factoryPhone;
+			var factoryTelephone = ja[i].factoryTelephone;
+			var factoryAddress = ja[i].factoryAddress;
+			var factoryScale = ja[i].factoryScale;
+			var factoryRemarks = ja[i].factoryRemarks;
+			var factoryStatus = ja[i].factoryStatus;
+			var factoryCreate = ja[i].factoryCreate;
+			var factoryModify = ja[i].factoryModify;
+			$("#table_propslist").append(
+					'<tr onclick="getDataToModify(this)" id="tr_' + i
+							+ '"></tr>');
+			$("#tr_" + i).append('<td>' + checkUndefined(factoryId) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryName) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryContacts) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryPhone) + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(factoryTelephone) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryAddress) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryScale) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryRemarks) + "</td>");
+			if (factoryStatus == 1) {
+				$("#tr_" + i).append("<td>有效</td>");
 			} else {
-				$("#tr_" + i)
-						.append("<td><img id='img_" + i+ "' src=''/></td>");
+				$("#tr_" + i).append("<td>废弃</td>");
 			}
-			//$("#image").attr("src",productImg.replace(/ /, "+"));
-			//console.log(productImg);
-			//console.log(productCount+document.getElementById("image").src);
-			if (productCategory != null && productCategory != ""&&( productCategory!=undefined )) {
-				console.log(productCategory);
-				$("#tr_" + i).append("<td>" + code2name(productCategory) + "</td>");
-			}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productColor != null && productColor != "") {
-			$("#tr_" + i).append('<td>' + code2name(productColor) + '</td>');}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productSize != null && productSize != "") {
-			$("#tr_" + i).append("<td>" + code2name(productSize) + "</td>");}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productMaterial != null && productMaterial != "") {
-			$("#tr_" + i).append("<td>" + code2name(productMaterial) + "</td>");}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productCollar != null && productCollar != "") {
-			$("#tr_" + i).append("<td>" + code2name(productCollar) + "</td>");}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productPocket != null && productPocket != "") {
-			$("#tr_" + i).append("<td>" + code2name(productPocket) + "</td>");}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productCreate != null && productCreate != "") {
-				$("#tr_" + i).append("<td>" + productCreate + "</td>");}else{
-					$("#tr_" + i).append('<td></td>');	
-				}
-			if (productModify != null && productModify != "") {
-				$("#tr_" + i).append("<td>" + productModify+ "</td>");}else{
-					$("#tr_" + i).append('<td></td>');	
-				}
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryCreate) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(factoryModify) + "</td>");
 			$("#tr_" + i).append(
 					'<td><button class="btn btn-primary" onclick="doFilterDelete('
-							+ cartId + ');">删除</button></td>');
+							+ factoryId + ');">删除</button></td>');
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
-	function checkUndefined(value){
-		 var undefined = void(0);
-		 if(value==undefined){
-			 return "";
-		 }else{
-			 return value;
-		 }
-	}
+
 	function initPage(json) {
 		var curPage = 1;
 		var totalPage = json.page;
@@ -364,8 +268,8 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/buy/cartList",
-				type : "POST",
+				url : "/factory/producesList",
+				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -389,8 +293,8 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/buy/cartList",
-				type : "POST",
+				url : "/factory/producesList",
+				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -413,8 +317,8 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/buy/cartList",
-				type : "POST",
+				url : "/factory/producesList",
+				type : "GET",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -454,127 +358,194 @@
 		}
 	}
 
-	function doCalc(){
+	function doFilterQuery() {
 		var filterJs = {};
-		filterJs["method"] = "calc";
-		if($("#orderNo").val()!=null&&$("#orderNo").val()!=""){
-			filterJs["orderNo"] = $("#orderNo").val();
+		filterJs["method"] = "query";
+		if ($("#factoryQueryId").val() != "") {
+			filterJs["factoryId"] = $("#factoryQueryId").val();
 		}
-		if($("#orderCustName").val()!=null&&$("#orderCustName").val()!=""){
-			filterJs["orderCustName"] = $("#orderCustName").val();
+		if ($("#factoryName").val() != "") {
+			filterJs["factoryName"] = $("#factoryName").val();
 		}
-		if($("#orderCustPhone").val()!=null&&$("#orderCustPhone").val()!=""){
-			filterJs["orderCustPhone"] = $("#orderCustPhone").val();
+		if ($("#factoryContacts").val() != "") {
+			filterJs["factoryContacts"] = $("#factoryContacts").val();
 		}
-		if($("#orderCustSend").val()!=null&&$("#orderCustSend").val()!=""){
-			filterJs["orderCustSend"] = $("#orderCustSend").val();
+		if ($("#factoryPhone").val() != "") {
+			filterJs["factoryPhone"] = $("#factoryPhone").val();
 		}
-		if($("#orderSumMoney").val()!=null&&$("#orderSumMoney").val()!=""){
-			filterJs["orderSumMoney"] = $("#orderSumMoney").val();
+		if ($("#factoryTelephone").val() != "") {
+			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
 		}
-		if($("#orderDeposit").val()!=null&&$("#orderDeposit").val()!=""){
-			filterJs["orderDeposit"] = $("#orderDeposit").val();
+		if ($("#factoryAddress").val() != "") {
+			filterJs["factoryAddress"] = $("#factoryAddress").val();
 		}
-		if($("#orderRemarks").val()!=null&&$("#orderRemarks").val()!=""){
-			filterJs["orderRemarks"] = $("#orderRemarks").val();
+		if ($("#factoryScale").val() != "") {
+			filterJs["factoryScale"] = $("#factoryScale").val();
+		}
+		if ($("#datetime-picker").val() != "") {
+			filterJs["factoryDatetime"] = $("#datetime-picker").val();
+			if ($("#factoryOperation").val() != "") {
+				filterJs["factoryOperation"] = $("#factoryOperation").val();
+			}
+		}
+		if ($("#factoryRemarks").val() != "") {
+			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
+		}
+		if ($("input[name='factoryStatus']:checked").val() != "") {
+			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked")
+					.val();
+		}
+
+		$("#buffer_span").text(JSON.stringify(filterJs));
+		console.log("doFilterQuery:" + $("#buffer_span").text());
+		initTable(JSON.stringify(filterJs));
+	}
+	function doFilterModify() {
+		var filterJs = {};
+		filterJs["method"] = "modify";
+		if ($("#factoryId").val() != "") {
+			filterJs["factoryId"] = $("#factoryId").val();
+		}
+		if ($("#factoryName").val() != "") {
+			filterJs["factoryName"] = $("#factoryName").val();
+		}
+		if ($("#factoryContacts").val() != "") {
+			filterJs["factoryContacts"] = $("#factoryContacts").val();
+		}
+		if ($("#factoryPhone").val() != "") {
+			filterJs["factoryPhone"] = $("#factoryPhone").val();
+		}
+		if ($("#factoryTelephone").val() != "") {
+			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
+		}
+		if ($("#factoryAddress").val() != "") {
+			filterJs["factoryAddress"] = $("#factoryAddress").val();
+		}
+		if ($("#factoryScale").val() != "") {
+			filterJs["factoryScale"] = $("#factoryScale").val();
+		}
+		if ($("#factoryRemarks").val() != "") {
+			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
-	function doFilterDelete(tmpCartId) {
+	function doFilterAdd() {
+		var filterJs = {};
+		filterJs["method"] = "add";
+		if ($("#factoryName").val() != "") {
+			filterJs["factoryName"] = $("#factoryName").val();
+		}
+		if ($("#factoryContacts").val() != "") {
+			filterJs["factoryContacts"] = $("#factoryContacts").val();
+		}
+		if ($("#factoryPhone").val() != "") {
+			filterJs["factoryPhone"] = $("#factoryPhone").val();
+		}
+		if ($("#factoryTelephone").val() != "") {
+			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
+		}
+		if ($("#factoryAddress").val() != "") {
+			filterJs["factoryAddress"] = $("#factoryAddress").val();
+		}
+		if ($("#factoryScale").val() != "") {
+			filterJs["factoryScale"] = $("#factoryScale").val();
+		}
+		if ($("#factoryRemarks").val() != "") {
+			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
+		}
+		if ($("input[name='factoryStatus']:checked").val() != "") {
+			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked")
+					.val();
+		}
+		console.log(filterJs);
+		$("#buffer_span").text(JSON.stringify(filterJs));
+		initTable(JSON.stringify(filterJs));
+	}
+	function doFilterDelete(tmpFactoryId) {
 		var filterJs = {};
 		filterJs["method"] = "delete";
-		filterJs["cartId"] = tmpCartId;
+		filterJs["factoryId"] = tmpFactoryId;
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
 
-	
-	function selectImage(file) {
-		if (!file.files || !file.files[0]) {
-			return;
-		}
-		var reader = new FileReader();
-		reader.onload = function(evt) {
-			$("#buffer_img").text(evt.target.result);
-			console.log(evt.target.result);
-		}
-		reader.readAsDataURL(file.files[0]);
+	/*
+	给修改赋值~
+	 */
+	function getDataToModify(row) {
 
-		//https://www.cnblogs.com/youhong/p/7221080.html?utm_source=itdadao&utm_medium=referral
-	}
+		$("#factoryId")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[0].innerText);
+		$("#factoryName")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[1].innerText);
+		$("#factoryContacts")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[2].innerText);
+		$("#factoryPhone")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[3].innerText);
+		$("#factoryTelephone")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[4].innerText);
+		$("#factoryAddress")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[5].innerText);
+		$("#factoryScale")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[6].innerText);
+		$("#factoryRemarks")
+				.attr(
+						"value",
+						window.table_propslist.rows.item(row.rowIndex).childNodes[7].innerText);
 
-	function code2name(code) {
-		var result = "";
-		if (code != null && code != "") {
-			var arr = code.split(",");
-			for (index in arr) {
-				result = result + "," + arrProps[arr[index]];
-				console.log("code="+code+"\tresult="+result+"arrProps[arr["+index+"]="+arrProps[arr[index]])
-			}
-			
-			return result.substring(1);
-		} else {
-			return result;
-		}
-	}
-	function name2code(name) {
-		var result = "";
-		if (name != null && name != "") {
-			var arr = name.split(",");
-			for (index in arr) {
-				result = result + "," + arrPropsReverse[arr[index]];
-			}
-			return result.substring(1);
-		} else {
-			return result;
-		}
-	}
-	function check(name, code) {
-		var coll = document.getElementsByName(name);
-		if (code != null && code != "") {
-			var arr = code.split(",");
-			for (index in arr) {
-				for (var i = 0; i < coll.length; i++) {
-					if (arr[index] == coll[i].value)
-						coll[i].checked = true;
-				}
-			}
-		}
-	}
-	function uncheck(name) {
-		var coll = document.getElementsByName(name);
-		for (var i = 0; i < coll.length; i++) {
-			coll[i].checked = false;
-		}
-	}
-	function getCheck(name) {
-		var coll = document.getElementsByName(name);
-		var result = "";
-		for (var i = 0; i < coll.length; i++) {
-			if (coll[i].checked) {
-				result = result + "," + coll[i].value;
-			}
-		}
-		if (result != "") {
-			return result.substring(1);
-		} else {
-			return "";
-		}
-	}
-	
-	function reset(){
+		/* var TAB = document.getElementById("table_propslist") ;  
 		
+		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[2].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[3].innerText);
+		document.getElementById("modifyPropsId").value = TAB.rows[row.rowIndex].cells[0].innerText; */
+
 	}
-	
+	function reset() {
+
+		$("#factoryId").attr("value", "");
+		$("#factoryQueryId").attr("value", "");
+		$("#factoryName").attr("value", "");
+		$("#factoryContacts").attr("value", "");
+		$("#factoryPhone").attr("value", "");
+		$("#factoryTelephone").attr("value", "");
+		$("#factoryAddress").attr("value", "");
+		$("#factoryScale").attr("value", "");
+		$("#factoryRemarks").attr("value", "");
+
+		/* var TAB = document.getElementById("table_propslist") ;  
+		
+		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[2].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[3].innerText);
+		document.getElementById("modifyPropsId").value = TAB.rows[row.rowIndex].cells[0].innerText; */
+
+	}
 </script>
 </head>
 <body>
 
 	<!-- Start #header -->
-		<div id="header">
+			<div id="header">
 		<div class="container-fluid">
 			<div class="navbar">
 				<div class="navbar-header">
@@ -650,6 +621,8 @@
 				<li><a href="#">工厂<i class="im-office color-dark"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesPage">生成做货单<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesDetailsPage">维护做货单<i class="br-home"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs color-teal"></i></a>
 					<ul class="nav sub">
@@ -739,93 +712,102 @@
 				</div>
 				<!-- End .page-header -->
 			</div>
-
+			<!-- End .row -->
+			<!--  #f3f5f6 -->
+			<div id="tip_message"
+				style="background: #FF4500; text-align: center; color: #0000FF;"></div>
 			<div class="outlet">
 				<!-- Start .outlet -->
 				<!-- Page start here ( usual with .row ) -->
-<div class="row">
+				<div class="row">
 					<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
 						<!-- col-lg-4 start here -->
 						<div class="panel panel-default plain">
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>客户信息
+									<i class="im-quill"></i>做货信息
 								</h4>
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
 										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">订单编码</label>
+										<label class="col-lg-4 control-label">做货Id</label>
 										<div class="col-lg-8">
-											<input id="orderNo" name="orderNo" type="text"
+											<input id="producesId" name="producesId" type="text"
+												class="col-lg-4 form-control" disabled>
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
+										style="margin-top: 0;">
+										<label class="col-lg-4 control-label">做货Id</label>
+										<div class="col-lg-8">
+											<input id="producesQueryId" name="producesQueryId" type="text"
 												class="col-lg-4 form-control">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
 										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">客户名称</label>
+										<label class="col-lg-4 control-label">做货编号</label>
 										<div class="col-lg-8">
-											<input id="orderCustName" name="orderCustName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="仅当查询时起作用，增加和修改不起作用">
-										</div>
-									</div>
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
-										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">客户电话</label>
-										<div class="col-lg-8">
-											<input id="orderCustPhone" name="orderCustPhone" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入产品编码，格式为小于10位数字">
+											<input id="producesNo" name="producesNo" type="text"
+												class="col-lg-4 form-control">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">发货地址</label>
+										<label class="col-lg-4 control-label">工厂名称</label>
 										<div class="col-lg-8">
-											<input id="orderName" name="orderName" type="text"
+											<input id="factoryName" name="factoryName" type="text"
 												class="col-lg-4 form-control"
 												placeholder="请输入属性名称，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">订单金额</label>
+										<label class="col-lg-4 control-label">联系人</label>
 										<div class="col-lg-8">
-											<input id="orderSumMoney" name="orderSumMoney"
-												type="text" class="col-lg-4 form-control"
-												disabled>
-										</div>
-									</div>
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">预付金额</label>
-										<div class="col-lg-8">
-											<input id="orderDeposit" name="orderDeposit"
+											<input id="factoryContacts" name="factoryContacts"
 												type="text" class="col-lg-4 form-control"
 												placeholder="请输入属性描述，格式为小于50位的字符">
 										</div>
 									</div>
-									<!-- <div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">联系手机</label>
+										<div class="col-lg-8">
+											<input id="factoryPhone" name="factoryPhone" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入属性备注，格式为小于50位的字符">
+										</div>
+									</div>
+									
+									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <label class="col-lg-4 control-label">创建日期</label>
                                             <div class="col-lg-8 col-md-9">
                                                 <div class="row">
                                                     <div class="col-lg-5 col-md-5">
-                                                        <select class="form-control" name="selectOperation" id="selectOperation">
+                                                        <select class="form-control" name="factoryOperation" id="factoryOperation">
 	                                                        <option value="1">大于</option>
 	                                                        <option value="0">小于</option>
                                                         </select>
-                                                        <span class="help-block">创建日期</span>
+                                                        <!-- <span class="help-block">创建日期</span> -->
                                                     </div>
                                                     <div class="col-lg-7 col-md-7">
                                                         <div class="input-group">
                                                             <input id="datetime-picker" class="form-control datetime-picker2" type="text" value="">
                                                             <span class="input-group-addon"><i class="fa-calendar"></i></span>
                                                         </div>
-                                                        <span class="help-block">Without time picker</span>
+                                                        <!-- <span class="help-block">Without time picker</span> -->
                                                     </div>
                                                 </div>
                                             </div>
-                                    </div> -->
+                                    </div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label"></label>
+										<div class="col-lg-8">
+											<button id="reset" class="btn btn-primary"
+												onclick="reset();">重置</button>
+										</div>
+									</div>
 									<!-- End .form-group  -->
 								</div>
 							</div>
@@ -850,13 +832,21 @@
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
 											<button id="doAdd" class="btn btn-primary"
-												onclick="doCalc();">结算</button>
+												onclick="doFilterAdd();">新增</button>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="reset" class="btn btn-primary" onclick="reset();">重置</button>
+											<button id="doModify" class="btn btn-primary"
+												onclick="doFilterModify();">修改</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-3 control-label"></label>
+										<div class="col-lg-9">
+											<button id="doQuery" class="btn btn-primary"
+												onclick="doFilterQuery();">查询</button>
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -866,6 +856,7 @@
 						<!-- End .panel -->
 					</div>
 				</div>
+
 				<div class="row">
 					<!-- col-lg-4 end here -->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -874,12 +865,12 @@
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>产品列表
+									<i class="im-quill"></i>工厂列表
 								</h4>
 							</div>
 							<div class="panel-body">
 								<table class="table display" id="table_propslist">
-
+									
 								</table>
 							</div>
 							<div style="margin-top: 3px;">
@@ -898,8 +889,7 @@
 										onclick="jumpPage();" />
 	
 								</div>
-							<span id="buffer_span" style="display: none">{}</span> <span
-								id="buffer_img" style="display: none"></span>
+							<span id="buffer_span" style="display: none">{}</span>
 						</div>
 						<!-- End .panel -->
 					</div>
@@ -913,7 +903,6 @@
 		<div class="clearfix"></div>
 	</div>
 	<!-- End #content -->
-	<div id="tip_message"
-		style="font-size: 30px; width: 500px; z-index: 9999; position: fixed; background: #C0C0C0; text-align: center; color: #0000FF; top: 50%; left: 50%; right: auto; bottom: auto; margin-left: -250px"></div>
+
 </body>
 </html>

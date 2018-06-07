@@ -130,14 +130,14 @@
 }
 </style>
 <script type="text/javascript">
-	var arrProps = [];
-	var arrPropsReverse = [];
+	var arrProps=[];
+	var arrPropsReverse=[];
 	$(document).ready(function() {
-
+		initPropsSelectOption();
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
-		initPropsSelectOption();
-		/* var d = new Date();
+		
+		var d = new Date();
 		$("#datetime-picker").datetimepicker({
 		initialDate : d,
 		language : 'zh-CN',
@@ -148,7 +148,7 @@
 		autoclose : 1,
 		startView : 2,
 		minView : 2
-		});   */
+		});  
 		//提示成功信息      
 	});
 	function checkUndefined(value){
@@ -160,37 +160,43 @@
 		 }
 	}
 
-	function initPropsSelectOption() {
-		propsDetails1 =  ${propsDetails1}
-		propsDetails2 =  ${propsDetails2}
-		propsDetails3 =  ${propsDetails3}
-		propsDetails4 =  ${propsDetails4}
-		propsDetails5 =  ${propsDetails5}
-		propsDetails6 =  ${propsDetails6}
-
+	function initPropsSelectOption(){
+		propsDetails1 = ${propsDetails1}
+		propsDetails2 = ${propsDetails2}
+		propsDetails3 = ${propsDetails3}
+		propsDetails4 = ${propsDetails4}
+		propsDetails5 = ${propsDetails5}
+		propsDetails6 = ${propsDetails6}
+		
 		for (var i = 0; i < propsDetails1.length; i++) {
-			arrProps[propsDetails1[i].propsDetailsId] = propsDetails1[i].propsDetailsName;
-			arrPropsReverse[propsDetails1[i].propsDetailsName] = propsDetails1[i].propsDetailsId;
+			$("#productCategory").append("<input type='checkbox' name='category' value='"+propsDetails1[i].propsDetailsId+"'/>"+propsDetails1[i].propsDetailsName);
+			arrProps[propsDetails1[i].propsDetailsId]=propsDetails1[i].propsDetailsName;
+			arrPropsReverse[propsDetails1[i].propsDetailsName]=propsDetails1[i].propsDetailsId;
 		}
 		for (var i = 0; i < propsDetails2.length; i++) {
-			arrProps[propsDetails2[i].propsDetailsId] = propsDetails2[i].propsDetailsName;
-			arrPropsReverse[propsDetails2[i].propsDetailsName] = propsDetails2[i].propsDetailsId;
+			$("#productColor").append("<input type='checkbox' name='color' value='"+propsDetails2[i].propsDetailsId+"'/>"+propsDetails2[i].propsDetailsName);
+			arrProps[propsDetails2[i].propsDetailsId]=propsDetails2[i].propsDetailsName;
+			arrPropsReverse[propsDetails2[i].propsDetailsName]=propsDetails2[i].propsDetailsId;
 		}
 		for (var i = 0; i < propsDetails3.length; i++) {
-			arrProps[propsDetails3[i].propsDetailsId] = propsDetails3[i].propsDetailsName;
-			arrPropsReverse[propsDetails3[i].propsDetailsName] = propsDetails3[i].propsDetailsId;
+			$("#productSize").append("<input type='checkbox' name='size' value='"+propsDetails3[i].propsDetailsId+"'/>"+propsDetails3[i].propsDetailsName);
+			arrProps[propsDetails3[i].propsDetailsId]=propsDetails3[i].propsDetailsName;
+			arrPropsReverse[propsDetails3[i].propsDetailsName]=propsDetails3[i].propsDetailsId;
 		}
 		for (var i = 0; i < propsDetails4.length; i++) {
-			arrProps[propsDetails4[i].propsDetailsId] = propsDetails4[i].propsDetailsName;
-			arrPropsReverse[propsDetails4[i].propsDetailsName] = propsDetails4[i].propsDetailsId;
+			$("#productMaterial").append("<input type='checkbox' name='material' value='"+propsDetails4[i].propsDetailsId+"'/>"+propsDetails4[i].propsDetailsName);
+			arrProps[propsDetails4[i].propsDetailsId]=propsDetails4[i].propsDetailsName;
+			arrPropsReverse[propsDetails4[i].propsDetailsName]=propsDetails4[i].propsDetailsId;
 		}
 		for (var i = 0; i < propsDetails5.length; i++) {
-			arrProps[propsDetails5[i].propsDetailsId] = propsDetails5[i].propsDetailsName;
-			arrPropsReverse[propsDetails5[i].propsDetailsName] = propsDetails5[i].propsDetailsId;
+			$("#productCollar").append("<input type='checkbox' name='collar' value='"+propsDetails5[i].propsDetailsId+"'/>"+propsDetails5[i].propsDetailsName);
+			arrProps[propsDetails5[i].propsDetailsId]=propsDetails5[i].propsDetailsName;
+			arrPropsReverse[propsDetails5[i].propsDetailsName]=propsDetails5[i].propsDetailsId;
 		}
 		for (var i = 0; i < propsDetails6.length; i++) {
-			arrProps[propsDetails6[i].propsDetailsId] = propsDetails6[i].propsDetailsName;
-			arrPropsReverse[propsDetails6[i].propsDetailsName] = propsDetails6[i].propsDetailsId;
+			$("#productPocket").append("<input type='checkbox' name='pocket' value='"+propsDetails6[i].propsDetailsId+"'/>"+propsDetails6[i].propsDetailsName);
+			arrProps[propsDetails6[i].propsDetailsId]=propsDetails6[i].propsDetailsName;
+			arrPropsReverse[propsDetails6[i].propsDetailsName]=propsDetails6[i].propsDetailsId;
 		}
 	}
 	function initTable(filter) {
@@ -202,7 +208,7 @@
 		$.ajax({
 			type : "POST",
 			data : data,
-			url : "/buy/cartList",
+			url : "/product/productList",
 			dataType : "JSON",
 			success : function(json) {
 				refreshList(json);
@@ -216,12 +222,9 @@
 
 	function refreshList(json) {
 		var ja = json.list;
-		var sumMoney=json.sumMoney;
-		$("#orderSumMoney").attr("value",checkUndefined(sumMoney)+" RMB");
 		var string = JSON.stringify(json);
 		console.log("json.list:" + json.list.length);
 		console.log("json.msg:" + json.msg);
-		console.log("json.msg:" + json.list);
 		if (json.msg != null) {
 			document.getElementById('tip_message').style.display = 'block';
 			$("#tip_message").html(json.msg);
@@ -231,17 +234,21 @@
 					"document.getElementById('tip_message').style.display='none'",
 					2000);
 		}
+		/* console.log("arrProps:"+arrProps);
+		console.log("arrPropsReverse:"+arrPropsReverse); 
+		for (var i in arrProps) {
+			console.log("arrProps["+i+"]="+arrProps[i]);
+		}
+		for (var i in arrPropsReverse) {
+			console.log("arrPropsReverse["+i+"]="+arrPropsReverse[i]);
+		}*/
 		//刷新修改属性值
 		//刷新列表
-		$("#table_propslist").empty();
-		$("#table_propslist")
-				.append(
-						'<tr><th>物品编号</th><th>产品id</th><th>产品数量</th><th>产品价格</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
+		$("#div_propslist").empty();
 		for (var i = 0; i < ja.length; i++) {
-			var cartId = ja[i].cartId;
 			var productId = ja[i].productId;
-			var productCount = ja[i].productCount;
-			var productPrice = ja[i].productPrice;
+			var productNo = ja[i].productNo;
+			var productName = ja[i].productName;
 			var productImg = ja[i].productImg;
 			var productCategory = ja[i].productCategory;
 			var productColor = ja[i].productColor;
@@ -249,88 +256,164 @@
 			var productMaterial = ja[i].productMaterial;
 			var productCollar = ja[i].productCollar;
 			var productPocket = ja[i].productPocket;
-			var productCreate = ja[i].productCreate;
-			var productModify = ja[i].productModify;
-			$("#table_propslist").append('<tr id="tr_' + i+ '"></tr>');
-			if (cartId != null && cartId != "") {
-				$("#tr_" + i).append('<td>' + cartId + '</td>');
+			var productRemarks = ja[i].productRemarks;
+			var productStatus = ja[i].productStatus;
+			
+			$("#div_propslist").append("<div class='form-group col-lg-3 col-md-3 col-sm-3 col-xs-3'><label class='col-lg-4 control-label'><img id='img_" + i+ "' src='' style='height:200px;width:100px;'/></label><div class='col-lg-8' id='div_"+i+"'	style='padding: 6px 12px;'>");
+			if(productId!=null&&productId!=""){
+				$("#div_"+i).append("<div id='div_productId_"+i+"' style='display:none'>产品id:"+productId+"</div>");
 			}else{
-				$("#tr_" + i).append('<td></td>');	
+				$("#div_"+i).append("<div id='div_productId_"+i+"'  style='display:none'>产品id:</div>");
 			}
-			if (productId != null && productId != "") {
-				$("#tr_" + i).append('<td>' + productId + '</td>');
+			if(productNo!=null&&productNo!=""){
+				$("#div_"+i).append("<div id='div_productNo_"+i+"'>产品编码:"+productNo+"</div>");
 			}else{
-				$("#tr_" + i).append('<td></td>');	
+				$("#div_"+i).append("<div id='div_productNo_"+i+"'>产品编码:</div>");
 			}
-			if (productCount != null && productCount != "") {
-				$("#tr_" + i).append("<td>" + productCount + "</td>");
+			if(productName!=null&&productName!=""){
+				$("#div_"+i).append("<div id='div_productName_"+i+"'>产品名称:"+productName+"</div>");
 			}else{
-				$("#tr_" + i).append('<td></td>');	
+				$("#div_"+i).append("<div id='div_productName_"+i+"'>产品名称:</div>");
 			}
-			if (productPrice != null && productPrice != "") {
-				$("#tr_" + i).append("<td>" + productPrice + "</td>");
-			}else{
-				$("#tr_" + i).append('<td></td>');	
+			$("#div_"+i).append("<div id='div_category_"+i+"'>产品归类:");
+			if(productCategory!=null&&productCategory!=""){
+				code2checkbox("#div_category_"+i,productCategory,"category_"+i);
 			}
-			if (productImg != null && productImg != "") {
-				$("#tr_" + i)
-						.append(
-								"<td><img id='img_" + i+ "' src='' style='height:34px;width:34px;'/></td>");
-				$("#img_" + i).attr("src", productImg);
-			} else {
-				$("#tr_" + i)
-						.append("<td><img id='img_" + i+ "' src=''/></td>");
+			$("#div_"+i).append("</div>");
+
+					
+			$("#div_"+i).append('<div id="div_color_'+i+'">产品颜色:');
+			if(productColor!=null&&productColor!=""){
+				code2checkbox("#div_color_"+i,productColor,"color_"+i);
 			}
-			//$("#image").attr("src",productImg.replace(/ /, "+"));
-			//console.log(productImg);
-			//console.log(productCount+document.getElementById("image").src);
-			if (productCategory != null && productCategory != ""&&( productCategory!=undefined )) {
-				console.log(productCategory);
-				$("#tr_" + i).append("<td>" + code2name(productCategory) + "</td>");
-			}else{
-				$("#tr_" + i).append('<td></td>');	
+			$("#div_"+i).append('</div>');
+			
+	
+			
+			$("#div_"+i).append('<div id="div_size_'+i+'">产品尺寸:');
+			if(productSize!=null&&productSize!=""){
+				code2checkbox("#div_size_"+i,productSize,"size_"+i);
 			}
-			if (productColor != null && productColor != "") {
-			$("#tr_" + i).append('<td>' + code2name(productColor) + '</td>');}else{
-				$("#tr_" + i).append('<td></td>');	
+			$("#div_"+i).append('</div>');
+			
+	
+			$("#div_"+i).append('<div id="div_material_'+i+'">产品材质:');
+			if(productMaterial!=null&&productMaterial!=""){
+				code2checkbox("#div_material_"+i,productMaterial,"material_"+i);
 			}
-			if (productSize != null && productSize != "") {
-			$("#tr_" + i).append("<td>" + code2name(productSize) + "</td>");}else{
-				$("#tr_" + i).append('<td></td>');	
+			$("#div_"+i).append('</div>');
+			
+		
+			
+			$("#div_"+i).append('<div id="div_collar_'+i+'">产品衣领:');
+			if(productCollar!=null&&productCollar!=""){
+				code2checkbox("#div_collar_"+i,productCollar,"collar_"+i);
 			}
-			if (productMaterial != null && productMaterial != "") {
-			$("#tr_" + i).append("<td>" + code2name(productMaterial) + "</td>");}else{
-				$("#tr_" + i).append('<td></td>');	
+			$("#div_"+i).append('</div>');
+			
+		
+			$("#div_"+i).append('<div id="div_pocket_'+i+'">产品衣兜:');
+			if(productPocket!=null&&productPocket!=""){
+				code2checkbox("#div_pocket_"+i,productPocket,"pocket_"+i);
 			}
-			if (productCollar != null && productCollar != "") {
-			$("#tr_" + i).append("<td>" + code2name(productCollar) + "</td>");}else{
-				$("#tr_" + i).append('<td></td>');	
+			$("#div_"+i).append('</div>');
+			
+			$("#div_"+i).append('<div>数量:<input type="text" id="btn_num_'+i+'"/></div>');
+			$("#div_"+i).append('<div>价格:<input type="text" id="btn_price_'+i+'"/></div>');
+			
+			
+			$("#div_"+i).append('<div id="addtocart_'+i+'"><button id="addtocart_"+'+i+' class="btn btn-primary" onclick="addtocart('+i+');">准备做货</button></div>');
+			
+			$("#div_propslist").append('</div></div>');
+			if(productImg!=null&&productImg!=""){
+				$("#img_" + i).attr("src",productImg);
 			}
-			if (productPocket != null && productPocket != "") {
-			$("#tr_" + i).append("<td>" + code2name(productPocket) + "</td>");}else{
-				$("#tr_" + i).append('<td></td>');	
-			}
-			if (productCreate != null && productCreate != "") {
-				$("#tr_" + i).append("<td>" + productCreate + "</td>");}else{
-					$("#tr_" + i).append('<td></td>');	
-				}
-			if (productModify != null && productModify != "") {
-				$("#tr_" + i).append("<td>" + productModify+ "</td>");}else{
-					$("#tr_" + i).append('<td></td>');	
-				}
-			$("#tr_" + i).append(
-					'<td><button class="btn btn-primary" onclick="doFilterDelete('
-							+ cartId + ');">删除</button></td>');
+			
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
-	function checkUndefined(value){
-		 var undefined = void(0);
-		 if(value==undefined){
-			 return "";
-		 }else{
-			 return value;
-		 }
+
+	
+	function addtocart(id){
+		//获取属性
+		//增加到购物车
+		
+		var filterJs = {};
+		filterJs["method"] = "addtocart";
+		
+		if (($("#div_productId_"+id).html()).split(":").length==2) {
+			filterJs["productId"] = ($("#div_productId_"+id).html()).split(":")[1] ;
+		}
+		if (($("#div_productNo_"+id).html()).split(":").length==2) {
+			filterJs["productNo"] = ($("#div_productNo_"+id).html()).split(":")[1] ;
+		}
+		if (($("#div_productName_"+id).html()).split(":").length==2) {
+			filterJs["productName"] = ($("#div_productName_"+id).html()).split(":")[1] ;
+		}
+		if ($("#btn_num_"+id).val()!="") {
+			filterJs["productCount"] = $("#btn_num_"+id).val();
+		}
+		if ($("#btn_price_"+id).val()!="") {
+			filterJs["productPrice"] = $("#btn_price_"+id).val();
+		}
+		
+		if (getCheck("category_"+id) != "") {
+			filterJs["productCategory"] = getCheck("category_"+id);
+		}
+		if (getCheck("color_"+id) != "") {
+			filterJs["productColor"] = getCheck("color_"+id) ;
+		}
+		if (getCheck("size_"+id) != "") {
+			filterJs["productSize"] = getCheck("size_"+id) ;
+		}
+		if (getCheck("material_"+id) != "") {
+			filterJs["productMaterial"] = getCheck("material_"+id);
+		}
+		if (getCheck("collar_"+id) != "") {
+			filterJs["productCollar"] = getCheck("collar_"+id);
+		}
+		if (getCheck("pocket_"+id) != "") {
+			filterJs["productPocket"] = getCheck("pocket_"+id);
+		}
+		if ($("#productRemarks").val() != "") {
+			filterJs["productRemarks"] = $("#productRemarks").val();
+		}
+		
+		$("#buffer_span").text(JSON.stringify(filterJs));
+		console.log("addtocart:" + $("#buffer_span").text());
+		addtocartPost(JSON.stringify(filterJs));
+	}
+	
+	function addtocartPost(filter){
+		var data=null;
+		if (filter != "{}") {
+			data = "filter=" + filter;
+		}
+		$.ajax({
+			type : "POST",
+			data : data,
+			url : "/buy/addToCart",
+			dataType : "JSON",
+			success : function(json) {
+				reback(json);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				//  alert(textStatus+errorThrown.getMessage());
+			}
+		});
+	}
+	function reback(json) {
+
+		console.log("json.msg:" + json.msg);
+		if (json.msg != null) {
+			//document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").css({display:'block'});
+			$("#tip_message").html(json.msg);
+			console.log("document.getElementById:"+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+		}
 	}
 	function initPage(json) {
 		var curPage = 1;
@@ -364,7 +447,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/buy/cartList",
+				url : "/product/productList",
 				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -389,7 +472,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/buy/cartList",
+				url : "/product/productList",
 				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -413,7 +496,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/buy/cartList",
+				url : "/product/productList",
 				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -454,121 +537,175 @@
 		}
 	}
 
-	function doCalc(){
+	function doFilterQuery() {
 		var filterJs = {};
-		filterJs["method"] = "calc";
-		if($("#orderNo").val()!=null&&$("#orderNo").val()!=""){
-			filterJs["orderNo"] = $("#orderNo").val();
+		filterJs["method"] = "query";
+		if ($("#productQueryId").val() != "") {
+			filterJs["productId"] = $("#productQueryId").val();
 		}
-		if($("#orderCustName").val()!=null&&$("#orderCustName").val()!=""){
-			filterJs["orderCustName"] = $("#orderCustName").val();
+		if ($("#productNo").val() != "") {
+			filterJs["productNo"] = $("#productNo").val();
 		}
-		if($("#orderCustPhone").val()!=null&&$("#orderCustPhone").val()!=""){
-			filterJs["orderCustPhone"] = $("#orderCustPhone").val();
+		if ($("#productName").val() != "") {
+			filterJs["productName"] = $("#productName").val();
 		}
-		if($("#orderCustSend").val()!=null&&$("#orderCustSend").val()!=""){
-			filterJs["orderCustSend"] = $("#orderCustSend").val();
+		if (getCheck("category") != "") {
+			filterJs["productCategory"] = getCheck("category");
 		}
-		if($("#orderSumMoney").val()!=null&&$("#orderSumMoney").val()!=""){
-			filterJs["orderSumMoney"] = $("#orderSumMoney").val();
+		if (getCheck("color") != "") {
+			filterJs["productColor"] = getCheck("color") ;
 		}
-		if($("#orderDeposit").val()!=null&&$("#orderDeposit").val()!=""){
-			filterJs["orderDeposit"] = $("#orderDeposit").val();
+		if (getCheck("size") != "") {
+			filterJs["productSize"] = getCheck("size") ;
 		}
-		if($("#orderRemarks").val()!=null&&$("#orderRemarks").val()!=""){
-			filterJs["orderRemarks"] = $("#orderRemarks").val();
+		if (getCheck("material") != "") {
+			filterJs["productMaterial"] = getCheck("material");
 		}
-		console.log(filterJs);
+		if (getCheck("collar") != "") {
+			filterJs["productCollar"] = getCheck("collar");
+		}
+		if (getCheck("pocket") != "") {
+			filterJs["productPocket"] = getCheck("pocket");
+		}		
+		if ($("#datetime-picker").val() != "") {
+			filterJs["productDatetime"] = $("#datetime-picker").val();
+			if ($("#cartOperation").val() != "") {
+				filterJs["productOperation"] = $("#cartOperation").val();
+			}
+		}
+		if ($("#productRemarks").val() != "") {
+			filterJs["productRemarks"] = $("#productRemarks").val();
+		}
+		if ($("input[name='productStatus']:checked").val() != "") {
+			filterJs["productStatus"] = $("input[name='productStatus']:checked")
+					.val();
+		}
+
 		$("#buffer_span").text(JSON.stringify(filterJs));
+		console.log("doFilterQuery:" + $("#buffer_span").text());
 		initTable(JSON.stringify(filterJs));
 	}
-	function doFilterDelete(tmpCartId) {
+	
+	function doFilterDelete(tmpFactoryId) {
 		var filterJs = {};
 		filterJs["method"] = "delete";
-		filterJs["cartId"] = tmpCartId;
+		filterJs["productId"] = tmpFactoryId;
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
 
+	/*
+	给修改赋值~
+	 */
 	
-	function selectImage(file) {
-		if (!file.files || !file.files[0]) {
+	function reset() {
+
+		$("#productId").attr("value", "");
+		$("#productQueryId").attr("value", "");
+		$("#productNo").attr("value", "");
+		$("#productName").attr("value", "");
+		
+		uncheck("category");
+		uncheck("color");
+		uncheck("size");
+		uncheck("material");
+		uncheck("collar");
+		uncheck("pocket");
+		
+		$("#productRemarks").attr("value", "");
+		/* var TAB = document.getElementById("table_propslist") ;  
+		
+		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[2].innerText);
+		console.log(TAB.rows[row.rowIndex].cells[3].innerText);
+		document.getElementById("modifyPropsId").value = TAB.rows[row.rowIndex].cells[0].innerText; */
+
+	}
+	
+
+	function selectImage(file){
+		if(!file.files || !file.files[0]){
 			return;
 		}
 		var reader = new FileReader();
-		reader.onload = function(evt) {
+		reader.onload = function(evt){
 			$("#buffer_img").text(evt.target.result);
 			console.log(evt.target.result);
 		}
 		reader.readAsDataURL(file.files[0]);
-
+		
 		//https://www.cnblogs.com/youhong/p/7221080.html?utm_source=itdadao&utm_medium=referral
 	}
-
-	function code2name(code) {
-		var result = "";
-		if (code != null && code != "") {
+	
+	function code2name(code){
+		var result="";
+		if(code!=null&&code!=""){
 			var arr = code.split(",");
-			for (index in arr) {
-				result = result + "," + arrProps[arr[index]];
-				console.log("code="+code+"\tresult="+result+"arrProps[arr["+index+"]="+arrProps[arr[index]])
+			for(index in arr){
+				result=result+","+arrProps[arr[index]];
 			}
-			
 			return result.substring(1);
-		} else {
+		}else{
 			return result;
 		}
 	}
-	function name2code(name) {
-		var result = "";
-		if (name != null && name != "") {
+	function name2code(name){
+		var result="";
+		if(name!=null&&name!=""){
 			var arr = name.split(",");
-			for (index in arr) {
-				result = result + "," + arrPropsReverse[arr[index]];
+			for(index in arr){
+				result=result+","+arrPropsReverse[arr[index]];
 			}
 			return result.substring(1);
-		} else {
+		}else{
 			return result;
 		}
 	}
-	function check(name, code) {
-		var coll = document.getElementsByName(name);
-		if (code != null && code != "") {
+	function check(name,code){
+		var coll=document.getElementsByName(name);
+		if(code!=null&&code!=""){
 			var arr = code.split(",");
-			for (index in arr) {
+			for(index in arr){
 				for (var i = 0; i < coll.length; i++) {
-					if (arr[index] == coll[i].value)
-						coll[i].checked = true;
+					if(arr[index]==coll[i].value)
+						coll[i].checked=true;
 				}
 			}
 		}
 	}
-	function uncheck(name) {
-		var coll = document.getElementsByName(name);
-		for (var i = 0; i < coll.length; i++) {
-			coll[i].checked = false;
+	function uncheck(name){
+		var coll=document.getElementsByName(name);
+		for(var i=0;i<coll.length;i++){
+			coll[i].checked=false;
 		}
 	}
-	function getCheck(name) {
-		var coll = document.getElementsByName(name);
-		var result = "";
-		for (var i = 0; i < coll.length; i++) {
-			if (coll[i].checked) {
-				result = result + "," + coll[i].value;
+	function getCheck(name){
+		var coll=document.getElementsByName(name);
+		var result="";
+		for(var i=0;i<coll.length;i++){
+			if(coll[i].checked){
+				result=result+","+coll[i].value;
 			}
 		}
-		if (result != "") {
+		if(result!=""){
 			return result.substring(1);
-		} else {
+		}else{
 			return "";
 		}
 	}
 	
-	function reset(){
-		
+	function code2checkbox(divid,code,namegroup){
+		if(code!=null&&code!=""){
+			var arr = code.split(",");
+			//console.log("code:"+code);
+			for(index in arr){
+				//console.log("id:"+divid+"\tname:"+namegroup+"\tindex:"+index+"\tarr["+index+"]:"+arr[index]+"\tcode2name("+arr[index]+"):"+code2name(arr[index]));
+				$(divid).append("<input type='checkbox' name='"+namegroup+"' value='"+arr[index]+"'>"+code2name(arr[index]));
+			}
+		}
 	}
-	
 </script>
 </head>
 <body>
@@ -650,6 +787,8 @@
 				<li><a href="#">工厂<i class="im-office color-dark"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesPage">生成做货单<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesDetailsPage">维护做货单<i class="br-home"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs color-teal"></i></a>
 					<ul class="nav sub">
@@ -739,93 +878,124 @@
 				</div>
 				<!-- End .page-header -->
 			</div>
-
+			
 			<div class="outlet">
 				<!-- Start .outlet -->
 				<!-- Page start here ( usual with .row ) -->
-<div class="row">
+				<div class="row">
 					<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
 						<!-- col-lg-4 start here -->
 						<div class="panel panel-default plain">
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>客户信息
+									<i class="im-quill"></i>产品属性
 								</h4>
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
 										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">订单编码</label>
+										<label class="col-lg-4 control-label">产品id</label>
 										<div class="col-lg-8">
-											<input id="orderNo" name="orderNo" type="text"
-												class="col-lg-4 form-control">
-										</div>
-									</div>
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
-										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">客户名称</label>
-										<div class="col-lg-8">
-											<input id="orderCustName" name="orderCustName" type="text"
+											<input id="productQueryId" name="productQueryId" type="text"
 												class="col-lg-4 form-control"
 												placeholder="仅当查询时起作用，增加和修改不起作用">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
 										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">客户电话</label>
+										<label class="col-lg-4 control-label">产品编号</label>
 										<div class="col-lg-8">
-											<input id="orderCustPhone" name="orderCustPhone" type="text"
+											<input id="productNo" name="productNo" type="text"
 												class="col-lg-4 form-control"
 												placeholder="请输入产品编码，格式为小于10位数字">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">发货地址</label>
+										<label class="col-lg-4 control-label">产品名称</label>
 										<div class="col-lg-8">
-											<input id="orderName" name="orderName" type="text"
+											<input id="productName" name="productName" type="text"
 												class="col-lg-4 form-control"
 												placeholder="请输入属性名称，格式为小于50位的字符">
 										</div>
 									</div>
+
+									
+									<!-- <img id="image"src="" style="height:92px;width:146px;"/> -->
+
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">订单金额</label>
+										<label class="col-lg-4 control-label">产品归类</label>
+										<div class="col-lg-8" id="productCategory"
+											style="padding: 6px 12px;"></div>
+									</div>
+
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">产品颜色</label>
+										<div class="col-lg-8" id="productColor"
+											style="padding: 6px 12px;"></div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">产品尺寸</label>
+										<div class="col-lg-8" id="productSize"
+											style="padding: 6px 12px;"></div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">产品材质</label>
+										<div class="col-lg-8" id="productMaterial"
+											style="padding: 6px 12px;"></div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">产品衣领</label>
+										<div class="col-lg-8" id="productCollar"
+											style="padding: 6px 12px;"></div>
+									</div>
+
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">产品衣兜</label>
+										<div class="col-lg-8" id="productPocket"
+											style="padding: 6px 12px;"></div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">产品备注</label>
 										<div class="col-lg-8">
-											<input id="orderSumMoney" name="orderSumMoney"
-												type="text" class="col-lg-4 form-control"
-												disabled>
+											<input id="productRemarks" name="productRemarks" type="text"
+												class="col-lg-4 form-control"
+												placeholder="请输入属性备注，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">预付金额</label>
-										<div class="col-lg-8">
-											<input id="orderDeposit" name="orderDeposit"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+										<label class="col-lg-4 control-label">产品状态</label>
+										<div class="col-lg-8" style="height: 34px">
+											<label class="radio col-lg-9"> <input
+												id="productStatus" type="radio" name="productStatus"
+												class="col-lg-4 form-control" value="1" checked="checked">有效
+												<input id="productStatuscp" type="radio"
+												name="productStatus" class="col-lg-4 form-control" value="0">无效
+											</label>
 										</div>
 									</div>
-									<!-- <div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
+									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <label class="col-lg-4 control-label">创建日期</label>
                                             <div class="col-lg-8 col-md-9">
                                                 <div class="row">
                                                     <div class="col-lg-5 col-md-5">
-                                                        <select class="form-control" name="selectOperation" id="selectOperation">
+                                                        <select class="form-control" name="cartOperation" id="cartOperation">
 	                                                        <option value="1">大于</option>
 	                                                        <option value="0">小于</option>
                                                         </select>
-                                                        <span class="help-block">创建日期</span>
+                                                        <!-- <span class="help-block">创建日期</span> -->
                                                     </div>
                                                     <div class="col-lg-7 col-md-7">
                                                         <div class="input-group">
                                                             <input id="datetime-picker" class="form-control datetime-picker2" type="text" value="">
                                                             <span class="input-group-addon"><i class="fa-calendar"></i></span>
                                                         </div>
-                                                        <span class="help-block">Without time picker</span>
+                                                        <!-- <span class="help-block">Without time picker</span> -->
                                                     </div>
                                                 </div>
                                             </div>
-                                    </div> -->
+                                    </div>
 									<!-- End .form-group  -->
 								</div>
 							</div>
@@ -845,18 +1015,17 @@
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
 
-									<!-- End .form-group  -->
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doAdd" class="btn btn-primary"
-												onclick="doCalc();">结算</button>
+											<button id="reset" class="btn btn-primary" onclick="reset();">重置</button>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="reset" class="btn btn-primary" onclick="reset();">重置</button>
+											<button id="doQuery" class="btn btn-primary"
+												onclick="doFilterQuery();">查询</button>
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -866,6 +1035,7 @@
 						<!-- End .panel -->
 					</div>
 				</div>
+				
 				<div class="row">
 					<!-- col-lg-4 end here -->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -877,19 +1047,17 @@
 									<i class="im-quill"></i>产品列表
 								</h4>
 							</div>
-							<div class="panel-body">
-								<table class="table display" id="table_propslist">
-
-								</table>
+							<div class="panel-body" id="div_propslist">
 							</div>
-							<div style="margin-top: 3px;">
-
-								<span style="font-weight: lighter;">本页共<span
-									id="record_sum"></span>条记录
-								</span>
-							</div>
-
-							<div id="pt_div">
+							<div>
+								<div style="margin-top: 3px;">
+	
+									<span style="font-weight: lighter;">本页共<span
+										id="record_sum"></span>条记录
+									</span>
+								</div>
+	
+								<div id="pt_div">
 									<input type="button" id="btn_lastPage"	class="btn btn-primary" value="上一页"	onclick="lastPage();" />&nbsp;<span id="cur_page">0</span>&nbsp;
 									<input type="button" id="btn_nextPage" class="btn btn-primary" value="下一页" onclick="nextPage()" />
 									共<span id="tot_page"></span>页&nbsp;&nbsp;&nbsp;&nbsp; 跳至<input
@@ -898,6 +1066,10 @@
 										onclick="jumpPage();" />
 	
 								</div>
+							</div>
+
+                        </div>
+							
 							<span id="buffer_span" style="display: none">{}</span> <span
 								id="buffer_img" style="display: none"></span>
 						</div>
@@ -911,9 +1083,7 @@
 		</div>
 		<!-- End .content-wrapper -->
 		<div class="clearfix"></div>
-	</div>
 	<!-- End #content -->
-	<div id="tip_message"
-		style="font-size: 30px; width: 500px; z-index: 9999; position: fixed; background: #C0C0C0; text-align: center; color: #0000FF; top: 50%; left: 50%; right: auto; bottom: auto; margin-left: -250px"></div>
+	<div id="tip_message" style="font-size:30px;width:500px;z-index: 9999;position: fixed ;background: #C0C0C0; text-align: center; color: #0000FF;top:50%; left:50%; right: auto;  bottom: auto ;margin-left:-250px" ></div>
 </body>
 </html>
