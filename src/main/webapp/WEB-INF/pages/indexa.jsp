@@ -112,6 +112,9 @@
 	<script src="/resources/assets/js/app.js"></script>
 	<script src="/resources/assets/js/pages/dashboard.js"></script>
 	<script>
+	$(document).ready(function() {
+		console.log("countOrder:"+${countOrder}+"\tnowOrder:"+${nowOrder}+"\tweekOrder:"+${weekOrder}+"\tmonthOrder:"+${monthOrder});
+	});
 	$(function() {
 
 		//first line chart
@@ -319,7 +322,7 @@
 
 	});
 
-	function() {
+	$(function() {
 
 		//visiotrs
 		var d1 = [["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]];
@@ -401,7 +404,7 @@
     		], options
     	);
 
-	}
+	});
 	</script>
 </head>
 <body>

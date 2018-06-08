@@ -1,10 +1,20 @@
 package ims.props.controller;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ims.order.service.OrderService;
 
 /**
  * 
@@ -18,7 +28,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
     
+	private final OrderService orderService;
 
+	@Autowired
+	public MainController(OrderService orderService) {
+		this.orderService=orderService;
+	}
     /**
      * 主页
      *
@@ -29,7 +44,34 @@ public class MainController {
         return "index";
     }
     @RequestMapping("/userTest")
-    public String userTest() {
+    public String userTest(Model model) {
+    	SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");
+        Date nowDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(nowDate);
+        Date now = calendar.getTime();
+        /*System.out.println("当前时间="+sdf.format(now));*/
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)-1);
+        Date aweekago = calendar.getTime();
+        /*System.out.println("往前推1周的时间"+sdf.format(aweekago));*/
+        Date amonthago = calendar.getTime();
+        /*System.out.println("往前推1个月的时间"+sdf.format(amonthago));*/
+        
+        HashMap<String, Object> map = new HashMap<>();
+        long countOrder=orderService.getOrderInfo(map).size();
+        map.put("orderCreate", sdf.format(now));
+        long nowOrder=orderService.getOrderInfo(map).size();
+        map.put("orderCreate", sdf.format(aweekago));
+        long weekOrder=orderService.getOrderInfo(map).size();
+        map.put("orderCreate", sdf.format(amonthago));
+        long monthOrder=orderService.getOrderInfo(map).size();
+        
+        model.addAttribute("countOrder",countOrder);
+        model.addAttribute("nowOrder",nowOrder);
+        model.addAttribute("weekOrder",weekOrder);
+        model.addAttribute("monthOrder",monthOrder);
+        
+        
     	return "indexa";
     }
     @RequestMapping("/help")
