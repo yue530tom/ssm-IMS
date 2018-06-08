@@ -208,7 +208,7 @@
 		$.ajax({
 			type : "POST",
 			data : data,
-			url : "/product/productList",
+			url : "/factory/productList",
 			dataType : "JSON",
 			success : function(json) {
 				refreshList(json);
@@ -322,7 +322,7 @@
 			$("#div_"+i).append('<div>价格:<input type="text" id="btn_price_'+i+'"/></div>');
 			
 			
-			$("#div_"+i).append('<div id="addtocart_'+i+'"><button id="addtocart_"+'+i+' class="btn btn-primary" onclick="addtocart('+i+');">准备做货</button></div>');
+			$("#div_"+i).append('<div id="addtoproduces_'+i+'"><button id="addtoproduces_"+'+i+' class="btn btn-primary" onclick="addtoproduces('+i+');">准备做货</button></div>');
 			
 			$("#div_propslist").append('</div></div>');
 			if(productImg!=null&&productImg!=""){
@@ -334,12 +334,12 @@
 	}
 
 	
-	function addtocart(id){
+	function addtoproduces(id){
 		//获取属性
 		//增加到购物车
 		
 		var filterJs = {};
-		filterJs["method"] = "addtocart";
+		filterJs["method"] = "addtoproduces";
 		
 		if (($("#div_productId_"+id).html()).split(":").length==2) {
 			filterJs["productId"] = ($("#div_productId_"+id).html()).split(":")[1] ;
@@ -380,11 +380,11 @@
 		}
 		
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		console.log("addtocart:" + $("#buffer_span").text());
-		addtocartPost(JSON.stringify(filterJs));
+		console.log("addtoproduces:" + $("#buffer_span").text());
+		addtoproducesPost(JSON.stringify(filterJs));
 	}
 	
-	function addtocartPost(filter){
+	function addtoproducesPost(filter){
 		var data=null;
 		if (filter != "{}") {
 			data = "filter=" + filter;
@@ -392,7 +392,7 @@
 		$.ajax({
 			type : "POST",
 			data : data,
-			url : "/buy/addToCart",
+			url : "/factory/addToProduces",
 			dataType : "JSON",
 			success : function(json) {
 				reback(json);
@@ -447,7 +447,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/product/productList",
+				url : "/factory/productList",
 				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -472,7 +472,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/product/productList",
+				url : "/factory/productList",
 				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -496,7 +496,7 @@
 			alert("请输入合适的页数！");
 		} else {
 			$.ajax({
-				url : "/product/productList",
+				url : "/factory/productList",
 				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
@@ -889,7 +889,7 @@
 							<!-- Start .panel -->
 							<div class="panel-heading white-bg">
 								<h4 class="panel-title">
-									<i class="im-quill"></i>产品属性
+									<i class="im-quill"></i>查询产品
 								</h4>
 							</div>
 							<div class="panel-body">

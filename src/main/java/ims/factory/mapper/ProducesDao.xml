@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ims.factory.dao.ProducesDao">
+	<!--User结果集 -->
+	<resultMap id="producesMap" type="Produces">
+		<id property="producesId" column="produces_id" />
+		<result property="productId" column="product_id" />
+		<result property="productCount" column="product_count" />
+		<result property="productPrice" column="product_price" />
+		<result property="productCategory" column="product_category" />
+		<result property="productColor" column="product_color" />
+		<result property="productSize" column="product_size" />
+		<result property="productMaterial" column="product_material" />
+		<result property="productCollar" column="product_collar" />
+		<result property="productPocket" column="product_pocket" />
+		<result property="productCreate" column="product_create" />
+		<result property="productmodify" column="product_modify" />
+	</resultMap>
+
+	<sql id="producesColumns">
+		produces_id,product_id,product_count,product_price,product_category,product_color,product_size,product_material,product_collar,product_pocket,product_create,product_modify
+	</sql>
+
+	<!--插入订单信息 -->
+	<insert id="addProduces" parameterType="Produces" keyProperty="producesId"
+		useGeneratedKeys="true">
+		INSERT INTO produces
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="productCount != null">
+				product_count,
+			</if>
+			<if test="productPrice != null">
+				product_price,
+			</if>
+			<if test="productCategory != null">
+				product_category,
+			</if>
+			<if test="productColor != null">
+				product_color,
+			</if>
+			<if test="productSize != null">
+				product_size,
+			</if>
+			<if test="productMaterial != null">
+				product_material,
+			</if>
+			<if test="productCollar != null">
+				product_collar,
+			</if>
+			<if test="productPocket != null">
+				product_pocket,
+			</if>
+			<if test="productCreate != null">
+				product_create,
+			</if>
+			<if test="productModify != null">
+				product_modify,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">
+				#{productId, jdbcType=INTEGER},
+			</if>
+			<if test="productCount != null">
+				#{productCount, jdbcType=INTEGER},
+			</if>
+			<if test="productPrice != null">
+				#{productPrice, jdbcType=INTEGER},
+			</if>
+			<if test="productCategory != null">
+				#{productCategory, jdbcType=VARCHAR},
+			</if>
+			<if test="productColor != null">
+				#{productColor, jdbcType=VARCHAR},
+			</if>
+			<if test="productSize != null">
+				#{productSize, jdbcType=INTEGER},
+			</if>
+			<if test="productMaterial != null">
+				#{productMaterial, jdbcType=VARCHAR},
+			</if>
+			<if test="productCollar != null">
+				#{productCollar, jdbcType=VARCHAR},
+			</if>
+			<if test="productPocket != null">
+				#{productPocket, jdbcType=VARCHAR},
+			</if>
+			<if test="productCreate != null">
+				#{productCreate, jdbcType=VARCHAR},
+			</if>
+			<if test="productModify != null">
+				#{productModify, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<!--根据用户名删除用户信息 -->
+	<delete id="deleteProducesByProducesId" parameterType="long">
+		DELETE FROM
+		produces
+		WHERE produces_id = #{_parameter}
+	</delete>
+	<delete id="producesClean">
+		DELETE FROM produces
+	</delete>
+	<!--更新用户信息 -->
+	<update id="updateProducesByProducesId" parameterType="Produces">
+		UPDATE produces
+		SET
+		<if test="productId != null and productId != '' ">
+			product_id = #{productId},
+		</if>
+		<if test="productCount != null and productCount != '' ">
+			product_count = #{productCount},
+		</if>
+		<if test="productPrice != null and productPrice != '' ">
+			product_price = #{productPrice},
+		</if>
+		<if test="productCategory != null and productCategory != '' ">
+			product_category = #{productCategory},
+		</if>
+		<if test="productColor != null and productColor != '' ">
+			product_color = #{productColor},
+		</if>
+		<if test="productSize != null and productSize != '' ">
+			product_size = #{productSize},
+		</if>
+		<if test="productMaterial != null and productMaterial != '' ">
+			product_material = #{productMaterial},
+		</if>
+		<if test="productCollar != null and productCollar != '' ">
+			product_collar = #{productCollar},
+		</if>
+		<if test="productPocket != null and productPocket != '' ">
+			product_pocket = #{productPocket}
+		</if>
+		<if test="productModify != null and productModify != '' ">
+			product_modify = #{productModify}
+		</if>
+		WHERE produces_id = #{producesId}
+	</update>
+
+	<!--根据综合条件查询订单信息 -->
+	<select id="getProducesInfo" parameterType="Map" resultMap="producesMap">
+		SELECT
+		<include refid="producesColumns" />
+		FROM produces
+		<where>
+			<if test="producesDatetime != null and producesDatetime != '' and producesOperation==1">
+				and product_create &gt; #{producesDatetime}
+			</if>
+			<if test="producesDatetime != null and producesDatetime != '' and producesOperation==0">
+				and product_create &lt; #{producesDatetime}
+			</if>
+		</where>
+		<if test="start!=null and size!=null">
+			limit #{start},#{size};
+		</if>
+	</select>
+	<insert id="producesCalc" parameterType="long">
+		insert into produces_orders_details(producesorder_id,product_id,product_count,product_price,product_category,product_color,product_size,product_material,product_collar,product_pocket,producesdetails_create,producesdetails_modify,producesdetails_status) SELECT #{_parameter},product_id,product_count,product_price,product_category,product_color,product_size,product_material,product_collar,product_pocket,SYSDATE(),SYSDATE(),1 FROM produces
+	</insert>
+	<!--根据订单名称模糊查询订单信息 -->
+	<select id="findProducesByLikeProducesName" parameterType="String"
+		resultMap="producesMap">
+		SELECT
+		<include refid="producesColumns" />
+		FROM produces
+		WHERE produces_no like #{producesNo}
+	</select>
+	<!--根据订单名称精确查询订单信息 -->
+	<select id="findProducesByEqualProducesName" parameterType="String"
+		resultMap="producesMap" resultType="Produces">
+		SELECT
+		<include refid="producesColumns" />
+		FROM produces
+		WHERE produces_no = #{producesNo}
+	</select>
+	<!--根据订单id获取订单信息 -->
+	<select id="findProducesByProducesId" parameterType="String"
+		resultMap="producesMap" resultType="Produces">
+		SELECT
+		<include refid="producesColumns" />
+		FROM produces
+		WHERE produces_id = #{producesId}
+	</select>
+
+</mapper>

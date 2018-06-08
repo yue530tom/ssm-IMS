@@ -11,6 +11,9 @@
         <typeAlias alias="UserLoginLog" type="ims.manager.domain.UserLoginLog"/>
         
         <typeAlias alias="Factory" type="ims.factory.domain.Factory"/>
+        <typeAlias alias="Produces" type="ims.factory.domain.Produces"/>
+        <typeAlias alias="ProducesOrder" type="ims.factory.domain.ProducesOrder"/>
+        <typeAlias alias="ProducesOrderDetails" type="ims.factory.domain.ProducesOrderDetails"/>
         <typeAlias alias="Cart" type="ims.order.domain.Cart"/>
         <typeAlias alias="Order" type="ims.order.domain.Order"/>
         <typeAlias alias="OrderDetails" type="ims.order.domain.OrderDetails"/>

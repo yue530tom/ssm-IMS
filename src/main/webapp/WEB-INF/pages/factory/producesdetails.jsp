@@ -165,7 +165,7 @@
 		}
 
 		$.ajax({
-			type : "GET",
+			type : "POST",
 			data : data,
 			url : "/factory/producesList",
 			dataType : "JSON",
@@ -198,40 +198,40 @@
 		$("#table_propslist").empty();
 		$("#table_propslist")
 				.append(
-						'<tr><th>工厂编号</th><th>工厂名称</th><th>联系人</th><th>联系电话</th><th>座机</th><th>工厂地址</th><th>工厂规模</th><th>工厂备注</th><th>工厂状态</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
+						'<tr><th>做货明细id</th><th>工厂名称</th><th>数量</th><th>总价格</th><th>图片</th><th>归类</th><th>颜色</th><th>尺码</th><th>材料</th><th>衣领</th><th>衣兜</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
-			var factoryId = ja[i].factoryId;
-			var factoryName = ja[i].factoryName;
-			var factoryContacts = ja[i].factoryContacts;
-			var factoryPhone = ja[i].factoryPhone;
-			var factoryTelephone = ja[i].factoryTelephone;
-			var factoryAddress = ja[i].factoryAddress;
-			var factoryScale = ja[i].factoryScale;
-			var factoryRemarks = ja[i].factoryRemarks;
-			var factoryStatus = ja[i].factoryStatus;
-			var factoryCreate = ja[i].factoryCreate;
-			var factoryModify = ja[i].factoryModify;
+			var producesId = ja[i].producesId;
+			var productId = ja[i].productId;
+			var productCount = ja[i].productCount;
+			var productPrice = ja[i].productPrice;
+			var productImg = ja[i].productImg;
+			var productCategory = ja[i].productCategory;
+			var productColor = ja[i].productColor;
+			var productSize = ja[i].productSize;
+			var productMaterial = ja[i].productMaterial;
+			var productCollar = ja[i].productCollar;
+			var productPocket = ja[i].productPocket;
+			var productCreate = ja[i].productCreate;
+			var productModify = ja[i].productModify;
 			$("#table_propslist").append(
 					'<tr onclick="getDataToModify(this)" id="tr_' + i
 							+ '"></tr>');
-			$("#tr_" + i).append('<td>' + checkUndefined(factoryId) + '</td>');
-			$("#tr_" + i).append("<td>" + checkUndefined(factoryName) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(factoryContacts) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(factoryPhone) + "</td>");
-			$("#tr_" + i).append('<td>' + checkUndefined(factoryTelephone) + '</td>');
-			$("#tr_" + i).append("<td>" + checkUndefined(factoryAddress) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(factoryScale) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(factoryRemarks) + "</td>");
-			if (factoryStatus == 1) {
-				$("#tr_" + i).append("<td>有效</td>");
-			} else {
-				$("#tr_" + i).append("<td>废弃</td>");
-			}
-			$("#tr_" + i).append("<td>" + checkUndefined(factoryCreate) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(factoryModify) + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(producesId) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(productId) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productCount) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productPrice) + "</td>");
+			$("#tr_" + i).append('<td>' + checkUndefined(productImg) + '</td>');
+			$("#tr_" + i).append("<td>" + checkUndefined(productCategory) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productColor) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productSize) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productMaterial) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productCollar) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productPocket) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productCreate) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productModify) + "</td>");
 			$("#tr_" + i).append(
 					'<td><button class="btn btn-primary" onclick="doFilterDelete('
-							+ factoryId + ');">删除</button></td>');
+							+ producesId + ');">删除</button></td>');
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
@@ -269,7 +269,7 @@
 		} else {
 			$.ajax({
 				url : "/factory/producesList",
-				type : "GET",
+				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -294,7 +294,7 @@
 		} else {
 			$.ajax({
 				url : "/factory/producesList",
-				type : "GET",
+				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -318,7 +318,7 @@
 		} else {
 			$.ajax({
 				url : "/factory/producesList",
-				type : "GET",
+				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -358,11 +358,14 @@
 		}
 	}
 
-	function doFilterQuery() {
+	function doFilterCreate() {
 		var filterJs = {};
-		filterJs["method"] = "query";
-		if ($("#factoryQueryId").val() != "") {
-			filterJs["factoryId"] = $("#factoryQueryId").val();
+		filterJs["method"] = "create";
+		if ($("#producesId").val() != "") {
+			filterJs["producesId"] = $("#producesId").val();
+		}
+		if ($("#factoryContacts").val() != "") {
+			filterJs["producesOrderNo"] = $("#producesOrderNo").val();
 		}
 		if ($("#factoryName").val() != "") {
 			filterJs["factoryName"] = $("#factoryName").val();
@@ -373,100 +376,24 @@
 		if ($("#factoryPhone").val() != "") {
 			filterJs["factoryPhone"] = $("#factoryPhone").val();
 		}
-		if ($("#factoryTelephone").val() != "") {
-			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
+		if ($("#producesOrderCount").val() != "") {
+			filterJs["producesOrderCount"] = $("#producesOrderCount").val();
 		}
-		if ($("#factoryAddress").val() != "") {
-			filterJs["factoryAddress"] = $("#factoryAddress").val();
+		if ($("#producesOrderDepost").val() != "") {
+			filterJs["producesOrderDepost"] = $("#producesOrderDepost").val();
 		}
-		if ($("#factoryScale").val() != "") {
-			filterJs["factoryScale"] = $("#factoryScale").val();
+		if ($("#producesOrderRemarks").val() != "") {
+			filterJs["producesOrderRemarks"] = $("#producesOrderRemarks").val();
 		}
-		if ($("#datetime-picker").val() != "") {
-			filterJs["factoryDatetime"] = $("#datetime-picker").val();
-			if ($("#factoryOperation").val() != "") {
-				filterJs["factoryOperation"] = $("#factoryOperation").val();
-			}
-		}
-		if ($("#factoryRemarks").val() != "") {
-			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
-		}
-		if ($("input[name='factoryStatus']:checked").val() != "") {
-			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked")
-					.val();
-		}
-
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		console.log("doFilterQuery:" + $("#buffer_span").text());
-		initTable(JSON.stringify(filterJs));
-	}
-	function doFilterModify() {
-		var filterJs = {};
-		filterJs["method"] = "modify";
-		if ($("#factoryId").val() != "") {
-			filterJs["factoryId"] = $("#factoryId").val();
-		}
-		if ($("#factoryName").val() != "") {
-			filterJs["factoryName"] = $("#factoryName").val();
-		}
-		if ($("#factoryContacts").val() != "") {
-			filterJs["factoryContacts"] = $("#factoryContacts").val();
-		}
-		if ($("#factoryPhone").val() != "") {
-			filterJs["factoryPhone"] = $("#factoryPhone").val();
-		}
-		if ($("#factoryTelephone").val() != "") {
-			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
-		}
-		if ($("#factoryAddress").val() != "") {
-			filterJs["factoryAddress"] = $("#factoryAddress").val();
-		}
-		if ($("#factoryScale").val() != "") {
-			filterJs["factoryScale"] = $("#factoryScale").val();
-		}
-		if ($("#factoryRemarks").val() != "") {
-			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
-		}
+		
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
-	function doFilterAdd() {
-		var filterJs = {};
-		filterJs["method"] = "add";
-		if ($("#factoryName").val() != "") {
-			filterJs["factoryName"] = $("#factoryName").val();
-		}
-		if ($("#factoryContacts").val() != "") {
-			filterJs["factoryContacts"] = $("#factoryContacts").val();
-		}
-		if ($("#factoryPhone").val() != "") {
-			filterJs["factoryPhone"] = $("#factoryPhone").val();
-		}
-		if ($("#factoryTelephone").val() != "") {
-			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
-		}
-		if ($("#factoryAddress").val() != "") {
-			filterJs["factoryAddress"] = $("#factoryAddress").val();
-		}
-		if ($("#factoryScale").val() != "") {
-			filterJs["factoryScale"] = $("#factoryScale").val();
-		}
-		if ($("#factoryRemarks").val() != "") {
-			filterJs["factoryRemarks"] = $("#factoryRemarks").val();
-		}
-		if ($("input[name='factoryStatus']:checked").val() != "") {
-			filterJs["factoryStatus"] = $("input[name='factoryStatus']:checked")
-					.val();
-		}
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
-	}
-	function doFilterDelete(tmpFactoryId) {
+	function doFilterDelete(tmpProducesId) {
 		var filterJs = {};
 		filterJs["method"] = "delete";
-		filterJs["factoryId"] = tmpFactoryId;
+		filterJs["producesId"] = tmpProducesId;
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
@@ -521,15 +448,14 @@
 	}
 	function reset() {
 
-		$("#factoryId").attr("value", "");
-		$("#factoryQueryId").attr("value", "");
+		$("#producesId").attr("value", "");
+		$("#producesOrderNo").attr("value", "");
 		$("#factoryName").attr("value", "");
 		$("#factoryContacts").attr("value", "");
 		$("#factoryPhone").attr("value", "");
 		$("#factoryTelephone").attr("value", "");
-		$("#factoryAddress").attr("value", "");
-		$("#factoryScale").attr("value", "");
-		$("#factoryRemarks").attr("value", "");
+		$("#producesOrderCount").attr("value", "");
+		$("#producesOrderDepost").attr("value", "");
 
 		/* var TAB = document.getElementById("table_propslist") ;  
 		
@@ -741,17 +667,9 @@
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
 										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">做货Id</label>
-										<div class="col-lg-8">
-											<input id="producesQueryId" name="producesQueryId" type="text"
-												class="col-lg-4 form-control">
-										</div>
-									</div>
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
-										style="margin-top: 0;">
 										<label class="col-lg-4 control-label">做货编号</label>
 										<div class="col-lg-8">
-											<input id="producesNo" name="producesNo" type="text"
+											<input id="producesOrderNo" name=producesOrderNo type="text"
 												class="col-lg-4 form-control">
 										</div>
 									</div>
@@ -779,33 +697,36 @@
 												placeholder="请输入属性备注，格式为小于50位的字符">
 										</div>
 									</div>
-									
-									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <label class="col-lg-4 control-label">创建日期</label>
-                                            <div class="col-lg-8 col-md-9">
-                                                <div class="row">
-                                                    <div class="col-lg-5 col-md-5">
-                                                        <select class="form-control" name="factoryOperation" id="factoryOperation">
-	                                                        <option value="1">大于</option>
-	                                                        <option value="0">小于</option>
-                                                        </select>
-                                                        <!-- <span class="help-block">创建日期</span> -->
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7">
-                                                        <div class="input-group">
-                                                            <input id="datetime-picker" class="form-control datetime-picker2" type="text" value="">
-                                                            <span class="input-group-addon"><i class="fa-calendar"></i></span>
-                                                        </div>
-                                                        <!-- <span class="help-block">Without time picker</span> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    </div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label"></label>
+										<label class="col-lg-4 control-label">总件数</label>
 										<div class="col-lg-8">
-											<button id="reset" class="btn btn-primary"
-												onclick="reset();">重置</button>
+											<input id="producesOrderCount" name="producesOrderCount"
+												type="text" class="col-lg-4 form-control"
+												placeholder="请输入属性描述，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">预付</label>
+										<div class="col-lg-8">
+											<input id="producesOrderSum" name="producesOrderSum"
+												type="text" class="col-lg-4 form-control"
+												placeholder="请输入属性描述，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">预付</label>
+										<div class="col-lg-8">
+											<input id="producesOrderDepost" name="producesOrderDepost"
+												type="text" class="col-lg-4 form-control"
+												placeholder="请输入属性描述，格式为小于50位的字符">
+										</div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">备注</label>
+										<div class="col-lg-8">
+											<input id="producesOrderRemarks" name="producesOrderRemarks"
+												type="text" class="col-lg-4 form-control"
+												placeholder="请输入属性描述，格式为小于50位的字符">
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -832,21 +753,15 @@
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
 											<button id="doAdd" class="btn btn-primary"
-												onclick="doFilterAdd();">新增</button>
+												onclick="doFilterCreate();">生产</button>
 										</div>
 									</div>
+									
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doModify" class="btn btn-primary"
-												onclick="doFilterModify();">修改</button>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-3 control-label"></label>
-										<div class="col-lg-9">
-											<button id="doQuery" class="btn btn-primary"
-												onclick="doFilterQuery();">查询</button>
+											<button id="reset" class="btn btn-primary"
+												onclick="reset();">重置</button>
 										</div>
 									</div>
 									<!-- End .form-group  -->
