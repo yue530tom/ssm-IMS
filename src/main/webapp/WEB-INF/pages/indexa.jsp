@@ -110,12 +110,117 @@
 	<script src="/resources/assets/plugins/ui/calendar/fullcalendar.js"></script>
 	<script src="/resources/assets/js/jquery.sprFlat.js"></script>
 	<script src="/resources/assets/js/app.js"></script>
-	<script src="/resources/assets/js/pages/dashboard.js"></script>
+	<script src="/resources/assets/js/pages/dashboard.js">
+	
+	</script>
 	<script>
+	var objColors = "";
+	var colours = {};
 	$(document).ready(function() {
 		console.log("countOrder:"+${countOrder}+"\tnowOrder:"+${nowOrder}+"\tweekOrder:"+${weekOrder}+"\tmonthOrder:"+${monthOrder});
+		
+		objColors = $('body').data('sprFlat').getColors();
+		colours = {
+			white: objColors.white,
+			dark: objColors.dark,
+			red : objColors.red,
+			blue: objColors.blue,
+			green : objColors.green,
+			yellow: objColors.yellow,
+			brown: objColors.brown,
+			orange : objColors.orange,
+			purple : objColors.purple,
+			pink : objColors.pink,
+			lime : objColors.lime,
+			magenta: objColors.magenta,
+			teal: objColors.teal,
+			textcolor: '#5a5e63',
+			gray: objColors.gray
+		}
+
+		var d1 = ["v",[["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]]];
+		var d2 = ["v2",[["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]]];
+		showchart(d1,d2,"#stats-orders");
 	});
-	$(function() {
+	function showchart(d1,d2,name) {
+		var options = {
+			grid: {
+				show: true,
+			    labelMargin: 20,
+			    axisMargin: 40, 
+			    borderWidth: 0,
+			    borderColor:null,
+			    minBorderMargin: 20,
+			    clickable: true, 
+			    hoverable: true,
+			    autoHighlight: true,
+			    mouseActiveRadius: 100
+			},
+			series: {
+				grow: {
+		            active: true,
+		     		duration: 1000
+		        },
+	            lines: {
+	        		show: true,
+	        		fill: false,
+	        		lineWidth: 2.5
+	            },
+	            points: {
+	            	show:true,
+	            	radius: 5,
+	            	lineWidth: 3.0,
+	            	fill: true,
+	            	fillColor: colours.red,
+	            	strokeColor: colours.white 
+	            }
+	        },
+	        colors: [colours.dark, colours.blue],
+	        legend: { 
+	        	show:true,
+	        	position: "ne", 
+	        	margin: [0,-25], 
+	        	noColumns: 0,
+	        	labelBoxBorderColor: null,
+	        	labelFormatter: function(label, series) {
+				    return '&nbsp;'+label+'&nbsp;&nbsp;';
+				},
+				width: 40,
+				height: 1
+	    	},
+	        shadowSize:0,
+	        tooltip: true, //activate tooltip
+			tooltipOpts: {
+				content: "%y.0",
+				shifts: {
+					x: -45,
+					y: -50
+				},
+				defaultTheme: false
+			},
+			yaxis: { 
+				show:false
+			},
+			xaxis: { 
+	        	mode: "categories",
+	        	tickLength: 0
+	        }
+		}
+
+		var plot = $.plot($(name),[
+			{
+				label: d1[0], 
+				data: d1[1]
+			},
+			{
+				label: d2[0], 
+				data: d2[1]
+			}
+			], options
+		);
+
+	}
+	function linechart() {
 
 		//first line chart
 		var d1 = [];
@@ -125,19 +230,18 @@
 		}
 
 		var chartMinDate = d1[0][0]; //first day
-    	var chartMaxDate = d1[7][0];//last day
+		var chartMaxDate = d1[7][0];//last day
 
-    	var tickSize = [1, "day"];
-    	var tformat = "%d/%m/%y";
-
-    	var total = 0;
-    	//calculate total earnings for this period
-    	for (var i = 0; i < 8; i++) {
+		var tickSize = [1, "day"];
+		var tformat = "%d/%m/%y";
+		var total = 0;
+		//calculate total earnings for this period
+		for (var i = 0; i < 8; i++) {
 			total = d1[i][1] + total;
 		}
 
-    	var options = {
-    		grid: {
+		var options = {
+			grid: {
 				show: true,
 			    aboveData: true,
 			    color: colours.white ,
@@ -157,9 +261,9 @@
 		     		duration: 1500
 		        },
 	            lines: {
-            		show: true,
-            		fill: false,
-            		lineWidth: 2.5
+	        		show: true,
+	        		fill: false,
+	        		lineWidth: 2.5
 	            },
 	            points: {
 	            	show:true,
@@ -179,8 +283,8 @@
 				    return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ 'Total: $'+ total +'</div>';
 				},
 				backgroundColor: colours.blue,
-    			backgroundOpacity: 0.5,
-    			hideSquare: true //hide square color helper 
+				backgroundOpacity: 0.5,
+				hideSquare: true //hide square color helper 
 	    	},
 	        shadowSize:0,
 	        tooltip: true, //activate tooltip
@@ -206,35 +310,35 @@
 	        	tickLength: 0,
 	            
 	        }
-    	}
+		}
 
 		var plot = $.plot($("#stats-earnings"),[{
-    			label: "Earnings", 
-    			data: d1,
-    		}], options
-    	);
+				label: "Earnings", 
+				data: d1,
+			}], options
+		);
 
-	});
+	}
 
 	//second bars chart
-    $(function () {	
-    	
-    	var data = [ ["JAN", 1500], ["FEB", 1345], ["MAR", 1800], ["APR", 1670], ["MAY", 1780], ["JUN", 1500], ["JUL", 1350], ["AUG", 1700], ["SEP", 1890], ["OCT", 2000], ["NOV", 1950], ["DEC", 2000] ];
-    	
-    	//Replicate the existing bar data to reproduce bar fill effect
-    	var arr= [];
-    	for (var i = 0; i <= data.length -1; i++) {
-    		arr.push(data[i][1]);
-    	};
-    	var largest = Math.max.apply(Math, arr) + 50;
-    	d1 = [];
-    	for (var i = 0; i <= data.length -1; i++) {
-    		sum = largest - data[i][1];
-    		d1.push([data[i][0],sum]);
-    	};
+	function barschart() {	
+		
+		var data = [["JAN", 1500], ["FEB", 1345], ["MAR", 1800], ["APR", 1670], ["MAY", 1780], ["JUN", 1500], ["JUL", 1350], ["AUG", 1700], ["SEP", 1890], ["OCT", 2000], ["NOV", 1950], ["DEC", 2000] ];
+		
+		//Replicate the existing bar data to reproduce bar fill effect
+		var arr= [];
+		for (var i = 0; i <= data.length -1; i++) {
+			arr.push(data[i][1]);
+		};
+		var largest = Math.max.apply(Math, arr) + 50;
+		d1 = [];
+		for (var i = 0; i <= data.length -1; i++) {
+			sum = largest - data[i][1];
+			d1.push([data[i][0],sum]);
+		};
 
-    	var options = {
-    		series : {
+		var options = {
+			series : {
 				stack: true
 			},
 			bars: {
@@ -269,10 +373,10 @@
 		};
 		 
 		$.plot($("#stats-earnings-bars"), [data, d1], options);
-	});
+	}
 
 	//second donut chart
-	$(function () {
+	function donutchart() {
 		var options = {
 			series: {
 				pie: { 
@@ -318,93 +422,9 @@
 		    { label: "Design",  data: 20, color: colours.green},
 		    { label: "SEO",  data: 12, color: colours.blue}
 		];
-	    $.plot($("#stats-category-earnings"), data, options);
+	    $.plot($("#stats-earnings-category"), data, options);
 
-	});
-
-	$(function() {
-
-		//visiotrs
-		var d1 = [["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]];
-		var d2 = [["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]];
-		
-    	var options = {
-    		grid: {
-				show: true,
-			    labelMargin: 20,
-			    axisMargin: 40, 
-			    borderWidth: 0,
-			    borderColor:null,
-			    minBorderMargin: 20,
-			    clickable: true, 
-			    hoverable: true,
-			    autoHighlight: true,
-			    mouseActiveRadius: 100
-			},
-			series: {
-				grow: {
-		            active: true,
-		     		duration: 1000
-		        },
-	            lines: {
-            		show: true,
-            		fill: false,
-            		lineWidth: 2.5
-	            },
-	            points: {
-	            	show:true,
-	            	radius: 5,
-	            	lineWidth: 3.0,
-	            	fill: true,
-	            	fillColor: colours.red,
-	            	strokeColor: colours.white 
-	            }
-	        },
-	        colors: [colours.dark, colours.blue],
-	        legend: { 
-	        	show:true,
-	        	position: "ne", 
-	        	margin: [0,-25], 
-	        	noColumns: 0,
-	        	labelBoxBorderColor: null,
-	        	labelFormatter: function(label, series) {
-				    return '&nbsp;'+label+'&nbsp;&nbsp;';
-				},
-				width: 40,
-				height: 1
-	    	},
-	        shadowSize:0,
-	        tooltip: true, //activate tooltip
-			tooltipOpts: {
-				content: "%y.0",
-				shifts: {
-					x: -45,
-					y: -50
-				},
-				defaultTheme: false
-			},
-			yaxis: { 
-				show:false
-			},
-			xaxis: { 
-	        	mode: "categories",
-	        	tickLength: 0
-	        }
-    	}
-
-		var plot = $.plot($("#stats-orders"),[
-			{
-    			label: "Visitors", 
-    			data: d1
-    		},
-    		{
-    			label: "Return visitors", 
-    			data: d2
-    		}
-    		], options
-    	);
-
-	});
+	}
 	</script>
 </head>
 <body>
@@ -917,13 +937,6 @@
 							</div>
 						</div>
 						<!-- End .panel -->
-						<div class="panel panel-default panelMove plain">
-							<!-- Start .panel -->
-							<div class="panel-heading white-bg"></div>
-							<div class="panel-body p0">
-								<div id="calendar"></div>
-							</div>
-						</div>
 						<!-- End .panel -->
 					</div>
 					<!-- End col-lg-6 -->
@@ -941,91 +954,14 @@
 								<div id="stats-earnings" style="width: 100%; height: 250px;"></div>
 							</div>
 							<div class="panel-footer white-bg">
-								<div id="stats-category-earnings" class="col-lg-6 col-md-12"
+								<div id="stats-earnings-category" class="col-lg-6 col-md-12"
 									style="height: 150px;"></div>
 								<div id="stats-earnings-bars" class="col-lg-6 col-md-12"
 									style="height: 150px;"></div>
 							</div>
 						</div>
 						<!-- End .panel -->
-						<div
-							class="panel panel-default toggle panelMove panelClose panelRefresh">
-							<!-- Start .panel -->
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<i class="fa-list"></i> ToDo
-								</h4>
-							</div>
-							<div class="panel-body">
-								<div class="todo-widget">
-									<div class="todo-header">
-										<div class="todo-search">
-											<form>
-												<input type="text" class="form-control" name="search"
-													placeholder="Search for todo ...">
-											</form>
-										</div>
-										<div class="todo-add">
-											<a href="#" class="btn btn-primary tip" title="Add new todo"><i
-												class="im-plus"></i></a>
-										</div>
-									</div>
-									<h4 class="todo-period">Today</h4>
-									<ul class="todo-list" id="today">
-										<li class="todo-task-item"><label class="checkbox">
-												<input type="checkbox">
-										</label>
-											<div class="todo-priority normal tip" title="Normal priority">
-												<i class="im-radio-checked"></i>
-											</div> <span class="todo-category label label-primary">
-												javascript </span>
-											<div class="todo-task-text">Add scroll function to
-												template</div>
-											<button type="button" class="close todo-close">&times;</button>
-										</li>
-										<li class="todo-task-item"><label class="checkbox">
-												<input type="checkbox">
-										</label>
-											<div class="todo-priority high tip" title="High priority">
-												<i class="im-radio-checked"></i>
-											</div> <span class="todo-category label label-brown"> less </span>
-											<div class="todo-task-text">Fix main less file</div>
-											<button type="button" class="close todo-close">&times;</button>
-										</li>
-										<li class="todo-task-item task-done"><label
-											class="checkbox"> <input type="checkbox" checked>
-										</label>
-											<div class="todo-priority high tip" title="High priority">
-												<i class="im-radio-checked"></i>
-											</div> <span class="todo-category label label-info"> html </span>
-											<div class="todo-task-text">Change navigation structure</div>
-											<button type="button" class="close todo-close">&times;</button>
-										</li>
-									</ul>
-									<h4 class="todo-period">Tomorrow</h4>
-									<ul class="todo-list" id="tomorrow">
-										<li class="todo-task-item"><label class="checkbox">
-												<input type="checkbox">
-										</label>
-											<div class="todo-priority tip" title="Low priority">
-												<i class="im-radio-checked"></i>
-											</div> <span class="todo-category label label-dark"> css </span>
-											<div class="todo-task-text">Create slide panel widget</div>
-											<button type="button" class="close todo-close">&times;</button>
-										</li>
-										<li class="todo-task-item"><label class="checkbox">
-												<input type="checkbox">
-										</label>
-											<div class="todo-priority medium tip" title="Medium priority">
-												<i class="im-radio-checked"></i>
-											</div> <span class="todo-category label label-danger"> php </span>
-											<div class="todo-task-text">Edit the main controller</div>
-											<button type="button" class="close todo-close">&times;</button>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
+						
 						<!-- End .panel -->
 					</div>
 					<!-- End col-lg-6 -->
