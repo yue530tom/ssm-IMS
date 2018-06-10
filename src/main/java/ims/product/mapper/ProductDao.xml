@@ -218,7 +218,12 @@
 			limit #{start},#{size};
 		</if>
 	</select>
-
+	<select id="getTopFive" parameterType="Map" resultMap="productMap">
+		SELECT <include refid="productColumns" /> FROM product WHERE product_status='1' and product_create > DATE_ADD(SYSDATE(),INTERVAL -1 MONTH) ORDER BY product_create DESC LIMIT 0,5;
+	</select>
+	<select id="getRecommend" parameterType="Map" resultMap="productMap">
+		SELECT * from product WHERE product_recommend='1' and product_status='1';
+	</select>
 	<!--根据产品名称模糊查询产品信息 -->
 	<select id="findProductByLikeProductName" parameterType="String"
 		resultMap="productMap">

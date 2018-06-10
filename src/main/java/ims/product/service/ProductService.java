@@ -77,5 +77,8 @@ public interface ProductService {
 	 * @throws
 	 */
 	Product findProductByProductId(long productId);
+	
+	List<Product> getTopFive();
+	List<Product> getRecommend();
 
 }

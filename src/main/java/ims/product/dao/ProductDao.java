@@ -81,4 +81,7 @@ public interface ProductDao {
 	 */
 	Product findProductByProductId(long productId);
 
+	List<Product> getTopFive();
+	
+	List<Product> getRecommend();
 }

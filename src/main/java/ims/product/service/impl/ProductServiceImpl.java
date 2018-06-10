@@ -86,6 +86,24 @@ public class ProductServiceImpl implements ProductService {
 		return null;
 	}
 
+	@Override
+	public List<Product> getTopFive() {
+		// TODO Auto-generated method stub
+		if (productDao!=null) {
+			return productDao.getTopFive();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Product> getRecommend() {
+		// TODO Auto-generated method stub
+		if (productDao!=null) {
+			return productDao.getRecommend();
+		}
+		return null;
+	}
+
 	
 
 }

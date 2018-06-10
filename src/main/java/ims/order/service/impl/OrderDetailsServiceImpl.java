@@ -1,5 +1,6 @@
 package ims.order.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -68,6 +69,42 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 			orderDetailsDao.deleteOrderDetailsByOrderId(orderId);
 		}
 
+	}
+
+	@Override
+	public HashMap<String, String> getOrderDetailsGroupBySum(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		if (orderDetailsDao != null) {
+			return orderDetailsDao.getOrderDetailsGroupBySum(map);
+		}
+		return null;
+	}
+
+	@Override
+	public HashMap<String, String> getOrderDetailsGroupByOrder(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		if (orderDetailsDao != null) {
+			return orderDetailsDao.getOrderDetailsGroupByOrder(map);
+		}
+		return null;
+	}
+
+	@Override
+	public HashMap<String, String> getOrderDetailsGroupByMaterial(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		if (orderDetailsDao != null) {
+			return orderDetailsDao.getOrderDetailsGroupByMaterial(map);
+		}
+		return null;
+	}
+
+	@Override
+	public HashMap<String, String> getOrderDetailsGroupByColor(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		if (orderDetailsDao != null) {
+			return orderDetailsDao.getOrderDetailsGroupByColor(map);
+		}
+		return null;
 	}
 
 }

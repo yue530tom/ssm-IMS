@@ -1,5 +1,6 @@
 package ims.order.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -63,4 +64,20 @@ public interface OrderDetailsDao {
 	void deleteOrderDetailsByOrderId(long orderId);
 
 
+	HashMap<String, String> getOrderDetailsGroupBySum(HashMap<String, Object> map);
+	HashMap<String, String> getOrderDetailsGroupByOrder(HashMap<String, Object> map);
+	HashMap<String, String> getOrderDetailsGroupByMaterial(HashMap<String, Object> map);
+	HashMap<String, String> getOrderDetailsGroupByColor(HashMap<String, Object> map);
+	/*
+	 * SELECT orderdetails_product_id,sum(orderdetails_product_num) as sum from order_details WHERE orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
+
+SELECT orderdetails_product_id,count(DISTINCT order_id) from order_details WHERE orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
+
+SELECT orderdetails_product_material,sum(orderdetails_product_num) from order_details WHERE orderdetails_product_material IS NOT NULL group by orderdetails_product_material LIMIT 0,1;
+
+SELECT orderdetails_product_color,sum(orderdetails_product_num) from order_details WHERE orderdetails_product_color IS NOT NULL group by orderdetails_product_color LIMIT 0,1;
+	 * 
+	 * 
+	 * */
+	
 }

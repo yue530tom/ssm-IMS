@@ -164,6 +164,9 @@
 			<if test="orderDatetime != null and orderDatetime != '' and orderOperation==0">
 				and order_create &lt; #{orderDatetime}
 			</if>
+			<if test="orderDatetime != null and orderDatetime != '' and orderOperation==null">
+				and order_create like CONCAT(#{orderDatetime},'%')
+			</if>
 			<if test="orderStatus != null and orderStatus != '' ">
 				and order_status = #{orderStatus}
 			</if>

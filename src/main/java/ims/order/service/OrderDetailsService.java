@@ -1,5 +1,6 @@
 package ims.order.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ims.order.domain.OrderDetails;
@@ -56,4 +57,8 @@ public interface OrderDetailsService {
 	OrderDetails findOrderDetailsByOrderDetailsId(int orderDetailsId);
 	
 	void deleteOrderDetailsByOrderId(long orderId);
+	HashMap<String, String> getOrderDetailsGroupBySum(HashMap<String, Object> map);
+	HashMap<String, String> getOrderDetailsGroupByOrder(HashMap<String, Object> map);
+	HashMap<String, String> getOrderDetailsGroupByMaterial(HashMap<String, Object> map);
+	HashMap<String, String> getOrderDetailsGroupByColor(HashMap<String, Object> map);
 }

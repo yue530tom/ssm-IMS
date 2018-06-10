@@ -117,7 +117,27 @@
 	var objColors = "";
 	var colours = {};
 	$(document).ready(function() {
-		console.log("countOrder:"+${countOrder}+"\tnowOrder:"+${nowOrder}+"\tweekOrder:"+${weekOrder}+"\tmonthOrder:"+${monthOrder});
+		console.log("countOrder:"+${countOrder}+"\tyestodayOrder:"+${yestodayOrder}+"\tnowOrder:"+${nowOrder}+"\tweekOrder:"+${weekOrder}+"\tmonthOrder:"+${monthOrder});
+		//https://www.cnblogs.com/caoyc/p/5635878.html
+		//https://www.cnblogs.com/mrxiaohe/p/5893708.html
+		var bysum = ${bysum};
+		
+		//byorder = eval('(' + '${byorder}' + ')');
+		//bymaterial = eval('(' + '${bymaterial}' + ')');
+		//bycolor = eval('(' + '${bycolor}' + ')');
+		//console.log("bysum:"+bysum[keyf]+bysum[keyf_value]+"\tbyorder:"+byorder[keyf]+byorder[keyf_value]+"\tbymaterial:"+bymaterial[keyf]+bymaterial[keyf_value]+"\tbycolor:"+bycolor[keyf]+bycolor[keyf_value]);
+		console.log(bysum+"\t"+bysum.keyf+"\t"+bysum.keyf_value);
+		console.log("toplist:"+${toplist})
+		var ja=${toplist};
+		for (var i = 0; i < ja.length; i++) {
+			console.log(ja[i].productId);
+		}
+		console.log("======================");
+		ja=${recommendlist};
+		for (var i = 0; i < ja.length; i++) {
+			console.log(ja[i].productId);
+		}
+		
 		
 		objColors = $('body').data('sprFlat').getColors();
 		colours = {
