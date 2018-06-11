@@ -16,7 +16,7 @@
 		<result property="productCollar" column="product_collar" />
 		<result property="productPocket" column="product_pocket" />
 		<result property="productCreate" column="product_create" />
-		<result property="productmodify" column="product_modify" />
+		<result property="productModify" column="product_modify" />
 	</resultMap>
 
 	<sql id="producesColumns">

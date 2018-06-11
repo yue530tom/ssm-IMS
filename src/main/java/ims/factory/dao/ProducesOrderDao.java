@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import ims.factory.domain.Produces;
 import ims.factory.domain.ProducesOrder;
 
 @Repository
@@ -18,10 +17,10 @@ public interface ProducesOrderDao {
 
 	    void updateProducesOrderByProducesOrderId(ProducesOrder producesOrder);
 
-	    List<Produces> getProducesOrderInfo(Map<String, Object> map);
+	    List<ProducesOrder> getProducesOrderInfo(Map<String, Object> map);
 	 
-	    List<Produces> findProducesOrderByProducesOrderNo(String producesOrderNo);
+	    List<ProducesOrder> findProducesOrderByProducesOrderNo(String producesOrderNo);
 	    
-	    Produces findProducesOrderByProducesOrderId(int producesOrderId);
+	    ProducesOrder findProducesOrderByProducesOrderId(int producesOrderId);
 	
 }

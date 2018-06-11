@@ -123,11 +123,20 @@
 		<include refid="producesOrderColumns" />
 		FROM produces_orders
 		<where>
+			<if test="producesId != null and producesId != ''">
+				and produces_order_id = #{producesId}
+			</if>
+			<if test="producesOrderNo != null and producesOrderNo != ''">
+				and produces_order_no = #{producesOrderNo}
+			</if>
+			<if test="producesOrderFactoryId != null and producesOrderFactoryId != ''">
+				and produces_order_factory_id = #{producesOrderFactoryId}
+			</if>
 			<if test="producesOrderDatetime != null and producesOrderDatetime != '' and producesOrderOperation==1">
-				and product_create &gt; #{producesOrderDatetime}
+				and produces_order_create &gt; #{producesOrderDatetime}
 			</if>
 			<if test="producesOrderDatetime != null and producesOrderDatetime != '' and producesOrderOperation==0">
-				and product_create &lt; #{producesOrderDatetime}
+				and produces_order_create &lt; #{producesOrderDatetime}
 			</if>
 		</where>
 		<if test="start!=null and size!=null">

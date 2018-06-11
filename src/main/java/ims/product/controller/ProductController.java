@@ -191,6 +191,10 @@ public class ProductController {
 					filterMap.put("productStatus", filterJson.get("productStatus").toString());
 					product.setProductStatus(filterJson.get("productStatus").toString());
 				}
+				if (filterJson.has("productRecommend")) {
+					filterMap.put("productRecommend", filterJson.get("productRecommend").toString());
+					product.setProductRecommend(filterJson.get("productRecommend").toString());
+				}
 				if (filterJson.has("productOperation")) {
 					filterMap.put("productOperation",filterJson.get("productOperation").toString());
 				}
@@ -238,7 +242,11 @@ public class ProductController {
 				// 重置filterMap为空
 				// filterMap=null;
 			}
-
+			if (method.equals("recommend")) {
+				productService.updateProductRecommendByProductId(product.getProductId());
+				// 重置filterMap为空
+				// filterMap=null;
+			}
 			int count = productService.getProductInfo(filterMap).size();// 获取总数
 			System.err.println("count:" + count);
 			int size = (int) Math.ceil((float) count / pageSize);
@@ -274,6 +282,8 @@ public class ProductController {
 				tempJsonObject.put("productStatus", propsTmp.getProductStatus());
 				tempJsonObject.put("productCreate", propsTmp.getProductCreate());
 				tempJsonObject.put("productModify", propsTmp.getProductModify());
+				tempJsonObject.put("productRecommend", propsTmp.getProductRecommend());
+				
 				jsonArray.put(tempJsonObject);
 				//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
 			}

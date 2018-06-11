@@ -47,7 +47,7 @@ public class ProducesOrderServiceImpl implements ProducesOrderService {
 	}
 
 	@Override
-	public List<Produces> getProducesOrderInfo(Map<String, Object> map) {
+	public List<ProducesOrder> getProducesOrderInfo(Map<String, Object> map) {
 		if (producesOrderDao!=null) {
 			return producesOrderDao.getProducesOrderInfo(map);
 		}
@@ -55,7 +55,7 @@ public class ProducesOrderServiceImpl implements ProducesOrderService {
 	}
 
 	@Override
-	public List<Produces> findProducesOrderByProducesOrderNo(String producesOrderNo) {
+	public List<ProducesOrder> findProducesOrderByProducesOrderNo(String producesOrderNo) {
 		if (producesOrderDao!=null) {
 			return producesOrderDao.findProducesOrderByProducesOrderNo(producesOrderNo);
 		}
@@ -63,7 +63,7 @@ public class ProducesOrderServiceImpl implements ProducesOrderService {
 	}
 
 	@Override
-	public Produces findProducesOrderByProducesOrderId(int producesOrderId) {
+	public ProducesOrder findProducesOrderByProducesOrderId(int producesOrderId) {
 		if (producesOrderDao!=null) {
 			return producesOrderDao.findProducesOrderByProducesOrderId(producesOrderId);
 		}

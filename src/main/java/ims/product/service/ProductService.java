@@ -80,5 +80,7 @@ public interface ProductService {
 	
 	List<Product> getTopFive();
 	List<Product> getRecommend();
+	
+	void updateProductRecommendByProductId(long productId);
 
 }

@@ -319,8 +319,8 @@
 					$("#tr_" + i).append('<td></td>');	
 				}
 			$("#tr_" + i).append(
-					'<td><button class="btn btn-primary" onclick="doFilterDelete('
-							+ cartId + ');">删除</button></td>');
+					'<td><button class="br-trashcan btn btn-primary" onclick="doFilterDelete('
+							+ cartId + ');"></button></td>');
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
@@ -650,6 +650,9 @@
 				<li><a href="#">工厂<i class="im-office color-dark"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesPage">组织做货<i class="br-basket"></i></a></li>
+						<li><a href="/factory/toProducesDetailsPage">生成做货单<i class="im-hammer"></i></a></li>
+						<li><a href="/factory/toProducesOrderPage">维护做货单<i class="br-wrench"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs color-teal"></i></a>
 					<ul class="nav sub">
@@ -710,7 +713,7 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/product/toProductPage"> <i class="fa-barcode color-blue"></i> <span>维护产品</span>
+											<a href="/product/toProductPage"> <i class="fa-barcode color-green"></i> <span>维护产品</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
@@ -722,9 +725,29 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-green"></i> <span>属性明细</span>
+											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-blue"></i> <span>属性明细</span>
 											</a>
 										</div>
+										
+										
+										
+										
+										<div class="shortcut-button">
+											<a href="/factory/toProducesPage"> <i class="br-basket color-green"></i> <span>组织做货</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesDetailsPage"> <i class="im-hammer color-orange"></i> <span>生成做货单</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesOrderPage"> <i class="br-wrench color-green"></i> <span>维护做货单</span>
+											</a>
+										</div>
+										
+										
+										
+
 									</div>
 								</div>
 							</div>
@@ -849,14 +872,14 @@
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doAdd" class="btn btn-primary"
+											<button id="doAdd" class="im-sigma btn btn-primary"
 												onclick="doCalc();">结算</button>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="reset" class="btn btn-primary" onclick="reset();">重置</button>
+											<button id="reset" class="br-refresh btn btn-primary" onclick="reset();">重置</button>
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -890,12 +913,11 @@
 							</div>
 
 							<div id="pt_div">
-									<input type="button" id="btn_lastPage"	class="btn btn-primary" value="上一页"	onclick="lastPage();" />&nbsp;<span id="cur_page">0</span>&nbsp;
-									<input type="button" id="btn_nextPage" class="btn btn-primary" value="下一页" onclick="nextPage()" />
+									<button  id="btn_lastPage"	class="im-previous btn btn-primary"	onclick="lastPage();" ></button>&nbsp;<span id="cur_page">0</span>&nbsp;
+									<button type="button" id="btn_nextPage" class="im-next btn btn-primary" onclick="nextPage()" ></button>
 									共<span id="tot_page"></span>页&nbsp;&nbsp;&nbsp;&nbsp; 跳至<input
-										type="text" style="width:50px" id="pageNum" />页 &nbsp; <input
-										type="button" value="确定" class="btn btn-primary"
-										onclick="jumpPage();" />
+										type="text" style="width:50px" id="pageNum" />页 &nbsp; 
+										<button	type="button" class="im-point-right btn btn-primary" onclick="jumpPage();" ></button>
 	
 								</div>
 							<span id="buffer_span" style="display: none">{}</span> <span

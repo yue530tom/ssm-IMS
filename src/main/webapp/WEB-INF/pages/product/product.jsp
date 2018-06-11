@@ -170,6 +170,8 @@
 		
 		for (var i = 0; i < propsDetails1.length; i++) {
 			$("#productCategory").append("<input type='checkbox' name='category' value='"+propsDetails1[i].propsDetailsId+"'/>"+propsDetails1[i].propsDetailsName);
+			
+			
 			arrProps[propsDetails1[i].propsDetailsId]=propsDetails1[i].propsDetailsName;
 			arrPropsReverse[propsDetails1[i].propsDetailsName]=propsDetails1[i].propsDetailsId;
 		}
@@ -253,7 +255,7 @@
 		$("#table_propslist").empty();
 		$("#table_propslist")
 				.append(
-						'<tr><th>产品id</th><th>产品编号</th><th>产品名称</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>产品备注</th><th>创建日期</th><th>修改日期</th><th>产品状态</th><th>操作</th></tr>');
+						'<tr><th>产品id</th><th>产品编号</th><th>产品名称</th><th>产品图片</th><th>产品归类</th><th>产品颜色</th><th>产品尺码</th><th>产品材质</th><th>产品衣领</th><th>产品衣兜</th><th>产品备注</th><th>创建日期</th><th>推荐产品</th><th>产品状态</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
 			var productId = ja[i].productId;
 			var productNo = ja[i].productNo;
@@ -269,6 +271,7 @@
 			var productStatus = ja[i].productStatus;
 			var productCreate = ja[i].productCreate;
 			var productModify = ja[i].productModify;
+			var productRecommend=ja[i].productRecommend;
 			$("#table_propslist").append(
 					'<tr onclick="getDataToModify(this)" id="tr_' + i
 							+ '"></tr>');
@@ -292,16 +295,31 @@
 			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productCollar)) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productPocket)) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(productRemarks) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(productCreate) + "</td>");
+			//$("#tr_" + i).append("<td>" + checkUndefined(productModify) + "</td>");
+			//$("#tr_" + i).append("<td>" + checkUndefined(productRecommend) + "</td>");
+			if (productRecommend == 1) {
+				$("#tr_" + i).append("<td><i class='fa-star'></i><i class='fa-star'></i><i class='fa-star'></i><i class='fa-star'></i><i class='fa-star'></i></td>");
+			} else {
+				$("#tr_" + i).append("<td></td>");
+			}
 			if (productStatus == 1) {
 				$("#tr_" + i).append("<td>有效</td>");
 			} else {
 				$("#tr_" + i).append("<td>废弃</td>");
 			}
-			$("#tr_" + i).append("<td>" + checkUndefined(productCreate) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(productModify) + "</td>");
-			$("#tr_" + i).append(
-					'<td><button class="btn btn-primary" onclick="doFilterDelete('
-							+ productId + ');">删除</button></td>');
+			if (productRecommend == 1) {
+				$("#tr_" + i).append(
+						'<td><button class="br-thumbs-down btn btn-primary" onclick="doFilterRecommend('
+								+ productId + ');"></button> <button class="br-trashcan btn btn-primary" onclick="doFilterDelete('
+								+ productId + ');"></button></td>');
+			} else {
+				$("#tr_" + i).append(
+						'<td><button class="br-thumbs-up btn btn-primary" onclick="doFilterRecommend('
+								+ productId + ');"></button> <button class="br-trashcan btn btn-primary" onclick="doFilterDelete('
+								+ productId + ');"></button></td>');
+			}
+			
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
@@ -467,6 +485,10 @@
 				filterJs["productOperation"] = $("#productOperation").val();
 			}
 		}
+		
+		if ($("#productRecommend").val() != "") {
+			filterJs["productRecommend"] = $("#productRecommend").val();
+		}
 		if ($("#productRemarks").val() != "") {
 			filterJs["productRemarks"] = $("#productRemarks").val();
 		}
@@ -566,15 +588,22 @@
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
-	function doFilterDelete(tmpFactoryId) {
+	function doFilterDelete(tmpProductId) {
 		var filterJs = {};
 		filterJs["method"] = "delete";
-		filterJs["productId"] = tmpFactoryId;
+		filterJs["productId"] = tmpProductId;
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
-
+	function doFilterRecommend(tmpProductId){
+		var filterJs = {};
+		filterJs["method"] = "recommend";
+		filterJs["productId"] = tmpProductId;
+		console.log(filterJs);
+		$("#buffer_span").text(JSON.stringify(filterJs));
+		initTable(JSON.stringify(filterJs));
+	}
 	/*
 	给修改赋值~
 	 */
@@ -796,6 +825,9 @@
 				<li><a href="#">工厂<i class="im-office color-dark"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesPage">组织做货<i class="br-basket"></i></a></li>
+						<li><a href="/factory/toProducesDetailsPage">生成做货单<i class="im-hammer"></i></a></li>
+						<li><a href="/factory/toProducesOrderPage">维护做货单<i class="br-wrench"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs color-teal"></i></a>
 					<ul class="nav sub">
@@ -856,7 +888,7 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/product/toProductPage"> <i class="fa-barcode color-blue"></i> <span>维护产品</span>
+											<a href="/product/toProductPage"> <i class="fa-barcode color-green"></i> <span>维护产品</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
@@ -868,9 +900,29 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-green"></i> <span>属性明细</span>
+											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-blue"></i> <span>属性明细</span>
 											</a>
 										</div>
+										
+										
+										
+										
+										<div class="shortcut-button">
+											<a href="/factory/toProducesPage"> <i class="br-basket color-green"></i> <span>组织做货</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesDetailsPage"> <i class="im-hammer color-orange"></i> <span>生成做货单</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesOrderPage"> <i class="br-wrench color-green"></i> <span>维护做货单</span>
+											</a>
+										</div>
+										
+										
+										
+
 									</div>
 								</div>
 							</div>
@@ -960,7 +1012,7 @@
 
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品颜色</label>
-										<div class="col-lg-8" id="productColor"
+										<div class="col-lg-8 " id="productColor"
 											style="padding: 6px 12px;"></div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -1012,6 +1064,18 @@
 											</label>
 										</div>
 									</div>
+
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">推荐</label>
+										<div class="col-lg-8">
+											<select class="form-control select2" name="productRecommend"
+												id="productRecommend">
+													<option value=""></option>
+													<option value="1">推荐</option>
+													<option value="0">普通</option>
+											</select>
+										</div>
+									</div>
 									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <label class="col-lg-4 control-label">创建日期</label>
                                             <div class="col-lg-8 col-md-9">
@@ -1036,7 +1100,7 @@
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label"></label>
 										<div class="col-lg-8">
-											<button id="reset" class="btn btn-primary" onclick="reset();">重置</button>
+											<button id="reset" class="br-refresh btn btn-primary" onclick="reset();">重置</button>
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -1062,21 +1126,21 @@
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doAdd" class="btn btn-primary"
+											<button id="doAdd" class="en-add-to-list btn btn-primary"
 												onclick="doFilterAdd();">新增</button>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doModify" class="btn btn-primary"
+											<button id="doModify" class="en-retweet btn btn-primary"
 												onclick="doFilterModify();">修改</button>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doQuery" class="btn btn-primary"
+											<button id="doQuery" class="ec-search btn btn-primary"
 												onclick="doFilterQuery();">查询</button>
 										</div>
 									</div>
@@ -1112,12 +1176,11 @@
 							</div>
 
 							<div id="pt_div">
-									<input type="button" id="btn_lastPage"	class="btn btn-primary" value="上一页"	onclick="lastPage();" />&nbsp;<span id="cur_page">0</span>&nbsp;
-									<input type="button" id="btn_nextPage" class="btn btn-primary" value="下一页" onclick="nextPage()" />
+									<button  id="btn_lastPage"	class="im-previous btn btn-primary"	onclick="lastPage();" ></button>&nbsp;<span id="cur_page">0</span>&nbsp;
+									<button type="button" id="btn_nextPage" class="im-next btn btn-primary" onclick="nextPage()" ></button>
 									共<span id="tot_page"></span>页&nbsp;&nbsp;&nbsp;&nbsp; 跳至<input
-										type="text" style="width:50px" id="pageNum" />页 &nbsp; <input
-										type="button" value="确定" class="btn btn-primary"
-										onclick="jumpPage();" />
+										type="text" style="width:50px" id="pageNum" />页 &nbsp; 
+										<button	type="button" class="im-point-right btn btn-primary" onclick="jumpPage();" ></button>
 	
 								</div>
 							<span id="buffer_span" style="display: none">{}</span> <span

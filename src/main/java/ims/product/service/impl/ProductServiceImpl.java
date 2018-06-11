@@ -104,6 +104,11 @@ public class ProductServiceImpl implements ProductService {
 		return null;
 	}
 
-	
+	@Override
+	public void updateProductRecommendByProductId(long productId) {
+		if (productDao!=null) {
+			productDao.updateProductRecommendByProductId(productId);
+		}
+	}
 
 }

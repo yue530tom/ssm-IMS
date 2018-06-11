@@ -259,30 +259,30 @@
 			var productRemarks = ja[i].productRemarks;
 			var productStatus = ja[i].productStatus;
 			
-			$("#div_propslist").append("<div class='form-group col-lg-3 col-md-3 col-sm-3 col-xs-3'><label class='col-lg-4 control-label'><img id='img_" + i+ "' src='' style='height:200px;width:100px;'/></label><div class='col-lg-8' id='div_"+i+"'	style='padding: 6px 12px;'>");
+			$("#div_propslist").append("<div class='form-group col-lg-4 col-md-4 col-sm-4 col-xs-4'><label class='col-lg-4 control-label'><img id='img_" + i+ "' src='' style='height:200px;width:100px;'/></label><div class='col-lg-8' id='div_"+i+"'	style='padding: 6px 12px;'>");
 			if(productId!=null&&productId!=""){
 				$("#div_"+i).append("<div id='div_productId_"+i+"' style='display:none'>产品id:"+productId+"</div>");
 			}else{
 				$("#div_"+i).append("<div id='div_productId_"+i+"'  style='display:none'>产品id:</div>");
 			}
 			if(productNo!=null&&productNo!=""){
-				$("#div_"+i).append("<div id='div_productNo_"+i+"'>产品编码:"+productNo+"</div>");
+				$("#div_"+i).append("<div id='div_productNo_"+i+"' style='padding: 1px 1px;'>产品编码:"+productNo+"</div>");
 			}else{
-				$("#div_"+i).append("<div id='div_productNo_"+i+"'>产品编码:</div>");
+				$("#div_"+i).append("<div id='div_productNo_"+i+"' style='padding: 1px 1px;'>产品编码:</div>");
 			}
 			if(productName!=null&&productName!=""){
-				$("#div_"+i).append("<div id='div_productName_"+i+"'>产品名称:"+productName+"</div>");
+				$("#div_"+i).append("<div id='div_productName_"+i+"' style='padding: 1px 1px;'>产品名称:"+productName+"</div>");
 			}else{
-				$("#div_"+i).append("<div id='div_productName_"+i+"'>产品名称:</div>");
+				$("#div_"+i).append("<div id='div_productName_"+i+"' style='padding: 1px 1px;'>产品名称:</div>");
 			}
-			$("#div_"+i).append("<div id='div_category_"+i+"'>产品归类:");
+			$("#div_"+i).append("<div id='div_category_"+i+"' style='padding: 1px 1px;'>产品归类:");
 			if(productCategory!=null&&productCategory!=""){
 				code2checkbox("#div_category_"+i,productCategory,"category_"+i);
 			}
 			$("#div_"+i).append("</div>");
 
 					
-			$("#div_"+i).append('<div id="div_color_'+i+'">产品颜色:');
+			$("#div_"+i).append('<div id="div_color_'+i+'" style="padding: 1px 1px;">产品颜色:');
 			if(productColor!=null&&productColor!=""){
 				code2checkbox("#div_color_"+i,productColor,"color_"+i);
 			}
@@ -290,14 +290,14 @@
 			
 	
 			
-			$("#div_"+i).append('<div id="div_size_'+i+'">产品尺寸:');
+			$("#div_"+i).append('<div id="div_size_'+i+'" style="padding: 1px 1px;">产品尺寸:');
 			if(productSize!=null&&productSize!=""){
 				code2checkbox("#div_size_"+i,productSize,"size_"+i);
 			}
 			$("#div_"+i).append('</div>');
 			
 	
-			$("#div_"+i).append('<div id="div_material_'+i+'">产品材质:');
+			$("#div_"+i).append('<div id="div_material_'+i+'" style="padding: 1px 1px;">产品材质:');
 			if(productMaterial!=null&&productMaterial!=""){
 				code2checkbox("#div_material_"+i,productMaterial,"material_"+i);
 			}
@@ -305,24 +305,24 @@
 			
 		
 			
-			$("#div_"+i).append('<div id="div_collar_'+i+'">产品衣领:');
+			$("#div_"+i).append('<div id="div_collar_'+i+'" style="padding: 1px 1px;">产品衣领:');
 			if(productCollar!=null&&productCollar!=""){
 				code2checkbox("#div_collar_"+i,productCollar,"collar_"+i);
 			}
 			$("#div_"+i).append('</div>');
 			
 		
-			$("#div_"+i).append('<div id="div_pocket_'+i+'">产品衣兜:');
+			$("#div_"+i).append('<div id="div_pocket_'+i+'" style="padding: 1px 1px;">产品衣兜:');
 			if(productPocket!=null&&productPocket!=""){
 				code2checkbox("#div_pocket_"+i,productPocket,"pocket_"+i);
 			}
 			$("#div_"+i).append('</div>');
 			
-			$("#div_"+i).append('<div>数量:<input type="text" id="btn_num_'+i+'"/></div>');
-			$("#div_"+i).append('<div>价格:<input type="text" id="btn_price_'+i+'"/></div>');
+			$("#div_"+i).append('<div style="padding: 1px 1px;">数量:<input type="text" id="btn_num_'+i+'" /></div>');
+			$("#div_"+i).append('<div style="padding: 1px 1px;">价格:<input type="text" id="btn_price_'+i+'"/></div>');
 			
 			
-			$("#div_"+i).append('<div id="addtocart_'+i+'"><button id="addtocart_"+'+i+' class="btn btn-primary" onclick="addtocart('+i+');">加入购物车</button></div>');
+			$("#div_"+i).append('<div id="addtocart_'+i+'" style="padding: 1px 1px;"><button id="addtocart_"+'+i+' class="im-cart3 btn btn-primary"  onclick="addtocart('+i+');"> 加入购物车</button></div>');
 			
 			$("#div_propslist").append('</div></div>');
 			if(productImg!=null&&productImg!=""){
@@ -787,6 +787,9 @@
 				<li><a href="#">工厂<i class="im-office color-dark"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesPage">组织做货<i class="br-basket"></i></a></li>
+						<li><a href="/factory/toProducesDetailsPage">生成做货单<i class="im-hammer"></i></a></li>
+						<li><a href="/factory/toProducesOrderPage">维护做货单<i class="br-wrench"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs color-teal"></i></a>
 					<ul class="nav sub">
@@ -847,7 +850,7 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/product/toProductPage"> <i class="fa-barcode color-blue"></i> <span>维护产品</span>
+											<a href="/product/toProductPage"> <i class="fa-barcode color-green"></i> <span>维护产品</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
@@ -859,9 +862,29 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-green"></i> <span>属性明细</span>
+											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-blue"></i> <span>属性明细</span>
 											</a>
 										</div>
+										
+										
+										
+										
+										<div class="shortcut-button">
+											<a href="/factory/toProducesPage"> <i class="br-basket color-green"></i> <span>组织做货</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesDetailsPage"> <i class="im-hammer color-orange"></i> <span>生成做货单</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesOrderPage"> <i class="br-wrench color-green"></i> <span>维护做货单</span>
+											</a>
+										</div>
+										
+										
+										
+
 									</div>
 								</div>
 							</div>
@@ -1016,13 +1039,13 @@
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="reset" class="btn btn-primary" onclick="reset();">重置</button>
+											<button id="reset" class="br-refresh btn btn-primary" onclick="reset();">重置</button>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doQuery" class="btn btn-primary"
+											<button id="doQuery" class="ec-search btn btn-primary"
 												onclick="doFilterQuery();">查询</button>
 										</div>
 									</div>
@@ -1056,12 +1079,11 @@
 								</div>
 	
 								<div id="pt_div">
-									<input type="button" id="btn_lastPage"	class="btn btn-primary" value="上一页"	onclick="lastPage();" />&nbsp;<span id="cur_page">0</span>&nbsp;
-									<input type="button" id="btn_nextPage" class="btn btn-primary" value="下一页" onclick="nextPage()" />
+									<button  id="btn_lastPage"	class="im-previous btn btn-primary"	onclick="lastPage();" ></button>&nbsp;<span id="cur_page">0</span>&nbsp;
+									<button type="button" id="btn_nextPage" class="im-next btn btn-primary" onclick="nextPage()" ></button>
 									共<span id="tot_page"></span>页&nbsp;&nbsp;&nbsp;&nbsp; 跳至<input
-										type="text" style="width:50px" id="pageNum" />页 &nbsp; <input
-										type="button" value="确定" class="btn btn-primary"
-										onclick="jumpPage();" />
+										type="text" style="width:50px" id="pageNum" />页 &nbsp; 
+										<button	type="button" class="im-point-right btn btn-primary" onclick="jumpPage();" ></button>
 	
 								</div>
 							</div>

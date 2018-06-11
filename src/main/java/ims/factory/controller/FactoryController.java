@@ -102,8 +102,47 @@ public class FactoryController {
 	}
 	
 	@RequestMapping(value = "/toProducesDetailsPage", method = RequestMethod.GET)
-	public String toProceducesDetailsPage() {
+	public String toProceducesDetailsPage(Model model) throws JSONException {
+		HashMap<String, Object> filterMap= new HashMap<>();
+		filterMap.put("factoryStatus", 1);
+		List<Factory> list = factoryService.getFactoryInfo(filterMap);
+		JSONArray allFactorys = new JSONArray();
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (Factory factoryTmp : list) {
+			JSONObject tem_jsonoObject = new JSONObject();
+			tem_jsonoObject.put("factoryId", factoryTmp.getFactoryId());
+			tem_jsonoObject.put("factoryName", factoryTmp.getFactoryName());
+			allFactorys.put(tem_jsonoObject);
+		}
+		
+		/*//总件数、总金额带入前台
+		long count=0,sum=0;
+		List<Produces> listProduces=producesService.getProducesInfo(null);
+		for (Produces producesTmp : listProduces) {
+			count+=producesTmp.getProductCount();
+			sum+=producesTmp.getProductPrice()*producesTmp.getProductCount();
+		}*/
+		model.addAttribute("allFactorys",allFactorys);
+		/*model.addAttribute("producesCount",count);
+		model.addAttribute("producesSum",sum);*/
 		return "factory/producesdetails";
+	}
+	//需要携带工厂信息到页面
+	@RequestMapping(value = "/toProducesOrderPage", method = RequestMethod.GET)
+	public String toProducesOrderPage(Model model) throws JSONException {
+		HashMap<String, Object> filterMap= new HashMap<>();
+		filterMap.put("factoryStatus", 1);
+		List<Factory> list = factoryService.getFactoryInfo(filterMap);
+		JSONArray allFactorys = new JSONArray();
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (Factory factoryTmp : list) {
+			JSONObject tem_jsonoObject = new JSONObject();
+			tem_jsonoObject.put("factoryId", factoryTmp.getFactoryId());
+			tem_jsonoObject.put("factoryName", factoryTmp.getFactoryName());
+			allFactorys.put(tem_jsonoObject);
+		}
+		model.addAttribute("allFactorys",allFactorys);
+		return "factory/producesorder";
 	}
 	@RequestMapping(value = "/addToProduces", method = RequestMethod.POST)
 	public void addToProduces(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession) throws UnsupportedEncodingException {
@@ -131,7 +170,7 @@ public class FactoryController {
 				}
 				if (filterJson.has("productPrice")) {
 					filterMap.put("productPrice", filterJson.get("productPrice"));
-					produces.setProductId(Long.valueOf(filterJson.get("productPrice").toString()));
+					produces.setProductPrice(Long.valueOf(filterJson.get("productPrice").toString()));
 				}
 				if (filterJson.has("productCategory")) {
 					filterMap.put("productCategory", filterJson.get("productCategory").toString());
@@ -171,12 +210,114 @@ public class FactoryController {
 				js.put("msg", "未选择任何属性，请选择属性再添加");
 			}
 
-			
+			System.err.println("filterMap:"+filterMap);
 			if (method.equals("addtoproduces")) {
 				producesService.addProduces(produces);
 				js.put("msg", "成功组织做货信息");
 			}
 			
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(js.toString());
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping(value = "/producesOrderList", method = RequestMethod.POST)
+	public void producesOrderList(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession)
+			throws IOException {
+
+		// 通过综合条件查询工厂信息
+		request.setCharacterEncoding("utf-8");
+		String filter = request.getParameter("filter");
+		List<ProducesOrder> list = new ArrayList<ProducesOrder>();
+		Map<String, Object> filterMap = new HashMap<String, Object>();
+		String method = "";
+		ProducesOrder producesOrder = new ProducesOrder();
+		
+		try {
+			
+			//POST不用转字符，GET需要转
+			if (filter != null) {
+				JSONObject filterJson = new JSONObject(filter);
+				if (filterJson.has("method")) {
+					method = filterJson.get("method").toString();
+				}
+				if (filterJson.has("producesId")) {
+					filterMap.put("producesId", filterJson.get("producesId"));
+					producesOrder.setProducesOrderId(Long.valueOf(filterJson.get("producesId").toString()));
+				}
+				if (filterJson.has("producesOrderNo")) {
+					filterMap.put("producesOrderNo", filterJson.get("producesOrderNo"));
+					producesOrder.setProducesOrderNo(Long.valueOf(filterJson.get("producesOrderNo").toString()));
+				}
+				if (filterJson.has("producesOrderFactoryId")) {
+					filterMap.put("producesOrderFactoryId", filterJson.get("producesOrderFactoryId"));
+					producesOrder.setProducesOrderFactoryId(Long.valueOf(filterJson.get("producesOrderFactoryId").toString()));
+				}
+				if (filterJson.has("producesOrderDatetime")) {
+					filterMap.put("producesOrderDatetime", filterJson.get("producesOrderDatetime"));
+				}
+				if (filterJson.has("producesOrderOperation")) {
+					filterMap.put("producesOrderOperation", filterJson.get("producesOrderOperation"));
+				}
+			}
+
+			System.out.println("filter:" + filter);
+			System.out.println("filterMap:" + filterMap);
+			/* System.out.println("props.toString():"+props.toString()); */
+			String page = request.getParameter("page");
+
+			JSONObject js = new JSONObject();
+			int start = 0;
+			if (page != null) {
+				JSONObject pageJo = new JSONObject(page);
+				int curPage = Integer.parseInt(pageJo.get("cur_page").toString());
+				start = (curPage + 1) * (int) pageSize;
+			}
+
+			
+			if (method.equals("delete")) {
+				producesOrderService.deleteProducesOrderByProducesOrderId(producesOrder.getProducesOrderId());
+				js.put("msg", "从做货订单中移除编号为【"+producesOrder.getProducesOrderId()+"】的做货清单，包括与之相关的做货明细");
+			}
+			if (method.equals("query")) {
+				producesOrderService.getProducesOrderInfo(filterMap);
+				//js.put("msg", "");
+			}
+
+			int count = producesOrderService.getProducesOrderInfo(filterMap).size();// 获取总数
+			System.err.println("count:" + count);
+			int size = (int) Math.ceil((float) count / pageSize);
+			if (size == 0) {
+				size = 1;
+			}
+			js.put("page", size);
+			// System.out.println("=======" + size);
+			filterMap.put("start", start);
+			filterMap.put("size", (int) pageSize);
+			list = producesOrderService.getProducesOrderInfo(filterMap);
+			JSONArray jsonArray = new JSONArray();
+			// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd
+			// HH:mm:ss");
+			for (ProducesOrder producesOrderTmp : list) {
+				JSONObject tempJsonObject = new JSONObject();
+				tempJsonObject.put("producesId", producesOrderTmp.getProducesOrderId());
+				tempJsonObject.put("producesOrderNo", producesOrderTmp.getProducesOrderNo());
+				tempJsonObject.put("producesOrderFactoryId", producesOrderTmp.getProducesOrderFactoryId());
+				tempJsonObject.put("producesCount", producesOrderTmp.getProducesOrderCount());
+				
+				tempJsonObject.put("producesDepost", producesOrderTmp.getProducesOrderDepost());
+				tempJsonObject.put("producesCreate", producesOrderTmp.getProducesOrderCreate());
+				tempJsonObject.put("producesModify", producesOrderTmp.getProducesOrderModify());
+				tempJsonObject.put("producesRemarks", producesOrderTmp.getProducesOrderRemarks());
+				jsonArray.put(tempJsonObject);
+				//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
+			}
+
+			js.put("list", jsonArray);
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(js.toString());
 
@@ -232,7 +373,7 @@ public class FactoryController {
 				}
 				if (filterJson.has("producesOrderRemarks")) {
 					filterMap.put("producesOrderRemarks", filterJson.get("producesOrderRemarks"));
-					producesOrder.setProducesOrderDepost(filterJson.get("producesOrderRemarks").toString());
+					producesOrder.setProducesOrderRemarks(filterJson.get("producesOrderRemarks").toString());
 				}
 			}
 
@@ -279,7 +420,7 @@ public class FactoryController {
 			// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd
 			// HH:mm:ss");
 			//顺便把总价格带过去
-			long sumMoney=0;
+			long sumMoney=0,sumCount=0;
 			for (Produces producesTmp : list) {
 				JSONObject tempJsonObject = new JSONObject();
 				tempJsonObject.put("producesId", producesTmp.getProducesId());
@@ -303,13 +444,16 @@ public class FactoryController {
 				tempJsonObject.put("productPocket", producesTmp.getProductPocket());
 				tempJsonObject.put("productCreate", producesTmp.getProductCreate());
 				tempJsonObject.put("productModify", producesTmp.getProductModify());
+				sumCount+=producesTmp.getProductCount();
 				sumMoney=sumMoney+producesTmp.getProductCount()*producesTmp.getProductPrice();
+				
 				jsonArray.put(tempJsonObject);
 				//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
 			}
 
 			js.put("list", jsonArray);
 			js.put("sumMoney", sumMoney);
+			js.put("sumCount", sumCount);
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(js.toString());
 

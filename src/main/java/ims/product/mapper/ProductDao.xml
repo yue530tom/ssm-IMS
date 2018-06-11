@@ -19,10 +19,11 @@
 		<result property="productStatus" column="product_status" />
 		<result property="productCreate" column="product_create" />
 		<result property="productModify" column="product_modify" />
+		<result property="productRecommend" column="product_recommend" />
 	</resultMap>
 
 	<sql id="productColumns">
-		product_id,product_no,product_name,product_img,product_category,product_color,product_size,product_material,product_collar,product_pocket,product_create,product_modify,product_remarks,product_status
+		product_id,product_no,product_name,product_img,product_category,product_color,product_size,product_material,product_collar,product_pocket,product_create,product_modify,product_remarks,product_status,product_recommend
 	</sql>
 
 	<!--插入产品信息 -->
@@ -127,6 +128,9 @@
 		WHERE product_id = #{productId}
 	</delete>
 
+	<update id="updateProductRecommendByProductId" parameterType="long">
+		update product set product_recommend=(product_recommend+1)%2 where product_id=#{_parameter}
+	</update>
 	<!--更新用户信息 -->
 	<update id="updateProductByProductId" parameterType="Product">
 		UPDATE product
@@ -206,6 +210,9 @@
 			</if>
 			<if test="productStatus != null and productStatus != '' ">
 				and product_status = #{productStatus}
+			</if>
+			<if test="productRecommend != null and productRecommend != '' ">
+				and product_recommend = #{productRecommend}
 			</if>
 			<if test="productDatetime != null and productDatetime != '' and productOperation==1">
 				and product_create &gt; #{productDatetime}

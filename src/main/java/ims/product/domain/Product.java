@@ -16,6 +16,15 @@ public class Product {
 	private String productStatus;
 	private String productCreate;
 	private String productModify;
+	private String productRecommend;
+
+	public String getProductRecommend() {
+		return productRecommend;
+	}
+
+	public void setProductRecommend(String productRecommend) {
+		this.productRecommend = productRecommend;
+	}
 
 	public String getProductCreate() {
 		return productCreate;
@@ -136,7 +145,7 @@ public class Product {
 				+ productColor + ", productSize=" + productSize + ", productMaterial=" + productMaterial
 				+ ", productCollar=" + productCollar + ", productPocket=" + productPocket + ", productRemarks="
 				+ productRemarks + ", productStatus=" + productStatus + ", productCreate=" + productCreate
-				+ ", productModify=" + productModify + "]";
+				+ ", productModify=" + productModify + ", productRecommend=" + productRecommend + "]";
 	}
 
 }

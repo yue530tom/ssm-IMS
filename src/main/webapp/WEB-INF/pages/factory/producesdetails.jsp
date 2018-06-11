@@ -134,7 +134,7 @@
 
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
-
+		initFactorysSelectOption();
 		var d = new Date();
 		$("#datetime-picker").datetimepicker({
 		initialDate : d,
@@ -149,6 +149,21 @@
 		});  
 		//提示成功信息      
 	});
+	
+	
+	
+	function initFactorysSelectOption(){
+		factorys = ${allFactorys}
+		for (var i = 0; i < factorys.length; i++) {
+			var factoryId = factorys[i].factoryId;
+			var factoryName = factorys[i].factoryName;
+			
+			$("#factoryName").append('<option value="'+factoryId+'">'+factoryName+'</option>');
+		}
+
+		
+		
+	}
 	function checkUndefined(value){
 		 var undefined = void(0);
 		 if(value==undefined){
@@ -182,8 +197,15 @@
 	function refreshList(json) {
 		var ja = json.list;
 		var string = JSON.stringify(json);
-		console.log("json.list:" + json.list.length);
-		console.log("json.msg:" + json.msg);
+		
+		var producesSumMoney=json.sumMoney;
+		var producesCount=json.sumCount;
+		
+		console.log("producesSum:" + producesSumMoney);
+		console.log("producesCount:" + producesCount);
+		$("#producesOrderCount").attr("value",producesCount);
+		$("#producesOrderSum").attr("value",producesSumMoney);
+		
 		if (json.msg != null) {
 			document.getElementById('tip_message').style.display = 'block';
 			$("#tip_message").html(json.msg);
@@ -198,7 +220,7 @@
 		$("#table_propslist").empty();
 		$("#table_propslist")
 				.append(
-						'<tr><th>做货明细id</th><th>工厂名称</th><th>数量</th><th>总价格</th><th>图片</th><th>归类</th><th>颜色</th><th>尺码</th><th>材料</th><th>衣领</th><th>衣兜</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
+						'<tr><th>做货明细id</th><th>产品名称</th><th>数量</th><th>总价格</th><th>图片</th><th>归类</th><th>颜色</th><th>尺码</th><th>材料</th><th>衣领</th><th>衣兜</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
 			var producesId = ja[i].producesId;
 			var productId = ja[i].productId;
@@ -214,13 +236,19 @@
 			var productCreate = ja[i].productCreate;
 			var productModify = ja[i].productModify;
 			$("#table_propslist").append(
-					'<tr onclick="getDataToModify(this)" id="tr_' + i
+					'<tr id="tr_' + i
 							+ '"></tr>');
 			$("#tr_" + i).append('<td>' + checkUndefined(producesId) + '</td>');
 			$("#tr_" + i).append("<td>" + checkUndefined(productId) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(productCount) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(productPrice) + "</td>");
-			$("#tr_" + i).append('<td>' + checkUndefined(productImg) + '</td>');
+
+			if(productImg!=null&&productImg!=""){
+				$("#tr_" + i).append("<td><img id='img_" + i+ "' src='' style='height:34px;width:34px;'/></td>");
+				$("#img_" + i).attr("src",productImg);
+			}else{
+				$("#tr_" + i).append("<td><img id='img_" + i+ "' src=''/></td>");
+			}
 			$("#tr_" + i).append("<td>" + checkUndefined(productCategory) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(productColor) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(productSize) + "</td>");
@@ -230,8 +258,8 @@
 			$("#tr_" + i).append("<td>" + checkUndefined(productCreate) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(productModify) + "</td>");
 			$("#tr_" + i).append(
-					'<td><button class="btn btn-primary" onclick="doFilterDelete('
-							+ producesId + ');">删除</button></td>');
+					'<td><button class="br-trashcan btn btn-primary" onclick="doFilterDelete('
+							+ producesId + ');"></button></td>');
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
@@ -399,58 +427,10 @@
 		initTable(JSON.stringify(filterJs));
 	}
 
-	/*
-	给修改赋值~
-	 */
-	function getDataToModify(row) {
-
-		$("#factoryId")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[0].innerText);
-		$("#factoryName")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[1].innerText);
-		$("#factoryContacts")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[2].innerText);
-		$("#factoryPhone")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[3].innerText);
-		$("#factoryTelephone")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[4].innerText);
-		$("#factoryAddress")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[5].innerText);
-		$("#factoryScale")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[6].innerText);
-		$("#factoryRemarks")
-				.attr(
-						"value",
-						window.table_propslist.rows.item(row.rowIndex).childNodes[7].innerText);
-
-		/* var TAB = document.getElementById("table_propslist") ;  
-		
-		console.log(TAB.rows[row.rowIndex].cells[0].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[1].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[2].innerText);
-		console.log(TAB.rows[row.rowIndex].cells[3].innerText);
-		document.getElementById("modifyPropsId").value = TAB.rows[row.rowIndex].cells[0].innerText; */
-
-	}
 	function reset() {
 
 		$("#producesId").attr("value", "");
 		$("#producesOrderNo").attr("value", "");
-		$("#factoryName").attr("value", "");
 		$("#factoryContacts").attr("value", "");
 		$("#factoryPhone").attr("value", "");
 		$("#factoryTelephone").attr("value", "");
@@ -547,8 +527,9 @@
 				<li><a href="#">工厂<i class="im-office color-dark"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="br-home"></i></a></li>
-						<li><a href="/factory/toProducesPage">生成做货单<i class="br-home"></i></a></li>
-						<li><a href="/factory/toProducesDetailsPage">维护做货单<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesPage">组织做货<i class="br-basket"></i></a></li>
+						<li><a href="/factory/toProducesDetailsPage">生成做货单<i class="im-hammer"></i></a></li>
+						<li><a href="/factory/toProducesOrderPage">维护做货单<i class="br-wrench"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs color-teal"></i></a>
 					<ul class="nav sub">
@@ -609,7 +590,7 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/product/toProductPage"> <i class="fa-barcode color-blue"></i> <span>维护产品</span>
+											<a href="/product/toProductPage"> <i class="fa-barcode color-green"></i> <span>维护产品</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
@@ -621,9 +602,29 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-green"></i> <span>属性明细</span>
+											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-blue"></i> <span>属性明细</span>
 											</a>
 										</div>
+										
+										
+										
+										
+										<div class="shortcut-button">
+											<a href="/factory/toProducesPage"> <i class="br-basket color-green"></i> <span>组织做货</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesDetailsPage"> <i class="im-hammer color-orange"></i> <span>生成做货单</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesOrderPage"> <i class="br-wrench color-green"></i> <span>维护做货单</span>
+											</a>
+										</div>
+										
+										
+										
+
 									</div>
 								</div>
 							</div>
@@ -676,9 +677,9 @@
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂名称</label>
 										<div class="col-lg-8">
-											<input id="factoryName" name="factoryName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+											<select class="form-control select2" name="factoryName"
+												id="factoryName">
+											</select>
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -701,16 +702,14 @@
 										<label class="col-lg-4 control-label">总件数</label>
 										<div class="col-lg-8">
 											<input id="producesOrderCount" name="producesOrderCount"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" disabled>
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
-										<label class="col-lg-4 control-label">预付</label>
+										<label class="col-lg-4 control-label">总金额</label>
 										<div class="col-lg-8">
 											<input id="producesOrderSum" name="producesOrderSum"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" disabled>
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -721,7 +720,7 @@
 												placeholder="请输入属性描述，格式为小于50位的字符">
 										</div>
 									</div>
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
 										<label class="col-lg-4 control-label">备注</label>
 										<div class="col-lg-8">
 											<input id="producesOrderRemarks" name="producesOrderRemarks"
@@ -752,7 +751,7 @@
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="doAdd" class="btn btn-primary"
+											<button id="doAdd" class="en-add-to-list btn btn-primary"
 												onclick="doFilterCreate();">生产</button>
 										</div>
 									</div>
@@ -760,7 +759,7 @@
 									<div class="form-group">
 										<label class="col-lg-3 control-label"></label>
 										<div class="col-lg-9">
-											<button id="reset" class="btn btn-primary"
+											<button id="reset" class="br-refresh btn btn-primary"
 												onclick="reset();">重置</button>
 										</div>
 									</div>
@@ -796,12 +795,11 @@
 							</div>
 
 							<div id="pt_div">
-									<input type="button" id="btn_lastPage"	class="btn btn-primary" value="上一页"	onclick="lastPage();" />&nbsp;<span id="cur_page">0</span>&nbsp;
-									<input type="button" id="btn_nextPage" class="btn btn-primary" value="下一页" onclick="nextPage()" />
+									<button  id="btn_lastPage"	class="im-previous btn btn-primary"	onclick="lastPage();" ></button>&nbsp;<span id="cur_page">0</span>&nbsp;
+									<button type="button" id="btn_nextPage" class="im-next btn btn-primary" onclick="nextPage()" ></button>
 									共<span id="tot_page"></span>页&nbsp;&nbsp;&nbsp;&nbsp; 跳至<input
-										type="text" style="width:50px" id="pageNum" />页 &nbsp; <input
-										type="button" value="确定" class="btn btn-primary"
-										onclick="jumpPage();" />
+										type="text" style="width:50px" id="pageNum" />页 &nbsp; 
+										<button	type="button" class="im-point-right btn btn-primary" onclick="jumpPage();" ></button>
 	
 								</div>
 							<span id="buffer_span" style="display: none">{}</span>
