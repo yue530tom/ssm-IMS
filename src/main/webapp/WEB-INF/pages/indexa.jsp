@@ -117,27 +117,81 @@
 	var objColors = "";
 	var colours = {};
 	$(document).ready(function() {
+		
+		
+		$("#countOrder").html(${countOrder});
+		$("#countOrder").addClass("number");
+		
+		$("#nowOrder").html(${nowOrder});
+		$("#nowOrder").addClass("number");
+		
+		$("#monthOrder").html(${monthOrder});
+		$("#monthOrder").addClass("number");
+		
+		
+		
+		
+		var bysum = ${bysum};
+		var byorder = ${byorder};
+		var bymaterial =${bymaterial};
+		var bycolor =${bycolor};
+		
+		
+		$("#bysum").html(bysum.keyf_value);
+		$("#bysum").addClass("number");
+		
+		$("#byorder").html(byorder.keyf_value);
+		$("#byorder").addClass("number");
+		
+		$("#bymaterial").html(bymaterial.keyf_value);
+		$("#bymaterial").addClass("number");
+		
+		$("#bycolor").html(bycolor.keyf_value);
+		$("#bycolor").addClass("number");
+		
+		
+		$("#allCount").html(${allCount});
+		$("#allCount").addClass("number");
+		$("#allMoney").html(${allMoney});
+		$("#allMoney").addClass("number");
+		$("#monthCount").html(${monthCount});
+		$("#monthCount").addClass("number");
+		$("#monthMoney").html(${monthMoney});
+		$("#monthMoney").addClass("number");
+		
+		var ja=${toplist};
+		for (var i = 0; i < ja.length; i++) {
+			//console.log(ja[i].productId);
+			$("#newProduct").html(ja[i].productId);
+			$("#newProduct").addClass("number");
+		}
+		/* 
+		$("#newProductFirst").html(${newProductFirst});
+		$("#newProductFirst").addClass("number");
+		$("#newProductSecond").html(${newProductSecond});
+		$("#newProductSecond").addClass("number");
+		$("#newProductThird").html(${newProductThird});
+		$("#newProductThird").addClass("number"); */
+
 		console.log("countOrder:"+${countOrder}+"\tyestodayOrder:"+${yestodayOrder}+"\tnowOrder:"+${nowOrder}+"\tweekOrder:"+${weekOrder}+"\tmonthOrder:"+${monthOrder});
 		//https://www.cnblogs.com/caoyc/p/5635878.html
 		//https://www.cnblogs.com/mrxiaohe/p/5893708.html
-		var bysum = ${bysum};
-		
-		//byorder = eval('(' + '${byorder}' + ')');
-		//bymaterial = eval('(' + '${bymaterial}' + ')');
-		//bycolor = eval('(' + '${bycolor}' + ')');
-		//console.log("bysum:"+bysum[keyf]+bysum[keyf_value]+"\tbyorder:"+byorder[keyf]+byorder[keyf_value]+"\tbymaterial:"+bymaterial[keyf]+bymaterial[keyf_value]+"\tbycolor:"+bycolor[keyf]+bycolor[keyf_value]);
-		console.log(bysum+"\t"+bysum.keyf+"\t"+bysum.keyf_value);
-		console.log("toplist:"+${toplist})
+	
+		console.log("bysum:"+bysum.keyf+"\t"+bysum.keyf_value);
+		console.log("byorder:"+byorder.keyf+"\t"+byorder.keyf_value);
+		console.log("bymaterial:"+bymaterial.keyf+"\t"+bymaterial.keyf_value);
+		console.log("bycolor:"+bycolor.keyf+"\t"+bycolor.keyf_value);
+		//console.log("toplist:"+${toplist})
 		var ja=${toplist};
 		for (var i = 0; i < ja.length; i++) {
-			console.log(ja[i].productId);
+			//console.log(ja[i].productId);
 		}
-		console.log("======================");
+		//console.log("======================");
+		
 		ja=${recommendlist};
 		for (var i = 0; i < ja.length; i++) {
-			console.log(ja[i].productId);
+			//console.log(ja[i].productId);
 		}
-		
 		
 		objColors = $('body').data('sprFlat').getColors();
 		colours = {
@@ -525,6 +579,9 @@
 				<li><a href="#">工厂<i class="im-office color-dark"></i></a>
 					<ul class="nav sub">
 						<li><a href="/factory/toFactoryPage">维护工厂<i class="br-home"></i></a></li>
+						<li><a href="/factory/toProducesPage">组织做货<i class="br-basket"></i></a></li>
+						<li><a href="/factory/toProducesDetailsPage">生成做货单<i class="im-hammer"></i></a></li>
+						<li><a href="/factory/toProducesOrderPage">维护做货单<i class="br-wrench"></i></a></li>
 					</ul></li>
 				<li><a href="#">属性<i class="im-cogs color-teal"></i></a>
 					<ul class="nav sub">
@@ -569,7 +626,7 @@
 									id="dropdownMenu1"><i class="br-grid s24"></i></a>
 								<div class="dropdown-menu pull-right" role="menu"
 									aria-labelledby="dropdownMenu1">
-									<div class="option-dropdown">
+										<div class="option-dropdown">
 										<div class="shortcut-button">
 											<a href="/view/toViewPage"> <i class="fa-search"></i> <span>产品浏览</span>
 											</a>
@@ -583,7 +640,7 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/product/toProductPage"> <i class="fa-barcode color-blue"></i> <span>维护产品</span>
+											<a href="/product/toProductPage"> <i class="fa-barcode color-green"></i> <span>维护产品</span>
 											</a>
 										</div>
 										<div class="shortcut-button">
@@ -595,9 +652,29 @@
 											</a>
 										</div>
 										<div class="shortcut-button">
-											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-green"></i> <span>属性明细</span>
+											<a href="/props/toPropsDetailsPage"> <i class="fa-info color-blue"></i> <span>属性明细</span>
 											</a>
 										</div>
+										
+										
+										
+										
+										<div class="shortcut-button">
+											<a href="/factory/toProducesPage"> <i class="br-basket color-green"></i> <span>组织做货</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesDetailsPage"> <i class="im-hammer color-orange"></i> <span>生成做货单</span>
+											</a>
+										</div>
+										<div class="shortcut-button">
+											<a href="/factory/toProducesOrderPage"> <i class="br-wrench color-green"></i> <span>维护做货单</span>
+											</a>
+										</div>
+										
+										
+										
+
 									</div>
 								</div>
 							</div>
@@ -625,11 +702,11 @@
 								<div class="item active">
 									<div class="tile red">
 										<div class="tile-icon">
-											<i class="br-cart s64"></i>
+											<i class="im-sigma s64"></i>
 										</div>
 										<div class="tile-content">
-											<div id="tiles_order" class="number">107</div>
-											<h3>订单总数</h3>
+											<div id="countOrder"></div>
+											<h3>总订单</h3>
 										</div>
 									</div>
 								</div>
@@ -637,10 +714,10 @@
 									<div class="tile orange">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-cog s64"></i>
+											<i class="im-bookmarks s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">5</div>
+											<div id="nowOrder"></div>
 											<h3>当日订单</h3>
 										</div>
 									</div>
@@ -649,10 +726,10 @@
 									<div class="tile green">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-cog s64"></i>
+											<i class="im-calendar2 s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">5</div>
+											<div id="monthOrder"></div>
 											<h3>当月订单</h3>
 										</div>
 									</div>
@@ -667,10 +744,10 @@
 								<div class="item active">
 									<div class="tile blue">
 										<div class="tile-icon">
-											<i class="st-chat s64"></i>
+											<i class="im-numbered-list s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">24</div>
+											<div id="bysum"></div>
 											<h3>按数量</h3>
 										</div>
 									</div>
@@ -679,10 +756,10 @@
 									<div class="tile brown">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-mail s64"></i>
+											<i class="st-archive s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">17</div>
+											<div id="byorder"></div>
 											<h3>按订单</h3>
 										</div>
 									</div>
@@ -691,11 +768,11 @@
 									<div class="tile yellow">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-mail s64"></i>
+											<i class="st-cube s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">11</div>
-											<h3>按颜色</h3>
+											<div id="bymaterial"></div>
+											<h3>按材质</h3>
 										</div>
 									</div>
 								</div>
@@ -703,11 +780,11 @@
 									<div class="tile yellow">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-mail s64"></i>
+											<i class="en-palette s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">11</div>
-											<h3>按布料</h3>
+											<div id="bycolor"></div>
+											<h3>按颜色</h3>
 										</div>
 									</div>
 								</div>
@@ -721,10 +798,10 @@
 								<div class="item active">
 									<div class="tile green">
 										<div class="tile-icon">
-											<i class="ec-users s64"></i>
+											<i class="im-cart3 s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">325</div>
+											<div id="allCount"></div>
 											<h3>总件数</h3>
 										</div>
 									</div>
@@ -733,10 +810,10 @@
 									<div class="tile purple">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-search s64"></i>
+											<i class="im-coin s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">2540</div>
+											<div id="allMoney">2540</div>
 											<h3>总金额</h3>
 										</div>
 									</div>
@@ -744,10 +821,10 @@
 								<div class="item active">
 									<div class="tile green">
 										<div class="tile-icon">
-											<i class="ec-users s64"></i>
+											<i class="im-stats s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">325</div>
+											<div id="monthCount">325</div>
 											<h3>近一个月件数</h3>
 										</div>
 									</div>
@@ -756,10 +833,10 @@
 									<div class="tile purple">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-search s64"></i>
+											<i class="im-bars s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">2540</div>
+											<div id="monthMoney">2540</div>
 											<h3>近一个月金额</h3>
 										</div>
 									</div>
@@ -775,10 +852,10 @@
 									<div class="tile teal">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-images s64"></i>
+											<i class="en-new s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">45</div>
+											<div id="newProduct0">45</div>
 											<h3>新品一</h3>
 										</div>
 									</div>
@@ -787,10 +864,10 @@
 									<div class="tile magenta">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-share s64"></i>
+											<i class="en-new s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">3548</div>
+											<div id="newProduct1">3548</div>
 											<h3>新品二</h3>
 										</div>
 									</div>
@@ -799,10 +876,10 @@
 									<div class="tile magenta">
 										<!-- tile start here -->
 										<div class="tile-icon">
-											<i class="ec-share s64"></i>
+											<i class="en-new s64"></i>
 										</div>
 										<div class="tile-content">
-											<div class="number">3548</div>
+											<div id="newProduct2">3548</div>
 											<h3>新品三</h3>
 										</div>
 									</div>
@@ -832,7 +909,7 @@
 								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 									<div class="tile teal m0">
 										<div class="tile-content text-center pl0 pr0">
-											<div id="countToday" class="number">75</div>
+											<div id="countToday">75</div>
 											<h3>今天</h3>
 										</div>
 									</div>
@@ -840,7 +917,7 @@
 								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 									<div class="tile teal m0">
 										<div class="tile-content text-center pl0 pr0">
-											<div id="countYesterday" class="number">69</div>
+											<div id="countYesterday">69</div>
 											<h3>昨天</h3>
 										</div>
 									</div>
@@ -848,7 +925,7 @@
 								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 									<div class="tile teal m0">
 										<div class="tile-content text-center pl0 pr0">
-											<div id="countWeek" class="number">380</div>
+											<div id="countWeek">380</div>
 											<h3>本周</h3>
 										</div>
 									</div>
@@ -856,7 +933,7 @@
 								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 									<div class="tile teal m0">
 										<div class="tile-content text-center pl0 pr0">
-											<div id="countTotal" class="number">1254</div>
+											<div id="countTotal">1254</div>
 											<h3>总共</h3>
 										</div>
 									</div>

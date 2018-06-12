@@ -58,15 +58,12 @@
 			<if test="productPocket != null">
 				product_pocket,
 			</if>
-			
 			<if test="productCreate != null">
 				product_create,
 			</if>
 			<if test="productModify != null">
 				product_modify,
 			</if>
-			
-			
 			<if test="productRemarks != null">
 				product_remarks,
 			</if>
@@ -102,16 +99,12 @@
 			<if test="productPocket != null">
 				#{productPocket, jdbcType=VARCHAR},
 			</if>
-			
 			<if test="productCreate != null">
 				#{productCreate, jdbcType=TIMESTAMP},
 			</if>
 			<if test="productModify != null">
 				#{productModify, jdbcType=TIMESTAMP},
 			</if>
-			
-			
-			
 			<if test="productRemarks != null">
 				#{productRemarks, jdbcType=VARCHAR},
 			</if>

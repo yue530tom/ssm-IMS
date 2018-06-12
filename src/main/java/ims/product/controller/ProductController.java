@@ -242,10 +242,17 @@ public class ProductController {
 				// 重置filterMap为空
 				// filterMap=null;
 			}
-			if (method.equals("recommend")) {
+			if (method.equals("recommend1")) {
 				productService.updateProductRecommendByProductId(product.getProductId());
-				// 重置filterMap为空
-				// filterMap=null;
+				js.put("msg", "已变更推荐属性,请查看");
+			}
+			if (method.equals("recommend0")) {
+				if(productService.getRecommend().size()<5) {
+					productService.updateProductRecommendByProductId(product.getProductId());
+					js.put("msg", "已变更推荐属性,请查看");
+				}else {
+					js.put("msg", "推荐的产品已经超过上限，上限为5，请取消其他推荐再重试");
+				}
 			}
 			int count = productService.getProductInfo(filterMap).size();// 获取总数
 			System.err.println("count:" + count);

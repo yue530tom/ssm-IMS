@@ -201,6 +201,8 @@ public class CartController {
 		String method = "";
 		Cart cart = new Cart();
 		Order order = new Order();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
 		try {
 			
 			//POST不用转字符，GET需要转
@@ -269,6 +271,8 @@ public class CartController {
 			}
 			if (method.equals("calc")) {
 				order.setOrderStatus("1");
+				order.setOrderCreate(simpleDateFormat.format(now));
+				order.setOrderModify(simpleDateFormat.format(now));
 				orderService.addOrder(order);
 				long orderId= order.getOrderId();
 				cartService.cartCalc(orderId);

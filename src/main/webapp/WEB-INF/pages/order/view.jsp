@@ -276,6 +276,7 @@
 				$("#div_"+i).append("<div id='div_productName_"+i+"' style='padding: 1px 1px;'>产品名称:</div>");
 			}
 			$("#div_"+i).append("<div id='div_category_"+i+"' style='padding: 1px 1px;'>产品归类:");
+			
 			if(productCategory!=null&&productCategory!=""){
 				code2checkbox("#div_category_"+i,productCategory,"category_"+i);
 			}
@@ -317,9 +318,10 @@
 				code2checkbox("#div_pocket_"+i,productPocket,"pocket_"+i);
 			}
 			$("#div_"+i).append('</div>');
+			$("#div_"+i).append('<div class="input-group col-lg-8 col-md-8 col-sm-8 col-xs-8"><span class="input-group-addon">数量</span><input id="btn_num_'+i+'" type="text" class="col-lg-4 form-control"  maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"placeholder="数量:小于10位的数字"><span class="input-group-addon">件/套</span></div>');
+			$("#div_"+i).append('<div class="input-group col-lg-8 col-md-8 col-sm-8 col-xs-8"><span class="input-group-addon">价格</span><input id="btn_price_'+i+'" type="text" class="col-lg-4 form-control"  maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"placeholder="预付金额:小于10位的数字"><span class="input-group-addon">RMB</span></div>');
+
 			
-			$("#div_"+i).append('<div style="padding: 1px 1px;">数量:<input type="text" id="btn_num_'+i+'" /></div>');
-			$("#div_"+i).append('<div style="padding: 1px 1px;">价格:<input type="text" id="btn_price_'+i+'"/></div>');
 			
 			
 			$("#div_"+i).append('<div id="addtocart_'+i+'" style="padding: 1px 1px;"><button id="addtocart_"+'+i+' class="im-cart3 btn btn-primary"  onclick="addtocart('+i+');"> 加入购物车</button></div>');
@@ -340,7 +342,7 @@
 		
 		var filterJs = {};
 		filterJs["method"] = "addtocart";
-		
+		var result=true;
 		if (($("#div_productId_"+id).html()).split(":").length==2) {
 			filterJs["productId"] = ($("#div_productId_"+id).html()).split(":")[1] ;
 		}
@@ -350,38 +352,64 @@
 		if (($("#div_productName_"+id).html()).split(":").length==2) {
 			filterJs["productName"] = ($("#div_productName_"+id).html()).split(":")[1] ;
 		}
+		if(result){
+			result=checkInputTextTF(getCheck("category_"+id),"归类属性")&result;
+		}
+		if (getCheck("category_"+id) != "") {
+			filterJs["productCategory"] = getCheck("category_"+id);
+		}
+		if(result){
+			result=checkInputTextTF(getCheck("color_"+id),"颜色属性")&result;
+		}
+		if (getCheck("color_"+id) != "") {
+			filterJs["productColor"] = getCheck("color_"+id) ;
+		}
+		if(result){
+			result=checkInputTextTF(getCheck("size_"+id),"尺码属性")&result;
+		}
+		if (getCheck("size_"+id) != "") {
+			filterJs["productSize"] = getCheck("size_"+id) ;
+		}
+		if(result){
+			result=checkInputTextTF(getCheck("material_"+id),"材质属性")&result;
+		}
+		if (getCheck("material_"+id) != "") {
+			filterJs["productMaterial"] = getCheck("material_"+id);
+		}
+		if(result){
+			result=checkInputTextTF(getCheck("collar_"+id),"衣领属性")&result;
+		}
+		if (getCheck("collar_"+id) != "") {
+			filterJs["productCollar"] = getCheck("collar_"+id);
+		}
+		if(result){
+			result=checkInputTextTF(getCheck("pocket_"+id),"衣兜属性")&result;
+		}
+		if (getCheck("pocket_"+id) != "") {
+			filterJs["productPocket"] = getCheck("pocket_"+id);
+		}
+		if(result){
+			result=checkInputTextNull("#btn_num_"+id,"数量")&result;
+		}
 		if ($("#btn_num_"+id).val()!="") {
 			filterJs["productCount"] = $("#btn_num_"+id).val();
+		}
+		if(result){
+			result=checkInputTextNull("#btn_price_"+id,"价格")&result;
 		}
 		if ($("#btn_price_"+id).val()!="") {
 			filterJs["productPrice"] = $("#btn_price_"+id).val();
 		}
 		
-		if (getCheck("category_"+id) != "") {
-			filterJs["productCategory"] = getCheck("category_"+id);
-		}
-		if (getCheck("color_"+id) != "") {
-			filterJs["productColor"] = getCheck("color_"+id) ;
-		}
-		if (getCheck("size_"+id) != "") {
-			filterJs["productSize"] = getCheck("size_"+id) ;
-		}
-		if (getCheck("material_"+id) != "") {
-			filterJs["productMaterial"] = getCheck("material_"+id);
-		}
-		if (getCheck("collar_"+id) != "") {
-			filterJs["productCollar"] = getCheck("collar_"+id);
-		}
-		if (getCheck("pocket_"+id) != "") {
-			filterJs["productPocket"] = getCheck("pocket_"+id);
-		}
 		if ($("#productRemarks").val() != "") {
 			filterJs["productRemarks"] = $("#productRemarks").val();
 		}
 		
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		console.log("addtocart:" + $("#buffer_span").text());
-		addtocartPost(JSON.stringify(filterJs));
+		if(result){
+			addtocartPost(JSON.stringify(filterJs));
+		}
 	}
 	
 	function addtocartPost(filter){
@@ -577,8 +605,7 @@
 			filterJs["productRemarks"] = $("#productRemarks").val();
 		}
 		if ($("input[name='productStatus']:checked").val() != "") {
-			filterJs["productStatus"] = $("input[name='productStatus']:checked")
-					.val();
+			filterJs["productStatus"] = $("input[name='productStatus']:checked").val();
 		}
 
 		$("#buffer_span").text(JSON.stringify(filterJs));
@@ -587,14 +614,43 @@
 	}
 	
 	function doFilterDelete(tmpFactoryId) {
-		var filterJs = {};
-		filterJs["method"] = "delete";
-		filterJs["productId"] = tmpFactoryId;
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(confirm("确认删除id=【"+tmpFactoryId+"】的产品")==true){
+			var filterJs = {};
+			filterJs["method"] = "delete";
+			filterJs["productId"] = tmpFactoryId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+			initTable(JSON.stringify(filterJs));
+		}
 	}
-
+	function checkInputTextNull(id,field){
+		if($(id).val()==null||$(id).val()==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
+	function checkInputTextTF(val,field){
+		if(val==null||val==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
 	/*
 	给修改赋值~
 	 */
@@ -920,8 +976,8 @@
 										<label class="col-lg-4 control-label">产品id</label>
 										<div class="col-lg-8">
 											<input id="productQueryId" name="productQueryId" type="text"
-												class="col-lg-4 form-control"
-												placeholder="仅当查询时起作用，增加和修改不起作用">
+												class="col-lg-4 form-control" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="产品id:小于10位的数字，仅当查询是起作用">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
@@ -929,16 +985,16 @@
 										<label class="col-lg-4 control-label">产品编号</label>
 										<div class="col-lg-8">
 											<input id="productNo" name="productNo" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入产品编码，格式为小于10位数字">
+												class="col-lg-4 form-control" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="产品编码:小于10位的数字">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">产品名称</label>
 										<div class="col-lg-8">
 											<input id="productName" name="productName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="产品名称:小于50位的字符">
 										</div>
 									</div>
 
@@ -981,8 +1037,8 @@
 										<label class="col-lg-4 control-label">产品备注</label>
 										<div class="col-lg-8">
 											<input id="productRemarks" name="productRemarks" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												class="col-lg-4 form-control"  maxlength="1024"
+												placeholder="备注:小于1024位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">

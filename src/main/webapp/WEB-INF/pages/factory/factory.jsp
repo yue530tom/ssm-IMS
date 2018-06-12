@@ -115,6 +115,7 @@
 <script src="/resources/assets/js/jquery.sprFlat.js"></script>
 <script src="/resources/assets/js/app.js"></script>
 <script src="/resources/assets/js/pages/dashboard.js"></script>
+<script src="/resources/assets/plugins/forms/maskedinput/jquery.maskedinput.js"></script>
 <style type="text/css">
 .align-center {
 	margin: 0 auto; /* 居中 这个是必须的，，其它的属性非必须 */
@@ -148,6 +149,9 @@
 		minView : 2
 		});  
 		//提示成功信息      
+		
+		$("#factoryPhone").mask("999-9999-9999");
+		$("#factoryTelephone").mask("(999) 999-9999");
 	});
 	function checkUndefined(value){
 		 var undefined = void(0);
@@ -165,7 +169,7 @@
 		}
 
 		$.ajax({
-			type : "GET",
+			type : "POST",
 			data : data,
 			url : "/factory/factoryList",
 			dataType : "JSON",
@@ -269,7 +273,7 @@
 		} else {
 			$.ajax({
 				url : "/factory/factoryList",
-				type : "GET",
+				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -294,7 +298,7 @@
 		} else {
 			$.ajax({
 				url : "/factory/factoryList",
-				type : "GET",
+				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -318,7 +322,7 @@
 		} else {
 			$.ajax({
 				url : "/factory/factoryList",
-				type : "GET",
+				type : "POST",
 				dataType : "JSON",
 				data : "page=" + page + "&filter=" + filter,
 				success : function(json) {
@@ -403,20 +407,34 @@
 	function doFilterModify() {
 		var filterJs = {};
 		filterJs["method"] = "modify";
+		var result =true;
+		result=checkInputTextNull("#factoryId","工厂id")&result;
 		if ($("#factoryId").val() != "") {
 			filterJs["factoryId"] = $("#factoryId").val();
+		}
+		if(result){
+			result=checkInputTextNull("#factoryName","工厂名称")&result;
 		}
 		if ($("#factoryName").val() != "") {
 			filterJs["factoryName"] = $("#factoryName").val();
 		}
+		if(result){
+			result=checkInputTextNull("#factoryContacts","工厂联系人")&result;
+		}
 		if ($("#factoryContacts").val() != "") {
 			filterJs["factoryContacts"] = $("#factoryContacts").val();
+		}
+		if(result){
+			result=checkInputTextNull("#factoryPhone","联系电话")&result;
 		}
 		if ($("#factoryPhone").val() != "") {
 			filterJs["factoryPhone"] = $("#factoryPhone").val();
 		}
 		if ($("#factoryTelephone").val() != "") {
 			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
+		}
+		if(result){
+			result=checkInputTextNull("#factoryAddress","工厂地址")&result;
 		}
 		if ($("#factoryAddress").val() != "") {
 			filterJs["factoryAddress"] = $("#factoryAddress").val();
@@ -429,22 +447,35 @@
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(result){
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	function doFilterAdd() {
 		var filterJs = {};
 		filterJs["method"] = "add";
+		var result =true;
+		result=checkInputTextNull("#factoryName","工厂名称")&result;
 		if ($("#factoryName").val() != "") {
 			filterJs["factoryName"] = $("#factoryName").val();
 		}
+		if(result){
+			result=checkInputTextNull("#factoryContacts","工厂联系人")&result;
+		}
 		if ($("#factoryContacts").val() != "") {
 			filterJs["factoryContacts"] = $("#factoryContacts").val();
+		}
+		if(result){
+			result=checkInputTextNull("#factoryPhone","联系电话")&result;
 		}
 		if ($("#factoryPhone").val() != "") {
 			filterJs["factoryPhone"] = $("#factoryPhone").val();
 		}
 		if ($("#factoryTelephone").val() != "") {
 			filterJs["factoryTelephone"] = $("#factoryTelephone").val();
+		}
+		if(result){
+			result=checkInputTextNull("#factoryAddress","工厂地址")&result;
 		}
 		if ($("#factoryAddress").val() != "") {
 			filterJs["factoryAddress"] = $("#factoryAddress").val();
@@ -461,17 +492,34 @@
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(result){
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	function doFilterDelete(tmpFactoryId) {
-		var filterJs = {};
-		filterJs["method"] = "delete";
-		filterJs["factoryId"] = tmpFactoryId;
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(confirm("确认删除id=【"+tmpFactoryId+"】的工厂")==true){
+			var filterJs = {};
+			filterJs["method"] = "delete";
+			filterJs["factoryId"] = tmpFactoryId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+			initTable(JSON.stringify(filterJs));
+		}
 	}
-
+	function checkInputTextNull(id,field){
+		if($(id).val()==null||$(id).val()==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
 	/*
 	给修改赋值~
 	 */
@@ -735,8 +783,7 @@
 			</div>
 			<!-- End .row -->
 			<!--  #f3f5f6 -->
-			<div id="tip_message"
-				style="background: #FF4500; text-align: center; color: #0000FF;"></div>
+			
 			<div class="outlet">
 				<!-- Start .outlet -->
 				<!-- Page start here ( usual with .row ) -->
@@ -765,64 +812,64 @@
 										<label class="col-lg-4 control-label">工厂编号</label>
 										<div class="col-lg-8">
 											<input id="factoryQueryId" name="factoryQueryId" type="text"
-												class="col-lg-4 form-control"
-												placeholder="仅当查询时起作用，增加和修改不起作用">
+												class="col-lg-4 form-control" onkeyup="value=value.replace(/[^1234567890]+/g,'')" maxlength="10"
+												placeholder="工厂编号:小于10位数字">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂名称</label>
 										<div class="col-lg-8">
 											<input id="factoryName" name="factoryName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="工厂名称:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">联系人</label>
 										<div class="col-lg-8">
 											<input id="factoryContacts" name="factoryContacts"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="50"
+												placeholder="联系人:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">联系手机</label>
 										<div class="col-lg-8">
 											<input id="factoryPhone" name="factoryPhone" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="13" 
+												placeholder="手机号码:999-9999-9999">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">座机电话</label>
 										<div class="col-lg-8">
 											<input id="factoryTelephone" name="factoryTelephone"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="14" 
+												placeholder="座机号码:(999) 999-9999">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂地址</label>
 										<div class="col-lg-8">
 											<input id="factoryAddress" name="factoryAddress" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="512"
+												placeholder="工厂地址:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂规模</label>
 										<div class="col-lg-8">
 											<input id="factoryScale" name="factoryScale" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="10"
+												placeholder="工厂规模:小于10位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂备注</label>
 										<div class="col-lg-8">
 											<input id="factoryRemarks" name="factoryRemarks" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="512"
+												placeholder="工厂备注:小于512位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -958,6 +1005,6 @@
 		<div class="clearfix"></div>
 	</div>
 	<!-- End #content -->
-
+<div id="tip_message" style="font-size:30px;width:500px;z-index: 9999;position: fixed ;background: #C0C0C0; text-align: center; color: #0000FF;top:50%; left:50%; right: auto;  bottom: auto ;margin-left:-250px" ></div>
 </body>
 </html>

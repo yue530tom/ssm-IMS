@@ -145,33 +145,24 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
-		/* 	    		$(document).ajaxStart(
-		 function() { 
-		 $.blockUI({ 
-		 message: $('#displayBox'), 
-		 css: { 
-		 top:  ($(window).height() - 400) /2 + 'px', 
-		 left: ($(window).width() - 400) /2 + 'px', 
-		 width: '400px' 
-		 } 
-		 }); 
-		 }).ajaxStop($.unblockUI);  */
+
 		initTable("{}");
 		console.log("$(document).ready:" + $("#buffer_span").text());
 		//初始化页数
 		var d = new Date();
 		$("#datetime-picker").datetimepicker({
-		initialDate : d,
-		language : 'zh-CN',
-		format : 'yyyy-mm-dd',
-		todayHighlight : 1,
-		weekStart : 1,
-		todayBtn : 1,
-		autoclose : 1,
-		startView : 2,
-		minView : 2
+			initialDate : d,
+			language : 'zh-CN',
+			format : 'yyyy-mm-dd',
+			todayHighlight : 1,
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			startView : 2,
+			minView : 2
 		});  
 		//提示成功信息      
+		//#("#queryPropsId").mask("(999) 999-9999");
 	});
 	function checkUndefined(value){
 		 var undefined = void(0);
@@ -402,8 +393,13 @@
 	function doFilterModify() {
 		var filterJs = {};
 		filterJs["method"] = "modify";
+		var result=true;
+		result=checkInputTextNull("#modifyPropsId","属性id")&result;
 		if ($("#modifyPropsId").val() != "") {
 			filterJs["propsId"] = $("#modifyPropsId").val();
+		}
+		if(result){
+			result=checkInputTextNull("#modifyPropsName","属性名称")&result;
 		}
 		if ($("#modifyPropsName").val() != "") {
 			filterJs["propsName"] = $("#modifyPropsName").val();
@@ -416,11 +412,15 @@
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(result){
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	function doFilterAdd() {
 		var filterJs = {};
 		filterJs["method"] = "add";
+		var result=true;
+		result=checkInputTextNull("#addPropsName","属性名称")&result;
 		if ($("#addPropsName").val() != "") {
 			filterJs["propsName"] = $("#addPropsName").val();
 		}
@@ -432,17 +432,36 @@
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(result){
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	function doFilterDelete(tmpPropsId) {
-		var filterJs = {};
-		filterJs["method"] = "delete";
-		filterJs["propsId"]=tmpPropsId;
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(confirm("确认删除id=【"+tmpPropsId+"】的属性")==true){
+			var filterJs = {};
+			filterJs["method"] = "delete";
+			filterJs["propsId"]=tmpPropsId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+		
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	
+	function checkInputTextNull(id,field){
+		if($(id).val()==null||$(id).val()==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
 	/*
 	给修改赋值~
 	 */
@@ -688,24 +707,24 @@
 										<label class="col-lg-3 control-label">属性名称</label>
 										<div class="col-lg-9">
 											<input id="addPropsName" name="addPropsName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="属性名称:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label">属性描述</label>
 										<div class="col-lg-9">
 											<input id="addPropsDesc" name="addPropsDesc" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="属性描述:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label">属性备注</label>
 										<div class="col-lg-9">
 											<input id="addPropsRemarks" name="addPropsRemarks"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="1024"
+												placeholder="属性备注:小于50位的字符">
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -738,8 +757,8 @@
 									<div class="form-group">
 										<label class="col-lg-3 control-label">属性编号</label>
 										<div class="col-lg-9">
-											<input id="queryPropsId" name="queryPropsId" type="text"
-												class="form-control" placeholder="请输入属性id，格式为小于10位的数字">
+											<input id="queryPropsId" name="queryPropsId" type="text" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												class="form-control" maxlength="10" placeholder="属性id:小于10位的数字">
 										</div>
 									</div>
 
@@ -747,18 +766,11 @@
 										<label class="col-lg-3 control-label">属性名称</label>
 										<div class="col-lg-9">
 											<input id="queryPropsName" name="queryPropsName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="属性名称:小于50位的字符">
 										</div>
 									</div>
-									<!-- <div class="form-group">
-										<label class="col-lg-3 control-label">属性描述</label>
-										<div class="col-lg-9">
-											<input id="queryPropsDesc" name="queryPropsDesc" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
-										</div>
-									</div> -->
+
 									<div class="form-group">
                                             <label class="col-lg-3 control-label">创建日期</label>
                                             <div class="col-lg-9 col-md-9">
@@ -830,24 +842,24 @@
 										<label class="col-lg-3 control-label">属性名称</label>
 										<div class="col-lg-9">
 											<input id="modifyPropsName" name="modifyPropsName"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="50"
+												placeholder="属性名称:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label">属性描述</label>
 										<div class="col-lg-9">
 											<input id="modifyPropsDesc" name="modifyPropsDesc"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="50"
+												placeholder="属性描述:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-3 control-label">属性备注</label>
 										<div class="col-lg-9">
 											<input id="modifyPropsRemarks" name="modifyPropsRemarks"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="1024"
+												placeholder="属性备注:小于50位的字符">
 										</div>
 									</div>
 									<!-- End .form-group  -->

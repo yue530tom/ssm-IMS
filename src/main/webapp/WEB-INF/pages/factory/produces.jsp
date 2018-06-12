@@ -318,8 +318,8 @@
 			}
 			$("#div_"+i).append('</div>');
 			
-			$("#div_"+i).append('<div  style="padding: 1px 1px;">数量:<input type="text" id="btn_num_'+i+'"/></div>');
-			$("#div_"+i).append('<div  style="padding: 1px 1px;">价格:<input type="text" id="btn_price_'+i+'"/></div>');
+			$("#div_"+i).append('<div  style="padding: 1px 1px;">数量:<input type="text" id="btn_num_'+i+'" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"/></div>');
+			$("#div_"+i).append('<div  style="padding: 1px 1px;">价格:<input type="text" id="btn_price_'+i+'" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"/></div>');
 			
 			
 			$("#div_"+i).append('<div id="addtoproduces_'+i+'" style="padding: 1px 2px;"><button id="addtoproduces_"+'+i+' class="im-truck btn btn-primary" onclick="addtoproduces('+i+');">准备做货</button></div>');
@@ -340,6 +340,7 @@
 		
 		var filterJs = {};
 		filterJs["method"] = "addtoproduces";
+		var result=true;
 		
 		if (($("#div_productId_"+id).html()).split(":").length==2) {
 			filterJs["productId"] = ($("#div_productId_"+id).html()).split(":")[1] ;
@@ -350,30 +351,53 @@
 		if (($("#div_productName_"+id).html()).split(":").length==2) {
 			filterJs["productName"] = ($("#div_productName_"+id).html()).split(":")[1] ;
 		}
-		if ($("#btn_num_"+id).val()!="") {
-			filterJs["productCount"] = $("#btn_num_"+id).val();
+		if(result){
+			result=checkInputTextTF(getCheck("category_"+id),"归类属性")&result;
 		}
-		if ($("#btn_price_"+id).val()!="") {
-			filterJs["productPrice"] = $("#btn_price_"+id).val();
-		}
-		
 		if (getCheck("category_"+id) != "") {
 			filterJs["productCategory"] = getCheck("category_"+id);
+		}
+		if(result){
+			result=checkInputTextTF(getCheck("color_"+id),"颜色属性")&result;
 		}
 		if (getCheck("color_"+id) != "") {
 			filterJs["productColor"] = getCheck("color_"+id) ;
 		}
+		if(result){
+			result=checkInputTextTF(getCheck("size_"+id),"尺码属性")&result;
+		}
 		if (getCheck("size_"+id) != "") {
 			filterJs["productSize"] = getCheck("size_"+id) ;
+		}
+		if(result){
+			result=checkInputTextTF(getCheck("material_"+id),"材质属性")&result;
 		}
 		if (getCheck("material_"+id) != "") {
 			filterJs["productMaterial"] = getCheck("material_"+id);
 		}
+		if(result){
+			result=checkInputTextTF(getCheck("collar_"+id),"衣领属性")&result;
+		}
 		if (getCheck("collar_"+id) != "") {
 			filterJs["productCollar"] = getCheck("collar_"+id);
 		}
+		if(result){
+			result=checkInputTextTF(getCheck("pocket_"+id),"衣兜属性")&result;
+		}
 		if (getCheck("pocket_"+id) != "") {
 			filterJs["productPocket"] = getCheck("pocket_"+id);
+		}
+		if(result){
+			result=checkInputTextNull("#btn_num_"+id,"数量")&result;
+		}
+		if ($("#btn_num_"+id).val()!="") {
+			filterJs["productCount"] = $("#btn_num_"+id).val();
+		}
+		if(result){
+			result=checkInputTextNull("#btn_price_"+id,"价格")&result;
+		}
+		if ($("#btn_price_"+id).val()!="") {
+			filterJs["productPrice"] = $("#btn_price_"+id).val();
 		}
 		if ($("#productRemarks").val() != "") {
 			filterJs["productRemarks"] = $("#productRemarks").val();
@@ -381,7 +405,9 @@
 		
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		console.log("addtoproduces:" + $("#buffer_span").text());
-		addtoproducesPost(JSON.stringify(filterJs));
+		if(result){
+			addtoproducesPost(JSON.stringify(filterJs));
+		}
 	}
 	
 	function addtoproducesPost(filter){
@@ -587,14 +613,43 @@
 	}
 	
 	function doFilterDelete(tmpFactoryId) {
-		var filterJs = {};
-		filterJs["method"] = "delete";
-		filterJs["productId"] = tmpFactoryId;
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(confirm("确认删除id=【"+tmpPropsId+"】的做货明细")==true){
+			var filterJs = {};
+			filterJs["method"] = "delete";
+			filterJs["productId"] = tmpFactoryId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+			initTable(JSON.stringify(filterJs));
+		}
 	}
-
+	function checkInputTextNull(id,field){
+		if($(id).val()==null||$(id).val()==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
+	function checkInputTextTF(val,field){
+		if(val==null||val==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
 	/*
 	给修改赋值~
 	 */
@@ -920,7 +975,7 @@
 										<label class="col-lg-4 control-label">产品id</label>
 										<div class="col-lg-8">
 											<input id="productQueryId" name="productQueryId" type="text"
-												class="col-lg-4 form-control"
+												class="col-lg-4 form-control" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
 												placeholder="仅当查询时起作用，增加和修改不起作用">
 										</div>
 									</div>
@@ -929,7 +984,7 @@
 										<label class="col-lg-4 control-label">产品编号</label>
 										<div class="col-lg-8">
 											<input id="productNo" name="productNo" type="text"
-												class="col-lg-4 form-control"
+												class="col-lg-4 form-control"  maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
 												placeholder="请输入产品编码，格式为小于10位数字">
 										</div>
 									</div>
@@ -937,7 +992,7 @@
 										<label class="col-lg-4 control-label">产品名称</label>
 										<div class="col-lg-8">
 											<input id="productName" name="productName" type="text"
-												class="col-lg-4 form-control"
+												class="col-lg-4 form-control"  maxlength="50"
 												placeholder="请输入属性名称，格式为小于50位的字符">
 										</div>
 									</div>
@@ -981,7 +1036,7 @@
 										<label class="col-lg-4 control-label">产品备注</label>
 										<div class="col-lg-8">
 											<input id="productRemarks" name="productRemarks" type="text"
-												class="col-lg-4 form-control"
+												class="col-lg-4 form-control"   maxlength="50"
 												placeholder="请输入属性备注，格式为小于50位的字符">
 										</div>
 									</div>

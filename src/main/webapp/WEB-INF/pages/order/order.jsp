@@ -115,6 +115,7 @@
 <script src="/resources/assets/js/jquery.sprFlat.js"></script>
 <script src="/resources/assets/js/app.js"></script>
 <script src="/resources/assets/js/pages/dashboard.js"></script>
+<script src="/resources/assets/plugins/forms/maskedinput/jquery.maskedinput.js"></script>
 <style type="text/css">
 .align-center {
 	margin: 0 auto; /* 居中 这个是必须的，，其它的属性非必须 */
@@ -149,6 +150,8 @@
 		minView : 2
 		});  
 		//提示成功信息      
+		
+		$("#orderCustPhone").mask("999-9999-9999");
 	});
 	function checkUndefined(value){
 		 var undefined = void(0);
@@ -486,15 +489,45 @@
 	}
 	
 	function doFilterDelete(tmpFactoryId) {
-		var filterJs = {};
-		filterJs["method"] = "delete";
-		filterJs["orderId"] = tmpFactoryId;
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(confirm("确认删除id=【"+tmpFactoryId+"】的订单，并删除响应的订单明细")==true){
+			var filterJs = {};
+			filterJs["method"] = "delete";
+			filterJs["orderId"] = tmpFactoryId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	function doFilterAlert(tmpFactoryId){
 		alert("还未实现该功能敬请期待~");
+	}
+	function checkInputTextNull(id,field){
+		if($(id).val()==null||$(id).val()==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
+	function checkInputTextTF(val,field){
+		if(val==null||val==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
 	}
 	/*
 	给修改赋值~
@@ -849,8 +882,8 @@
 										<label class="col-lg-4 control-label">订单id</label>
 										<div class="col-lg-8">
 											<input id="orderQueryId" name="orderQueryId" type="text"
-												class="col-lg-4 form-control"
-												placeholder="仅当查询时起作用">
+												class="col-lg-4 form-control" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="订单id:小于10位的数字，仅当查询时起作用">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
@@ -858,40 +891,43 @@
 										<label class="col-lg-4 control-label">订单编号</label>
 										<div class="col-lg-8">
 											<input id="orderNo" name="orderNo" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入订单编码，格式为小于10位数字">
+												class="col-lg-4 form-control" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="订单编号:小于10位数字">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">客户名称</label>
 										<div class="col-lg-8">
 											<input id="orderCustName" name="orderCustName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="客户名称:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">联系电话</label>
 										<div class="col-lg-8">
 											<input id="orderCustPhone" name="orderCustPhone" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="13"
+												placeholder="联系电话:999-9999-9999">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">发货地址</label>
 										<div class="col-lg-8">
 											<input id="orderCustSend" name="orderCustSend" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="发货地址:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">订单金额</label>
 										<div class="col-lg-8">
-											<input id="orderSumMoney" name="orderSumMoney" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性名称，格式为小于50位的字符">
+											<div class="input-group">
+												<input id="orderSumMoney" name="orderSumMoney" type="text"
+												class="col-lg-4 form-control"  maxlength="10"  onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="订单金额:小于10位的数字">
+												<span class="input-group-addon">RMB</span>
+											</div>
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">

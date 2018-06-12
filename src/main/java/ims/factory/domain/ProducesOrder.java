@@ -4,7 +4,18 @@ public class ProducesOrder {
 	private long producesOrderId;
 	private long producesOrderNo;
 	private long producesOrderFactoryId;
+	private String producesOrderContacts;
+	private String producesOrderPhone;
 	private long producesOrderCount;
+	private long producesOrderMoney;
+	public long getProducesOrderMoney() {
+		return producesOrderMoney;
+	}
+
+	public void setProducesOrderMoney(long producesOrderMoney) {
+		this.producesOrderMoney = producesOrderMoney;
+	}
+
 	private String producesOrderDepost;
 	private String producesOrderCreate;
 	private String producesOrderModify;
@@ -40,6 +51,21 @@ public class ProducesOrder {
 
 	public void setProducesOrderCount(long producesOrderCount) {
 		this.producesOrderCount = producesOrderCount;
+	}
+	public String getProducesOrderContacts() {
+		return producesOrderContacts;
+	}
+
+	public void setProducesOrderContacts(String producesOrderContacts) {
+		this.producesOrderContacts = producesOrderContacts;
+	}
+
+	public String getProducesOrderPhone() {
+		return producesOrderPhone;
+	}
+
+	public void setProducesOrderPhone(String producesOrderPhone) {
+		this.producesOrderPhone = producesOrderPhone;
 	}
 
 	public String getProducesOrderDepost() {
@@ -77,10 +103,11 @@ public class ProducesOrder {
 	@Override
 	public String toString() {
 		return "ProducesOrder [producesOrderId=" + producesOrderId + ", producesOrderNo=" + producesOrderNo
-				+ ", producesOrderFactoryId=" + producesOrderFactoryId + ", producesOrderCount=" + producesOrderCount
-				+ ", producesOrderDepost=" + producesOrderDepost + ", producesOrderCreate=" + producesOrderCreate
-				+ ", producesOrderModify=" + producesOrderModify + ", producesOrderRemarks=" + producesOrderRemarks
-				+ "]";
+				+ ", producesOrderFactoryId=" + producesOrderFactoryId + ", producesOrderContacts="
+				+ producesOrderContacts + ", producesOrderPhone=" + producesOrderPhone + ", producesOrderCount="
+				+ producesOrderCount + ", producesOrderMoney=" + producesOrderMoney + ", producesOrderDepost="
+				+ producesOrderDepost + ", producesOrderCreate=" + producesOrderCreate + ", producesOrderModify="
+				+ producesOrderModify + ", producesOrderRemarks=" + producesOrderRemarks + "]";
 	}
 
 }

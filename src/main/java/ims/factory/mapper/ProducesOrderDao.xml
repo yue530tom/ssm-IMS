@@ -8,7 +8,11 @@
 		<id property="producesOrderId" column="produces_order_id" />
 		<result property="producesOrderNo" column="produces_order_no" />
 		<result property="producesOrderFactoryId" column="produces_order_factory_id" />
+		<result property="producesOrderContacts" column="produces_order_contacts" />
+		<result property="producesOrderPhone" column="produces_order_phone" />
 		<result property="producesOrderCount" column="produces_order_count" />
+		<result property="producesOrderMoney" column="produces_order_money" />
+		
 		<result property="producesOrderDepost" column="produces_order_depost" />
 		<result property="producesOrderCreate" column="produces_order_create" />
 		<result property="producesOrderModify" column="produces_order_modify" />
@@ -16,7 +20,7 @@
 	</resultMap>
 
 	<sql id="producesOrderColumns">
-		produces_order_id,produces_order_no,produces_order_factory_id,produces_order_count,produces_order_depost,produces_order_depost,produces_order_create,produces_order_modify,produces_order_remarks
+		produces_order_id,produces_order_no,produces_order_factory_id,produces_order_contacts,produces_order_phone,produces_order_count,produces_order_money,produces_order_depost,produces_order_depost,produces_order_create,produces_order_modify,produces_order_remarks
 	</sql>
 
 	<!--插入订单信息 -->
@@ -30,11 +34,22 @@
 			<if test="producesOrderFactoryId != null">
 				produces_order_factory_id,
 			</if>
+			
+			<if test="producesOrderContacts != null">
+				produces_order_contacts,
+			</if>
+			<if test="producesOrderPhone != null">
+				produces_order_phone,
+			</if>
+			
 			<if test="producesOrderCount != null">
 				produces_order_count,
 			</if>
 			<if test="producesOrderDepost != null">
 				produces_order_depost,
+			</if>
+			<if test="producesOrderMoney != null">
+				produces_order_money,
 			</if>
 			<if test="producesOrderCreate != null">
 				produces_order_create,
@@ -53,11 +68,20 @@
 			<if test="producesOrderFactoryId != null">
 				#{producesOrderFactoryId, jdbcType=INTEGER},
 			</if>
+			<if test="producesOrderContacts != null">
+				#{producesOrderContacts, jdbcType=INTEGER},
+			</if>
+			<if test="producesOrderPhone != null">
+				#{producesOrderPhone, jdbcType=INTEGER},
+			</if>
 			<if test="producesOrderCount != null">
 				#{producesOrderCount, jdbcType=INTEGER},
 			</if>
 			<if test="producesOrderDepost != null">
 				#{producesOrderDepost, jdbcType=INTEGER},
+			</if>
+			<if test="producesOrderMoney != null">
+				#{producesOrderMoney, jdbcType=INTEGER},
 			</if>
 			<if test="producesOrderCreate != null">
 				#{producesOrderCreate, jdbcType=TIMESTAMP},

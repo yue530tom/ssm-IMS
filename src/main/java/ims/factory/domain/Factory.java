@@ -1,7 +1,5 @@
 package ims.factory.domain;
 
-import java.util.Date;
-
 public class Factory {
 	private long factoryId;
 	private String factoryName;
@@ -14,14 +12,12 @@ public class Factory {
 	private String factoryCreate;
 	private String factoryModify;
 	private String factoryStatus;
-	
 	public long getFactoryId() {
 		return factoryId;
 	}
 	public void setFactoryId(long factoryId) {
 		this.factoryId = factoryId;
 	}
-	
 	public String getFactoryName() {
 		return factoryName;
 	}
@@ -64,14 +60,6 @@ public class Factory {
 	public void setFactoryRemarks(String factoryRemarks) {
 		this.factoryRemarks = factoryRemarks;
 	}
-	
-	
-	public String getFactoryStatus() {
-		return factoryStatus;
-	}
-	public void setFactoryStatus(String factoryStatus) {
-		this.factoryStatus = factoryStatus;
-	}
 	public String getFactoryCreate() {
 		return factoryCreate;
 	}
@@ -84,6 +72,12 @@ public class Factory {
 	public void setFactoryModify(String factoryModify) {
 		this.factoryModify = factoryModify;
 	}
+	public String getFactoryStatus() {
+		return factoryStatus;
+	}
+	public void setFactoryStatus(String factoryStatus) {
+		this.factoryStatus = factoryStatus;
+	}
 	@Override
 	public String toString() {
 		return "Factory [factoryId=" + factoryId + ", factoryName=" + factoryName + ", factoryContacts="
@@ -92,8 +86,6 @@ public class Factory {
 				+ factoryRemarks + ", factoryCreate=" + factoryCreate + ", factoryModify=" + factoryModify
 				+ ", factoryStatus=" + factoryStatus + "]";
 	}
-
-
 	
-
+	
 }

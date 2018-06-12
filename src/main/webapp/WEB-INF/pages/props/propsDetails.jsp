@@ -281,7 +281,7 @@
 				+ '"}';
 		var filter = $("#buffer_span").text();
 		if (num<=0 || num>parseInt(tpage) || jpage.length == 0) {
-			alert("请输入合适的页数！");
+			alert("合适的页数！");
 		} else {
 			$.ajax({
 				url : "/props/propsDetailsList",
@@ -306,7 +306,7 @@
 				+ '"}';
 		var filter = $("#buffer_span").text();
 		if (num >= parseInt(tpage)) {
-			alert("请输入合适的页数！");
+			alert("合适的页数！");
 		} else {
 			$.ajax({
 				url : "/props/propsDetailsList",
@@ -330,7 +330,7 @@
 				+ '"}';
 		var filter = $("#buffer_span").text();
 		if (num <= 1) {
-			alert("请输入合适的页数！");
+			alert("合适的页数！");
 		} else {
 			$.ajax({
 				url : "/props/propsDetailsList",
@@ -407,13 +407,18 @@
 	function doFilterModify() {
 		var filterJs = {};
 		filterJs["method"] = "modify";
+		var result=true;
+		
 		if ($("#selectmodify").val() != "") {
 			filterJs["propsId"] = $("#selectmodify").val();
 		}
+		result=checkInputTextNull("#modifyPropsDetailsId","属性详情id")&result;
 		if ($("#modifyPropsDetailsId").val() != "") {
 			filterJs["propsDetailsId"] = $("#modifyPropsDetailsId").val();
 		}
-
+		if(result){
+			result=checkInputTextNull("#modifyPropsDetailsName","属性详情名称")&result;
+		}
 		if ($("#modifyPropsDetailsName").val() != "") {
 			filterJs["propsDetailsName"] = $("#modifyPropsDetailsName").val();
 		}
@@ -425,14 +430,18 @@
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(result){
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	function doFilterAdd() {
 		var filterJs = {};
 		filterJs["method"] = "add";
+		var result=true;
 		if ($("#selectadd").val() != "") {
 			filterJs["propsId"] = $("#selectadd").val();
 		}
+		result=checkInputTextNull("#addPropsDetailsName","属性详情名称")&result;
 		if ($("#addPropsDetailsName").val() != "") {
 			filterJs["propsDetailsName"] = $("#addPropsDetailsName").val();
 		}
@@ -445,17 +454,34 @@
 		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(result){
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	function doFilterDelete(tmpPropsDetailsId) {
-		var filterJs = {};
-		filterJs["method"] = "delete";
-		filterJs["propsDetailsId"]=tmpPropsDetailsId;
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(confirm("确认删除id=【"+tmpPropsDetailsId+"】的属性详情")==true){
+			var filterJs = {};
+			filterJs["method"] = "delete";
+			filterJs["propsDetailsId"]=tmpPropsDetailsId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+			initTable(JSON.stringify(filterJs));
+		}
 	}
-	
+	function checkInputTextNull(id,field){
+		if($(id).val()==null||$(id).val()==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
 	/*
 	给修改赋值~
 	 */
@@ -719,8 +745,8 @@
 										<label class="col-lg-3 control-label">详情名称</label>
 										<div class="col-lg-9">
 											<input id="addPropsDetailsName" name="addPropsDetailsName"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入详情名称，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="50"
+												placeholder="详情名称，格式为小于50位的字符">
 										</div>
 									</div>
 									
@@ -728,8 +754,8 @@
 										<label class="col-lg-3 control-label">详情描述</label>
 										<div class="col-lg-9">
 											<input id="addPropsDetailsDesc" name="addPropsDetailsDesc"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入详情描述，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="50"
+												placeholder="详情描述，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
@@ -737,8 +763,8 @@
 										<div class="col-lg-9">
 											<input id="addPropsDetailsRemarks"
 												name="addPropsDetailsRemarks" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情备注，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="1024"
+												placeholder="详情备注，格式为小于50位的字符">
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -772,8 +798,8 @@
 										<label class="col-lg-3 control-label">详情编号</label>
 										<div class="col-lg-9">
 											<input id="queryPropsDetailsId" name="queryPropsDetailsId"
-												type="text" class="form-control"
-												placeholder="请输入详情id，格式为小于10位的数字">
+												type="text" class="form-control" maxlength=10 onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="详情id，格式为小于10位的数字">
 										</div>
 									</div>
 									<div class="form-group">
@@ -789,8 +815,8 @@
 										<div class="col-lg-9">
 											<input id="queryPropsDetailsName"
 												name="queryPropsDetailsName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="详情名称，格式为小于50位的字符">
 										</div>
 									</div>
 																	<div class="form-group">
@@ -873,8 +899,8 @@
 										<div class="col-lg-9">
 											<input id="modifyPropsDetailsName"
 												name="modifyPropsDetailsName" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情名称，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="详情名称，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
@@ -882,8 +908,8 @@
 										<div class="col-lg-9">
 											<input id="modifyPropsDetailsDesc"
 												name="modifyPropsDetailsDesc" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情描述，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="50"
+												placeholder="详情描述，格式为小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group">
@@ -891,8 +917,8 @@
 										<div class="col-lg-9">
 											<input id="modifyPropsDetailsRemarks"
 												name="modifyPropsDetailsRemarks" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入详情备注，格式为小于50位的字符">
+												class="col-lg-4 form-control" maxlength="1024"
+												placeholder="详情备注，格式为小于50位的字符">
 										</div>
 									</div>
 									<!-- End .form-group  -->

@@ -171,9 +171,13 @@ public class PropsController {
 				if (props.getPropsId()<=6) {
 					js.put("msg", "该属性是初始化属性，不允许修改，默认初始化属性id范围为1~6");
 				}else {
-					props.setPropsStatus("1");
-					props.setPropsModify(sdf.format(now));
-					propsService.updatePropsByPropsId(props);
+					if(propsService.findPropsByEqualPropsName(props.getPropsName())==null) {
+						props.setPropsStatus("1");
+						props.setPropsModify(sdf.format(now));
+						propsService.updatePropsByPropsId(props);
+					}else {
+						js.put("msg", "同名属性已存在，请查看");
+					}
 				}
 				
 			}

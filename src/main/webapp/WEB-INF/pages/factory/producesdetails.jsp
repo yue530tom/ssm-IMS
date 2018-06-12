@@ -115,6 +115,7 @@
 <script src="/resources/assets/js/jquery.sprFlat.js"></script>
 <script src="/resources/assets/js/app.js"></script>
 <script src="/resources/assets/js/pages/dashboard.js"></script>
+<script src="/resources/assets/plugins/forms/maskedinput/jquery.maskedinput.js"></script>
 <style type="text/css">
 .align-center {
 	margin: 0 auto; /* 居中 这个是必须的，，其它的属性非必须 */
@@ -148,6 +149,7 @@
 		minView : 2
 		});  
 		//提示成功信息      
+		$("#producesOrderPhone").mask("999-9999-9999");
 	});
 	
 	
@@ -204,7 +206,7 @@
 		console.log("producesSum:" + producesSumMoney);
 		console.log("producesCount:" + producesCount);
 		$("#producesOrderCount").attr("value",producesCount);
-		$("#producesOrderSum").attr("value",producesSumMoney);
+		$("#producesOrderMoney").attr("value",producesSumMoney);
 		
 		if (json.msg != null) {
 			document.getElementById('tip_message').style.display = 'block';
@@ -385,27 +387,61 @@
 			$(id).val(text);
 		}
 	}
-
+	function checkInputTextNull(id,field){
+		if($(id).val()==null||$(id).val()==""){
+			document.getElementById('tip_message').style.display = 'block';
+			$("#tip_message").html(field+"不能为空");
+			console.log("document.getElementById:"
+					+ document.getElementById("tip_message"));
+			setTimeout(
+					"document.getElementById('tip_message').style.display='none'",
+					2000);
+			return false;
+		}else{
+			return true;
+		}
+	}
 	function doFilterCreate() {
 		var filterJs = {};
 		filterJs["method"] = "create";
-		if ($("#producesId").val() != "") {
+		var result=true;
+	/* 	if ($("#producesId").val() != "") {
 			filterJs["producesId"] = $("#producesId").val();
-		}
-		if ($("#factoryContacts").val() != "") {
+		} */
+		result=checkInputTextNull("#producesOrderNo","做货编号")&result;
+		if ($("#producesOrderNo").val() != "") {
 			filterJs["producesOrderNo"] = $("#producesOrderNo").val();
 		}
+		
 		if ($("#factoryName").val() != "") {
 			filterJs["factoryName"] = $("#factoryName").val();
 		}
-		if ($("#factoryContacts").val() != "") {
-			filterJs["factoryContacts"] = $("#factoryContacts").val();
+		if(result){
+			result=checkInputTextNull("#producesOrderContacts","联系人")&result;
 		}
-		if ($("#factoryPhone").val() != "") {
-			filterJs["factoryPhone"] = $("#factoryPhone").val();
+		if ($("#producesOrderContacts").val() != "") {
+			filterJs["producesOrderContacts"] = $("#producesOrderContacts").val();
+		}
+		if(result){
+			result=checkInputTextNull("#producesOrderPhone","联系电话")&result;
+		}
+		if ($("#producesOrderPhone").val() != "") {
+			filterJs["producesOrderPhone"] = $("#producesOrderPhone").val();
+		}
+		if(result){
+			result=checkInputTextNull("#producesOrderCount","总件数")&result;
 		}
 		if ($("#producesOrderCount").val() != "") {
 			filterJs["producesOrderCount"] = $("#producesOrderCount").val();
+		}
+		if(result){
+			result=checkInputTextNull("#producesOrderMoney","总金额")&result;
+		}
+		if ($("#producesOrderMoney").val() != "") {
+			filterJs["producesOrderMoney"] = $("#producesOrderMoney").val();
+		}
+		if(result){
+			result=checkInputTextNull("#producesOrderDepost","预付款")&result;
 		}
 		if ($("#producesOrderDepost").val() != "") {
 			filterJs["producesOrderDepost"] = $("#producesOrderDepost").val();
@@ -416,23 +452,28 @@
 		
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(result){
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	function doFilterDelete(tmpProducesId) {
-		var filterJs = {};
-		filterJs["method"] = "delete";
-		filterJs["producesId"] = tmpProducesId;
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+		if(confirm("确认删除id=【"+tmpProducesId+"】的做货明细")==true){
+			var filterJs = {};
+			filterJs["method"] = "delete";
+			filterJs["producesId"] = tmpProducesId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+			
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 
 	function reset() {
 
-		$("#producesId").attr("value", "");
+		//$("#producesId").attr("value", "");
 		$("#producesOrderNo").attr("value", "");
-		$("#factoryContacts").attr("value", "");
-		$("#factoryPhone").attr("value", "");
+		$("#producesOrderContacts").attr("value", "");
+		$("#producesOrderPhone").attr("value", "");
 		$("#factoryTelephone").attr("value", "");
 		$("#producesOrderCount").attr("value", "");
 		$("#producesOrderDepost").attr("value", "");
@@ -641,8 +682,6 @@
 			</div>
 			<!-- End .row -->
 			<!--  #f3f5f6 -->
-			<div id="tip_message"
-				style="background: #FF4500; text-align: center; color: #0000FF;"></div>
 			<div class="outlet">
 				<!-- Start .outlet -->
 				<!-- Page start here ( usual with .row ) -->
@@ -658,20 +697,14 @@
 							</div>
 							<div class="panel-body">
 								<div class="form-horizontal hover-stripped">
-									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
-										style="margin-top: 0;">
-										<label class="col-lg-4 control-label">做货Id</label>
-										<div class="col-lg-8">
-											<input id="producesId" name="producesId" type="text"
-												class="col-lg-4 form-control" disabled>
-										</div>
-									</div>
+									
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3"
 										style="margin-top: 0;">
 										<label class="col-lg-4 control-label">做货编号</label>
 										<div class="col-lg-8">
 											<input id="producesOrderNo" name=producesOrderNo type="text"
-												class="col-lg-4 form-control">
+												class="col-lg-4 form-control" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="做货编码:小于10位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -685,17 +718,17 @@
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">联系人</label>
 										<div class="col-lg-8">
-											<input id="factoryContacts" name="factoryContacts"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+											<input id="producesOrderContacts" name="producesOrderContacts"
+												type="text" class="col-lg-4 form-control" maxlength="50"
+												placeholder="联系人:小于50位的字符">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">联系手机</label>
 										<div class="col-lg-8">
-											<input id="factoryPhone" name="factoryPhone" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入属性备注，格式为小于50位的字符">
+											<input id="producesOrderPhone" name="producesOrderPhone" type="text"
+												class="col-lg-4 form-control"  maxlength="13"
+												placeholder="联系电话:999-9999-9999">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -708,24 +741,30 @@
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">总金额</label>
 										<div class="col-lg-8">
-											<input id="producesOrderSum" name="producesOrderSum"
+											<div class="input-group">
+												<input id="producesOrderMoney" name="producesOrderMoney"
 												type="text" class="col-lg-4 form-control" disabled>
+												<span class="input-group-addon">RMB</span>
+											</div>
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">预付</label>
 										<div class="col-lg-8">
-											<input id="producesOrderDepost" name="producesOrderDepost"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+											<div class="input-group">
+												<input id="producesOrderDepost" name="producesOrderDepost"
+												type="text" class="col-lg-4 form-control"  maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="预付款:小于10位的数字">
+												<span class="input-group-addon">RMB</span>
+											</div>
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
 										<label class="col-lg-4 control-label">备注</label>
 										<div class="col-lg-8">
 											<input id="producesOrderRemarks" name="producesOrderRemarks"
-												type="text" class="col-lg-4 form-control"
-												placeholder="请输入属性描述，格式为小于50位的字符">
+												type="text" class="col-lg-4 form-control" maxlength="1024"
+												placeholder="备注:小于1024位的字符">
 										</div>
 									</div>
 									<!-- End .form-group  -->
@@ -816,6 +855,6 @@
 		<div class="clearfix"></div>
 	</div>
 	<!-- End #content -->
-
+<div id="tip_message" style="font-size:30px;width:500px;z-index: 9999;position: fixed ;background: #C0C0C0; text-align: center; color: #0000FF;top:50%; left:50%; right: auto;  bottom: auto ;margin-left:-250px" ></div>
 </body>
 </html>

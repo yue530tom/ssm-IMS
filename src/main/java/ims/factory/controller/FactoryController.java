@@ -363,9 +363,21 @@ public class FactoryController {
 					filterMap.put("producesOrderFactoryId", filterJson.get("producesOrderFactoryId"));
 					producesOrder.setProducesOrderFactoryId(Long.valueOf(filterJson.get("producesOrderFactoryId").toString()));
 				}
+				if (filterJson.has("producesOrderContacts")) {
+					filterMap.put("producesOrderContacts", filterJson.get("producesOrderContacts"));
+					producesOrder.setProducesOrderContacts(filterJson.get("producesOrderContacts").toString());
+				}
+				if (filterJson.has("producesOrderPhone")) {
+					filterMap.put("producesOrderPhone", filterJson.get("producesOrderPhone"));
+					producesOrder.setProducesOrderPhone(filterJson.get("producesOrderPhone").toString());
+				}
 				if (filterJson.has("producesOrderCount")) {
 					filterMap.put("producesOrderCount", filterJson.get("producesOrderCount"));
 					producesOrder.setProducesOrderCount(Long.valueOf(filterJson.get("producesOrderCount").toString()));
+				}
+				if (filterJson.has("producesOrderMoney")) {
+					filterMap.put("producesOrderMoney", filterJson.get("producesOrderMoney"));
+					producesOrder.setProducesOrderCount(Long.valueOf(filterJson.get("producesOrderMoney").toString()));
 				}
 				if (filterJson.has("producesOrderDepost")) {
 					filterMap.put("producesOrderDepost", filterJson.get("producesOrderDepost"));
@@ -396,13 +408,17 @@ public class FactoryController {
 				js.put("msg", "从做货明细中移除编号为【"+produces.getProducesId()+"】的做货清单");
 			}
 			if (method.equals("create")) {
-				producesOrder.setProducesOrderCreate(sdf.format(now));
-				producesOrder.setProducesOrderModify(sdf.format(now));
-				producesOrderService.addProducesOrder(producesOrder);
-				long producesId= producesOrder.getProducesOrderId();
-				producesService.producesCalc(producesId);
-				producesService.producesClean();
-				js.put("msg", "做货单生成成功");
+				if(producesService.getProducesInfo(null)!=null && producesService.getProducesInfo(null).size()!=0) {
+					producesOrder.setProducesOrderCreate(sdf.format(now));
+					producesOrder.setProducesOrderModify(sdf.format(now));
+					producesOrderService.addProducesOrder(producesOrder);
+					long producesId= producesOrder.getProducesOrderId();
+					producesService.producesCalc(producesId);
+					producesService.producesClean();
+					js.put("msg", "做货单生成成功");
+				}else {
+					js.put("msg", "做货明细为空，不能生成空做货订单");
+				}
 			}
 
 			int count = producesService.getProducesInfo(filterMap).size();// 获取总数
@@ -647,7 +663,7 @@ public class FactoryController {
 		return "error";
 	}
 
-	@RequestMapping(value = "/factoryList", method = RequestMethod.GET)
+	@RequestMapping(value = "/factoryList", method = RequestMethod.POST)
 	public void factoryList(Factory factoryObj, HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
 		// 通过综合条件查询工厂信息
@@ -663,67 +679,49 @@ public class FactoryController {
 			if (filter != null) {
 				JSONObject filterJson = new JSONObject(filter);
 				if (filterJson.has("method")) {
-					method = new String(filterJson.get("method").toString().getBytes("iso8859-1"), "utf-8");
+					method = filterJson.get("method").toString();
 				}
 				if (filterJson.has("factoryId")) {
 					filterMap.put("factoryId", filterJson.get("factoryId"));
 					factory.setFactoryId(Long.valueOf(filterJson.get("factoryId").toString()));
 				}
 				if (filterJson.has("factoryName")) {
-					filterMap.put("factoryName",
-							new String(filterJson.get("factoryName").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryName(
-							new String(filterJson.get("factoryName").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryName",filterJson.get("factoryName").toString());
+					factory.setFactoryName(filterJson.get("factoryName").toString());
 				}
 				if (filterJson.has("factoryContacts")) {
-					filterMap.put("factoryContacts",
-							new String(filterJson.get("factoryContacts").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryContacts(
-							new String(filterJson.get("factoryContacts").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryContacts",filterJson.get("factoryContacts").toString());
+					factory.setFactoryContacts(filterJson.get("factoryContacts").toString());
 				}
 				if (filterJson.has("factoryPhone")) {
-					filterMap.put("factoryPhone",
-							new String(filterJson.get("factoryPhone").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryPhone(
-							new String(filterJson.get("factoryPhone").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryPhone",filterJson.get("factoryPhone").toString());
+					factory.setFactoryPhone(filterJson.get("factoryPhone").toString());
 				}
 				if (filterJson.has("factoryTelephone")) {
-					filterMap.put("factoryTelephone",
-							new String(filterJson.get("factoryTelephone").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryTelephone(
-							new String(filterJson.get("factoryTelephone").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryTelephone",filterJson.get("factoryTelephone").toString());
+					factory.setFactoryTelephone(filterJson.get("factoryTelephone").toString());
 				}
 				if (filterJson.has("factoryAddress")) {
-					filterMap.put("factoryAddress",
-							new String(filterJson.get("factoryAddress").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryAddress(
-							new String(filterJson.get("factoryAddress").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryAddress",filterJson.get("factoryAddress").toString());
+					factory.setFactoryAddress(filterJson.get("factoryAddress").toString());
 				}
 				if (filterJson.has("factoryScale")) {
-					filterMap.put("factoryScale",
-							new String(filterJson.get("factoryScale").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryScale(
-							new String(filterJson.get("factoryScale").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryScale",filterJson.get("factoryScale").toString());
+					factory.setFactoryScale(filterJson.get("factoryScale").toString());
 				}
 				if (filterJson.has("factoryRemarks")) {
-					filterMap.put("factoryRemarks",
-							new String(filterJson.get("factoryRemarks").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryRemarks(
-							new String(filterJson.get("factoryRemarks").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryRemarks",filterJson.get("factoryRemarks").toString());
+					factory.setFactoryRemarks(filterJson.get("factoryRemarks").toString());
 				}
 				if (filterJson.has("factoryDatetime")) {
-					filterMap.put("factoryDatetime",
-							new String(filterJson.get("factoryDatetime").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryDatetime",filterJson.get("factoryDatetime").toString());
 				}
 				if (filterJson.has("factoryOperation")) {
-					filterMap.put("factoryOperation",
-							new String(filterJson.get("factoryOperation").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryOperation",filterJson.get("factoryOperation").toString());
 				}
 				if (filterJson.has("factoryStatus")) {
-					filterMap.put("factoryStatus",
-							new String(filterJson.get("factoryStatus").toString().getBytes("iso8859-1"), "utf-8"));
-					factory.setFactoryStatus(
-							new String(filterJson.get("factoryStatus").toString().getBytes("iso8859-1"), "utf-8"));
+					filterMap.put("factoryStatus",filterJson.get("factoryStatus").toString());
+					factory.setFactoryStatus(filterJson.get("factoryStatus").toString());
 				}
 				
 			}else {

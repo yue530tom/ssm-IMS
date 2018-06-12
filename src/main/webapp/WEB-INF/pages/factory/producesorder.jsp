@@ -464,13 +464,16 @@
 		initTable(JSON.stringify(filterJs));
 	}
 	
-	function doFilterDelete(tmpFactoryId) {
-		var filterJs = {};
-		filterJs["method"] = "delete";
-		filterJs["producesId"] = tmpFactoryId;
-		console.log(filterJs);
-		$("#buffer_span").text(JSON.stringify(filterJs));
-		initTable(JSON.stringify(filterJs));
+	function doFilterDelete(tmpProducesOrderId) {
+		if(confirm("确认删除id=【"+tmpProducesOrderId+"】的做货订单，且删除对应的做货明细")==true){
+			var filterJs = {};
+			filterJs["method"] = "delete";
+			filterJs["producesId"] = tmpProducesOrderId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+		
+			initTable(JSON.stringify(filterJs));
+		}
 	}
 	
 	function reset() {
@@ -775,8 +778,8 @@
 										<label class="col-lg-4 control-label">做货单编号</label>
 										<div class="col-lg-8">
 											<input id="producesOrderNo" name="producesOrderNo" type="text"
-												class="col-lg-4 form-control"
-												placeholder="请输入产品编码，格式为小于10位数字">
+												class="col-lg-4 form-control" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												placeholder="产品编码:小于10位数字">
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">

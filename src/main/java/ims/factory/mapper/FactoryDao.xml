@@ -83,8 +83,8 @@
 			<if test="factoryCreate != null">
 				#{factoryCreate, jdbcType=TIMESTAMP},
 			</if>
-			<if test="factoryModfiy != null">
-				#{factoryModfiy, jdbcType=TIMESTAMP},
+			<if test="factoryModify != null">
+				#{factoryModify, jdbcType=TIMESTAMP},
 			</if>
 			<if test="factoryStatus != null">
 				#{factoryStatus, jdbcType=VARCHAR},
@@ -124,8 +124,8 @@
 		<if test="factoryRemarks != null and factoryRemarks != '' ">
 			factory_remarks = #{factoryRemarks},
 		</if>
-		<if test="factoryModfiy != null and factoryModfiy != '' ">
-			factory_modify = #{factoryModfiy},
+		<if test="factoryModify != null and factoryModify != '' ">
+			factory_modify = #{factoryModify},
 		</if>
 		<if test="factoryStatus != null and factoryRemarks != '' ">
 			factory_status = #{factoryStatus}
