@@ -989,11 +989,25 @@
 													href="#">产品No.2</a></li>
 												<li data-target="#instagram-widget" data-slide-to="2"><a
 													href="#">产品No.3</a></li>
+												<li data-target="#instagram-widget" data-slide-to="3"><a
+													href="#">产品No.4</a></li>
+												<li data-target="#instagram-widget" data-slide-to="4"><a
+													href="#">产品No.5</a></li>
 											</ol>
 											<div class="carousel-inner">
 												<figure class="item active">
 													<img class="img-responsive"
 														src="/resources/assets/img/instagram/instagram.jpg"
+														alt="image">
+												</figure>
+												<figure class="item">
+													<img class="img-responsive"
+														src="/resources/assets/img/instagram/instagram2.jpg"
+														alt="image">
+												</figure>
+												<figure class="item">
+													<img class="img-responsive"
+														src="/resources/assets/img/instagram/instagram3.jpg"
 														alt="image">
 												</figure>
 												<figure class="item">
