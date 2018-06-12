@@ -158,13 +158,41 @@
 		$("#monthCount").addClass("number");
 		$("#monthMoney").html(${monthMoney});
 		$("#monthMoney").addClass("number");
+		var toplist=${toplist};
+		for(var i=0;i<toplist.length;i++){
+			if(i==0){
+				$("#newProduct0").html(toplist[i].productNo);
+				$("#newProduct0h3").html(toplist[i].productName);
+				$("#newProduct0").addClass('number');
+			}else{
+				$("#newProduct").append('<div class="item"><div class="tile teal"><div class="tile-icon"><i class="en-new s64"></i></div><div class="tile-content"><div class="number">'+toplist[i].productNo+'</div><h3>'+toplist[i].productName+'</h3></div></div></div>');
+			}
+		}
 		
-		var ja=${toplist};
-		for (var i = 0; i < ja.length; i++) {
+		
+		var recommendlist=${recommendlist};
+		for (var i = 0; i < recommendlist.length; i++) {
+			//console.log(ja[i].productId);
+			
+			//$("#indicatorsOl").append('<li data-target="#instagram-widget" data-slide-to="'+i+'" class="active"><a href="#">产品:'+recommendlist[i].productNo+'</a></li>');
+			//$("#indicatorsOl"+i).attr("href","/product/productDetails/"+recommendlist[i].productId);
+			$("#indicatorsOl"+i).html(recommendlist[i].productNo);
+			$("#indicatorsDiv"+i).attr("src",recommendlist[i].productImg);
+			
+		}
+/* 		for (var i = 0; i < ja.length; i++) {
 			//console.log(ja[i].productId);
 			$("#newProduct").html(ja[i].productId);
 			$("#newProduct").addClass("number");
-		}
+			if(i==0){
+				$("#indicatorsOl").append('<li data-target="#instagram-widget" data-slide-to="'+i+'" class="active"><a href="#">产品:'+ja[i].productNo+'</a></li>');
+			}else{
+				$("#indicatorsOl").append('<li data-target="#instagram-widget" data-slide-to="'+i+'"><a href="#">产品:'+ja[i].productNo+'</a></li>');				
+			}
+			$("#indicatorsDiv").append('<figure class="item active"><img class="img-responsive" src="'+ja[i].productImg+'" alt="image"></figure>');
+			
+		} */
+		
 		/* 
 		$("#newProductFirst").html(${newProductFirst});
 		$("#newProductFirst").addClass("number");
@@ -847,7 +875,7 @@
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 						<div class="carousel-tile carousel slide">
-							<div class="carousel-inner">
+							<div class="carousel-inner" id="newProduct">
 								<div class="item active">
 									<div class="tile teal">
 										<!-- tile start here -->
@@ -856,31 +884,7 @@
 										</div>
 										<div class="tile-content">
 											<div id="newProduct0">45</div>
-											<h3>新品一</h3>
-										</div>
-									</div>
-								</div>
-								<div class="item">
-									<div class="tile magenta">
-										<!-- tile start here -->
-										<div class="tile-icon">
-											<i class="en-new s64"></i>
-										</div>
-										<div class="tile-content">
-											<div id="newProduct1">3548</div>
-											<h3>新品二</h3>
-										</div>
-									</div>
-								</div>
-								<div class="item">
-									<div class="tile magenta">
-										<!-- tile start here -->
-										<div class="tile-icon">
-											<i class="en-new s64"></i>
-										</div>
-										<div class="tile-content">
-											<div id="newProduct2">3548</div>
-											<h3>新品三</h3>
+											<h3 id="newProduct0h3">新品一</h3>
 										</div>
 									</div>
 								</div>
@@ -982,42 +986,37 @@
 									<div class="instagram-widget-image">
 										<div id="instagram-widget" class="carousel slide">
 											<!-- Indicators -->
-											<ol class="carousel-indicators dotstyle">
-												<li data-target="#instagram-widget" data-slide-to="0"
-													class="active"><a href="#">产品No.1</a></li>
-												<li data-target="#instagram-widget" data-slide-to="1"><a
-													href="#">产品No.2</a></li>
-												<li data-target="#instagram-widget" data-slide-to="2"><a
-													href="#">产品No.3</a></li>
-												<li data-target="#instagram-widget" data-slide-to="3"><a
-													href="#">产品No.4</a></li>
-												<li data-target="#instagram-widget" data-slide-to="4"><a
-													href="#">产品No.5</a></li>
+											<ol class="carousel-indicators dotstyle" id="indicatorsOl">
+												<li data-target="#instagram-widget" data-slide-to="0" class="active"><a href="#" id="indicatorsOl0">产品No.1</a></li>
+												<li data-target="#instagram-widget" data-slide-to="1"><a href="#" id="indicatorsOl1">产品No.2</a></li>
+												<li data-target="#instagram-widget" data-slide-to="2"><a href="#" id="indicatorsOl2">产品No.3</a></li>
+												<li data-target="#instagram-widget" data-slide-to="3"><a href="#" id="indicatorsOl3">产品No.4</a></li>
+												<li data-target="#instagram-widget" data-slide-to="4"><a href="#" id="indicatorsOl4">产品No.5</a></li>
 											</ol>
-											<div class="carousel-inner">
+											<div class="carousel-inner" id="indicatorsDiv">
 												<figure class="item active">
-													<img class="img-responsive"
+													<img class="img-responsive" id="indicatorsDiv0"
 														src="/resources/assets/img/instagram/instagram.jpg"
 														alt="image">
 												</figure>
 												<figure class="item">
-													<img class="img-responsive"
-														src="/resources/assets/img/instagram/instagram2.jpg"
+													<img class="img-responsive" id="indicatorsDiv1"
+														src="/resources/assets/img/instagram/instagram.jpg"
 														alt="image">
 												</figure>
 												<figure class="item">
-													<img class="img-responsive"
-														src="/resources/assets/img/instagram/instagram3.jpg"
+													<img class="img-responsive" id="indicatorsDiv2"
+														src="/resources/assets/img/instagram/instagram.jpg"
 														alt="image">
 												</figure>
 												<figure class="item">
-													<img class="img-responsive"
-														src="/resources/assets/img/instagram/instagram2.jpg"
+													<img class="img-responsive" id="indicatorsDiv3"
+														src="/resources/assets/img/instagram/instagram.jpg"
 														alt="image">
 												</figure>
 												<figure class="item">
-													<img class="img-responsive"
-														src="/resources/assets/img/instagram/instagram3.jpg"
+													<img class="img-responsive" id="indicatorsDiv4"
+														src="/resources/assets/img/instagram/instagram.jpg"
 														alt="image">
 												</figure>
 											</div>
