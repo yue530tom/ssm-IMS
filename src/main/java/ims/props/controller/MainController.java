@@ -2,6 +2,7 @@ package ims.props.controller;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -99,6 +100,52 @@ public class MainController {
         model.addAttribute("nowOrder",nowOrder);
         model.addAttribute("weekOrder",weekOrder);
         model.addAttribute("monthOrder",monthOrder);
+        
+        
+        //获取近一周每天的订单
+        ArrayList<JSONObject> listOrder = new ArrayList<>();
+        Date dateTemp=null;
+        long countOrderTemp=0;
+        map.remove("orderOperation");
+        for (int i = 0; i < 7; i++) {
+        	calendar.setTime(nowDate);
+        	HashMap<String, Long> orderTemp= new HashMap<>();
+        	calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)-i);
+            dateTemp = calendar.getTime();
+            System.err.println("\t\t======="+sdf.format(dateTemp));
+            map.put("orderDatetime", sdf.format(dateTemp));
+            countOrderTemp=orderService.getOrderInfo(map).size();
+            orderTemp.put(sdf.format(dateTemp), countOrderTemp);
+            listOrder.add(new JSONObject(orderTemp));
+		}
+        model.addAttribute("listOrder",listOrder);
+        
+	    //获取近一周每天的件数
+        
+	    //获取近一周每天的金额
+        
+        
+        
+        //再来一组按月份的统计报表，按订单数
+        
+        ArrayList<JSONObject> listOrderByMonth = new ArrayList<>();
+        Date dateYMTemp=null;
+        long countOrderByMonthTemp=0;
+        map.remove("orderOperation");
+        SimpleDateFormat sdfYM= new SimpleDateFormat("yyyy-MM");
+        for (int i = 0; i < 12; i++) {
+        	calendar.setTime(nowDate);
+        	HashMap<String, Long> orderTemp= new HashMap<>();
+        	calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)-i);
+        	dateYMTemp = calendar.getTime();
+            System.err.println("\t\t======="+sdfYM.format(dateYMTemp));
+            map.put("orderDatetime", sdfYM.format(dateYMTemp));
+            countOrderByMonthTemp=orderService.getOrderInfo(map).size();
+            orderTemp.put(sdfYM.format(dateYMTemp), countOrderByMonthTemp);
+            listOrderByMonth.add(new JSONObject(orderTemp));
+		}
+        model.addAttribute("listOrderByMonth",listOrderByMonth);
+        
         
         //2、从订单明细中统计数据：产品销售件数最多，产品涉及订单最多，产品按材料销售最多，产品按颜色销售最多
         

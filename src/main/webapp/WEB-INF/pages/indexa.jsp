@@ -172,34 +172,10 @@
 		
 		var recommendlist=${recommendlist};
 		for (var i = 0; i < recommendlist.length; i++) {
-			//console.log(ja[i].productId);
-			
-			//$("#indicatorsOl").append('<li data-target="#instagram-widget" data-slide-to="'+i+'" class="active"><a href="#">产品:'+recommendlist[i].productNo+'</a></li>');
-			//$("#indicatorsOl"+i).attr("href","/product/productDetails/"+recommendlist[i].productId);
 			$("#indicatorsOl"+i).html(recommendlist[i].productNo);
 			$("#indicatorsDiv"+i).attr("src",recommendlist[i].productImg);
 			
 		}
-/* 		for (var i = 0; i < ja.length; i++) {
-			//console.log(ja[i].productId);
-			$("#newProduct").html(ja[i].productId);
-			$("#newProduct").addClass("number");
-			if(i==0){
-				$("#indicatorsOl").append('<li data-target="#instagram-widget" data-slide-to="'+i+'" class="active"><a href="#">产品:'+ja[i].productNo+'</a></li>');
-			}else{
-				$("#indicatorsOl").append('<li data-target="#instagram-widget" data-slide-to="'+i+'"><a href="#">产品:'+ja[i].productNo+'</a></li>');				
-			}
-			$("#indicatorsDiv").append('<figure class="item active"><img class="img-responsive" src="'+ja[i].productImg+'" alt="image"></figure>');
-			
-		} */
-		
-		/* 
-		$("#newProductFirst").html(${newProductFirst});
-		$("#newProductFirst").addClass("number");
-		$("#newProductSecond").html(${newProductSecond});
-		$("#newProductSecond").addClass("number");
-		$("#newProductThird").html(${newProductThird});
-		$("#newProductThird").addClass("number"); */
 
 		console.log("countOrder:"+${countOrder}+"\tyestodayOrder:"+${yestodayOrder}+"\tnowOrder:"+${nowOrder}+"\tweekOrder:"+${weekOrder}+"\tmonthOrder:"+${monthOrder});
 		//https://www.cnblogs.com/caoyc/p/5635878.html
@@ -215,6 +191,50 @@
 			//console.log(ja[i].productId);
 		}
 		//console.log("======================");
+		
+		
+		var orderarr=[]
+		var listOrder=${listOrder};
+		for (var i = 0; i < listOrder.length; i++) {
+			console.log(listOrder[i]);
+			var tmp=[];
+			for(var key in listOrder[i]){
+				console.log("【key】:"+key+"\t【listOrder["+i+"]."+key+"】:"+listOrder[i][key]);
+				tmp.push(key);
+				tmp.push(listOrder[i][key]);
+				console.log("inner:"+tmp);
+			}
+			orderarr.push(tmp);
+			console.log("outter:"+tmp);
+			console.log("inner orderarr:"+orderarr);
+		}
+		
+		console.log(orderarr);
+		
+		
+		
+		
+		
+		var orderbymontharr=[]
+		var listOrderByMonth=${listOrderByMonth};
+		for (var i = 0; i < listOrderByMonth.length; i++) {
+			console.log(listOrderByMonth[i]);
+			var tmp=[];
+			for(var key in listOrderByMonth[i]){
+				console.log("【key】:"+key+"\t【listOrderByMonth["+i+"]."+key+"】:"+listOrderByMonth[i][key]);
+				tmp.push(key);
+				tmp.push(listOrderByMonth[i][key]);
+				console.log("inner:"+tmp);
+			}
+			orderbymontharr.push(tmp);
+			console.log("outter:"+tmp);
+			console.log("inner orderbymontharr:"+orderbymontharr);
+		}
+		
+		console.log(orderbymontharr);
+		
+		
+		
 		
 		ja=${recommendlist};
 		for (var i = 0; i < ja.length; i++) {
@@ -239,10 +259,15 @@
 			textcolor: '#5a5e63',
 			gray: objColors.gray
 		}
-
+		var d1=["vvv"]
+		d1.push(orderarr);
+		console.log("d1:"+d1);
 		var d1 = ["v",[["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]]];
 		var d2 = ["v2",[["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]]];
 		showchart(d1,d2,"#stats-orders");
+		linechart();
+		barschart(orderbymontharr);
+		donutchart(orderbymontharr);
 	});
 	function showchart(d1,d2,name) {
 		var options = {
@@ -423,9 +448,9 @@
 	}
 
 	//second bars chart
-	function barschart() {	
+	function barschart(data) {	
 		
-		var data = [["JAN", 1500], ["FEB", 1345], ["MAR", 1800], ["APR", 1670], ["MAY", 1780], ["JUN", 1500], ["JUL", 1350], ["AUG", 1700], ["SEP", 1890], ["OCT", 2000], ["NOV", 1950], ["DEC", 2000] ];
+		//var data = [["JAN", 1500], ["FEB", 1345], ["MAR", 1800], ["APR", 1670], ["MAY", 1780], ["JUN", 1500], ["JUL", 1350], ["AUG", 1700], ["SEP", 1890], ["OCT", 2000], ["NOV", 1950], ["DEC", 2000] ];
 		
 		//Replicate the existing bar data to reproduce bar fill effect
 		var arr= [];
@@ -478,7 +503,7 @@
 	}
 
 	//second donut chart
-	function donutchart() {
+	function donutchart(data) {
 		var options = {
 			series: {
 				pie: { 
@@ -995,54 +1020,25 @@
 											</ol>
 											<div class="carousel-inner" id="indicatorsDiv">
 												<figure class="item active">
-													<img class="img-responsive" id="indicatorsDiv0"
-														src="/resources/assets/img/instagram/instagram.jpg"
-														alt="image">
+													<img class="img-responsive" id="indicatorsDiv0" src="/resources/assets/img/instagram/instagram.jpg" alt="image">
 												</figure>
 												<figure class="item">
-													<img class="img-responsive" id="indicatorsDiv1"
-														src="/resources/assets/img/instagram/instagram.jpg"
-														alt="image">
+													<img class="img-responsive" id="indicatorsDiv1" src="/resources/assets/img/instagram/instagram.jpg" alt="image">
 												</figure>
 												<figure class="item">
-													<img class="img-responsive" id="indicatorsDiv2"
-														src="/resources/assets/img/instagram/instagram.jpg"
-														alt="image">
+													<img class="img-responsive" id="indicatorsDiv2" src="/resources/assets/img/instagram/instagram.jpg" alt="image">
 												</figure>
 												<figure class="item">
-													<img class="img-responsive" id="indicatorsDiv3"
-														src="/resources/assets/img/instagram/instagram.jpg"
-														alt="image">
+													<img class="img-responsive" id="indicatorsDiv3" src="/resources/assets/img/instagram/instagram.jpg" alt="image">
 												</figure>
 												<figure class="item">
-													<img class="img-responsive" id="indicatorsDiv4"
-														src="/resources/assets/img/instagram/instagram.jpg"
-														alt="image">
+													<img class="img-responsive" id="indicatorsDiv4" src="/resources/assets/img/instagram/instagram.jpg" alt="image">
 												</figure>
 											</div>
 										</div>
 										<!-- End Carousel -->
 									</div>
-									<div class="instagram-widget-footer">
-										<div class="col-lg-6 col-md-6 col-xs-6 text-center">
-											<!-- col-lg-6 start here -->
-											<p>
-												<a href="#"> <i class="ec-chat mr5"></i> <strong
-													class="instagram-widget-number">17</strong>
-												</a>
-											</p>
-										</div>
-										<!-- col-lg-6 end here -->
-										<div class="col-lg-6 col-md-6 col-xs-6 text-center">
-											<!-- col-lg-6 start here -->
-											<p>
-												<a href="#"> <i class="ec-heart mr5"></i> <strong
-													class="instagram-widget-number">27</strong>
-												</a>
-											</p>
-										</div>
-										<!-- col-lg-6 end here -->
-									</div>
+									
 								</div>
 							</div>
 						</div>
