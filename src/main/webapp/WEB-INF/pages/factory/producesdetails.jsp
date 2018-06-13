@@ -131,6 +131,8 @@
 }
 </style>
 <script type="text/javascript">
+	var arrIdName=[];
+	var arrIdNameReverse=[];
 	$(document).ready(function() {
 
 		initTable("{}");
@@ -160,10 +162,16 @@
 			var factoryId = factorys[i].factoryId;
 			var factoryName = factorys[i].factoryName;
 			
-			$("#factoryName").append('<option value="'+factoryId+'">'+factoryName+'</option>');
+			$("#producesOrderFactoryId").append('<option value="'+factoryId+'">'+factoryName+'</option>');
 		}
 
-		
+		propsDetails = ${propsDetails}
+		for (var i = 0; i < propsDetails.length; i++) {
+			var queryPropsDetailsId = propsDetails[i].queryPropsDetailsId;
+			var queryPropsDetailsName = propsDetails[i].queryPropsDetailsName;
+			arrIdName[queryPropsDetailsId]=queryPropsDetailsName;
+			arrIdNameReverse[queryPropsDetailsName]=queryPropsDetailsId;
+		}
 		
 	}
 	function checkUndefined(value){
@@ -251,12 +259,12 @@
 			}else{
 				$("#tr_" + i).append("<td><img id='img_" + i+ "' src=''/></td>");
 			}
-			$("#tr_" + i).append("<td>" + checkUndefined(productCategory) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(productColor) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(productSize) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(productMaterial) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(productCollar) + "</td>");
-			$("#tr_" + i).append("<td>" + checkUndefined(productPocket) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productCategory)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productColor)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productSize)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productMaterial)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productCollar)) + "</td>");
+			$("#tr_" + i).append("<td>" + checkUndefined(code2name(productPocket)) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(productCreate) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(productModify) + "</td>");
 			$("#tr_" + i).append(
@@ -401,6 +409,19 @@
 			return true;
 		}
 	}
+	
+	function code2name(code){
+		var result="";
+		if(code!=null&&code!=""){
+			var arr = code.split(",");
+			for(index in arr){
+				result=result+","+arrIdName[arr[index]];
+			}
+			return result.substring(1);
+		}else{
+			return result;
+		}
+	}
 	function doFilterCreate() {
 		var filterJs = {};
 		filterJs["method"] = "create";
@@ -413,8 +434,8 @@
 			filterJs["producesOrderNo"] = $("#producesOrderNo").val();
 		}
 		
-		if ($("#factoryName").val() != "") {
-			filterJs["factoryName"] = $("#factoryName").val();
+		if ($("#producesOrderFactoryId").val() != "") {
+			filterJs["producesOrderFactoryId"] = $("#producesOrderFactoryId").val();
 		}
 		if(result){
 			result=checkInputTextNull("#producesOrderContacts","联系人")&result;
@@ -710,8 +731,8 @@
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">工厂名称</label>
 										<div class="col-lg-8">
-											<select class="form-control select2" name="factoryName"
-												id="factoryName">
+											<select class="form-control select2" name="producesOrderFactoryId"
+												id="producesOrderFactoryId">
 											</select>
 										</div>
 									</div>

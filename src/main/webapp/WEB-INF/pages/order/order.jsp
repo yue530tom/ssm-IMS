@@ -256,18 +256,27 @@
 			$("#tr_" + i).append("<td>" + checkUndefined(orderCustSend) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(orderSumMoney) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(orderDeposit) + "</td>");
-			console.log("orderStatus:"+orderStatus)
 			if (orderStatus == 1) {
-				$("#tr_" + i).append("<td>有效</td>");
-			} else {
-				$("#tr_" + i).append("<td>废弃</td>");
+				$("#tr_" + i).append("<td align='center'><i class='en-new color-red s24'></i><span>NEW</span></td>");
+			} else if(orderStatus==2){
+				$("#tr_" + i).append("<td align='center'><i class='im-lock color-green s24'></i><span>FIN</span></td>");
+			}else{
+				$("#tr_" + i).append("<td align='center'><i class='br-cancel s24'></i><span>OBS</span></td>");
 			}
 			$("#tr_" + i).append("<td>" + checkUndefined(orderCreate) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(orderModify) + "</td>");
-			$("#tr_" + i).append(
-					'<td><button class="en-retweet btn btn-primary" onclick="doFilterAlert('
-							+ orderId + ');"></button> &nbsp;<button class="br-trashcan btn btn-primary" onclick="doFilterDelete('
-							+ orderId + ');"></button></td>');
+			if(orderStatus == 1){
+				$("#tr_" + i).append(
+						'<td><button class="im-lock btn btn-primary" onclick="doFilterComplate('
+								+ orderId + ');"></button> &nbsp;<button class="en-retweet btn btn-primary" onclick="doFilterAlert('
+								+ orderId + ');"></button> &nbsp;<button class="br-trashcan btn btn-primary" onclick="doFilterDelete('
+								+ orderId + ');"></button></td>');
+			}else{
+				$("#tr_" + i).append(
+						'<td><button class="br-trashcan btn btn-primary" onclick="doFilterDelete('
+								+ orderId + ');"></button></td>');
+			}
+			
 		}
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
@@ -434,9 +443,8 @@
 				filterJs["orderOperation"] = $("#orderOperation").val();
 			}
 		}
-		if ($("input[name='orderStatus']:checked").val() != "") {
-			filterJs["orderStatus"] = $("input[name='orderStatus']:checked")
-					.val();
+		if ($("#orderStatus").val() != "") {
+			filterJs["orderStatus"] = $("#orderStatus").val();
 		}
 
 		$("#buffer_span").text(JSON.stringify(filterJs));
@@ -479,26 +487,33 @@
 		if ($("#productRemarks").val() != "") {
 			filterJs["productRemarks"] = $("#productRemarks").val();
 		}
-		if ($("input[name='productStatus']:checked").val() != "") {
-			filterJs["productStatus"] = $("input[name='productStatus']:checked")
-					.val();
-		}
 		console.log(filterJs);
 		$("#buffer_span").text(JSON.stringify(filterJs));
 		initTable(JSON.stringify(filterJs));
 	}
 	
-	function doFilterDelete(tmpFactoryId) {
-		if(confirm("确认删除id=【"+tmpFactoryId+"】的订单，并删除响应的订单明细")==true){
+	function doFilterDelete(tmpOrderId) {
+		if(confirm("确认删除id=【"+tmpOrderId+"】的订单，并删除响应的订单明细")==true){
 			var filterJs = {};
 			filterJs["method"] = "delete";
-			filterJs["orderId"] = tmpFactoryId;
+			filterJs["orderId"] = tmpOrderId;
 			console.log(filterJs);
 			$("#buffer_span").text(JSON.stringify(filterJs));
 			initTable(JSON.stringify(filterJs));
 		}
 	}
-	function doFilterAlert(tmpFactoryId){
+	function doFilterComplate(tmpOrderId) {
+		if(confirm("确认完成id=【"+tmpOrderId+"】的订单，完成后将不可修改")==true){
+			var filterJs = {};
+			filterJs["method"] = "finish";
+			filterJs["orderId"] = tmpOrderId;
+			console.log(filterJs);
+			$("#buffer_span").text(JSON.stringify(filterJs));
+			initTable(JSON.stringify(filterJs));
+		}
+	}
+	
+	function doFilterAlert(tmpOrderId){
 		alert("还未实现该功能敬请期待~");
 	}
 	function checkInputTextNull(id,field){
@@ -933,12 +948,18 @@
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">订单状态</label>
 										<div class="col-lg-8" style="height: 34px">
-											<label class="radio col-lg-9"> <input
+											<select class="form-control select2" name="orderStatus" id="orderStatus">
+												<option value=""></option>
+												<option value="1" selected>未完成</option>
+												<option value="2">已完成</option>
+												<option value="0">已作废</option>
+											</select>
+											<!-- <label class="radio col-lg-9"> <input
 												id="orderStatus" type="radio" name="orderStatus"
 												class="col-lg-4 form-control" value="1" checked="checked">有效
 												<input id="orderStatuscp" type="radio"
 												name="ordertStatus" class="col-lg-4 form-control" value="0">无效
-											</label>
+											</label> -->
 										</div>
 									</div>
 									<div class="form-group  col-lg-3 col-md-3 col-sm-3 col-xs-3">

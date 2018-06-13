@@ -23,21 +23,27 @@
     	<result property="keyf" column="keyf" /> 
 	</resultMap>
 	<sql id="orderColumns">
-		orderdetails_id,orderdetails_product_id,orderdetails_product_num,orderdetails_product_price,orderdetails_product_material,orderdetails_product_color,orderdetails_product_size,orderdetails_product_collar,order_create,order_modify
+		orderdetails_id,order_id,orderdetails_product_id,orderdetails_product_num,orderdetails_product_price,orderdetails_product_material,orderdetails_product_color,orderdetails_product_size,orderdetails_product_collar,orderdetails_create,orderdetails_modify,orderdetails_remarks,orderdetails_status
 	</sql>
 
 
 	<select id="getOrderDetailsGroupBySum" resultMap="ordertopMap">
-    SELECT orderdetails_product_id keyf,sum(orderdetails_product_num) keyf_value from order_details WHERE orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
+    SELECT product_name keyf,sum(orderdetails_product_num) keyf_value from order_details,product WHERE product_id=orderdetails_product_id and orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
 	</select>
 	<select id="getOrderDetailsGroupByOrder" resultMap="ordertopMap">
-    SELECT orderdetails_product_id keyf,count(DISTINCT order_id) keyf_value from order_details WHERE orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
+    SELECT product_name keyf,count(DISTINCT order_id) keyf_value from order_details,product WHERE product_id=order_details.orderdetails_product_id and orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
 	</select>
 	<select id="getOrderDetailsGroupByMaterial" resultMap="ordertopMap">
-    SELECT orderdetails_product_material keyf,sum(orderdetails_product_num) keyf_value from order_details WHERE orderdetails_product_material IS NOT NULL group by orderdetails_product_material LIMIT 0,1;
+    SELECT props_details.props_details_name keyf,sum(orderdetails_product_num) keyf_value from order_details,props_details WHERE props_details.props_details_id=order_details.orderdetails_product_material and orderdetails_product_material IS NOT NULL group by orderdetails_product_material LIMIT 0,1;
 	</select>
 	<select id="getOrderDetailsGroupByColor" resultMap="ordertopMap">
-    SELECT orderdetails_product_color keyf,sum(orderdetails_product_num) keyf_value from order_details WHERE orderdetails_product_color IS NOT NULL group by orderdetails_product_color LIMIT 0,1;
+    SELECT props_details.props_details_name keyf,sum(orderdetails_product_num) keyf_value from order_details,props_details WHERE props_details.props_details_id=order_details.orderdetails_product_color and orderdetails_product_color IS NOT NULL group by orderdetails_product_color LIMIT 0,1;
+	</select>
+	
+	
+	<select id="getOrderDetailsByIds" resultMap="orderDetailsMap">
+    SELECT <include refid="orderColumns" />
+    from order_details where orderdetails_product_id in (#{_parameter});
 	</select>
 	<!--插入工厂信息 -->
 	<insert id="addOrderDetails" parameterType="OrderDetails" keyProperty="orderDetailsID"

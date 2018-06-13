@@ -318,11 +318,13 @@
 			}
 			$("#div_"+i).append('</div>');
 			
-			$("#div_"+i).append('<div  style="padding: 1px 1px;">数量:<input type="text" id="btn_num_'+i+'" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"/></div>');
+			/* $("#div_"+i).append('<div  style="padding: 1px 1px;">数量:<input type="text" id="btn_num_'+i+'" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"/></div>');
 			$("#div_"+i).append('<div  style="padding: 1px 1px;">价格:<input type="text" id="btn_price_'+i+'" maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"/></div>');
-			
-			
-			$("#div_"+i).append('<div id="addtoproduces_'+i+'" style="padding: 1px 2px;"><button id="addtoproduces_"+'+i+' class="im-truck btn btn-primary" onclick="addtoproduces('+i+');">准备做货</button></div>');
+			 */
+			$("#div_"+i).append('<div class="input-group col-lg-8 col-md-8 col-sm-8 col-xs-8"><span class="input-group-addon">数量</span><input id="btn_num_'+i+'" type="text" class="col-lg-4 form-control"  maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"placeholder="数量:小于10位的数字"><span class="input-group-addon">件/套</span></div>');
+			$("#div_"+i).append('<div class="input-group col-lg-8 col-md-8 col-sm-8 col-xs-8"><span class="input-group-addon">价格</span><input id="btn_price_'+i+'" type="text" class="col-lg-4 form-control"  maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,\'\')"placeholder="预付金额:小于10位的数字"><span class="input-group-addon">RMB</span></div>');
+
+			$("#div_"+i).append('<div class="input-group col-lg-8 col-md-8 col-sm-8 col-xs-8" id="addtoproduces_'+i+'" style="padding-top:5px;"><button id="addtoproduces_"+'+i+' class="im-truck btn btn-primary col-lg-4 form-control" onclick="addtoproduces('+i+');">准备做货</button></div>');
 			
 			$("#div_propslist").append('</div></div>');
 			if(productImg!=null&&productImg!=""){

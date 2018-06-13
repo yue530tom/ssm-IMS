@@ -11,6 +11,7 @@ public class Order {
 	private String orderCustPhone;
 	private String orderCustSend;
 	private String orderSumMoney;
+	private String orderSumCount;
 	private String orderDeposit;
 	private String orderCreate;
 	private String orderModify;
@@ -81,6 +82,14 @@ public class Order {
 		this.orderSumMoney = orderSumMoney;
 	}
 
+	public String getOrderSumCount() {
+		return orderSumCount;
+	}
+
+	public void setOrderSumCount(String orderSumCount) {
+		this.orderSumCount = orderSumCount;
+	}
+
 	public String getOrderDeposit() {
 		return orderDeposit;
 	}
@@ -109,8 +118,9 @@ public class Order {
 	public String toString() {
 		return "Order [orderId=" + orderId + ", orderNo=" + orderNo + ", orderCustName=" + orderCustName
 				+ ", orderCustPhone=" + orderCustPhone + ", orderCustSend=" + orderCustSend + ", orderSumMoney="
-				+ orderSumMoney + ", orderDeposit=" + orderDeposit + ", orderCreate=" + orderCreate + ", orderModify="
-				+ orderModify + ", orderRemarks=" + orderRemarks + ", orderStatus=" + orderStatus + "]";
+				+ orderSumMoney + ", orderSumCount=" + orderSumCount + ", orderDeposit=" + orderDeposit + ", orderCreate="
+				+ orderCreate + ", orderModify=" + orderModify + ", orderRemarks=" + orderRemarks + ", orderStatus="
+				+ orderStatus + "]";
 	}
 
 }

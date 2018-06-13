@@ -116,8 +116,20 @@
 	<script>
 	var objColors = "";
 	var colours = {};
+	var arrIdName=[];
+	var arrIdNameReverse=[];
+	function initPropsDetailsSelectOption(){
+		propsDetails = ${propsDetails}
+		//console.log(props);
+		for (var i = 0; i < propsDetails.length; i++) {
+			var queryPropsDetailsId = propsDetails[i].queryPropsDetailsId;
+			var queryPropsDetailsName = propsDetails[i].queryPropsDetailsName;
+			arrIdName[queryPropsDetailsId]=queryPropsDetailsName;
+			arrIdNameReverse[queryPropsDetailsName]=queryPropsDetailsId;
+		}
+	}
 	$(document).ready(function() {
-		
+		initPropsDetailsSelectOption();
 		
 		$("#countOrder").html(${countOrder});
 		$("#countOrder").addClass("number");
@@ -136,28 +148,30 @@
 		var bymaterial =${bymaterial};
 		var bycolor =${bycolor};
 		
-		
+		console.log(arrIdName);
+		console.log(arrIdNameReverse);
 		$("#bysum").html(bysum.keyf_value);
 		$("#bysum").addClass("number");
+		$("#bysumh3").html($("#bysumh3").html()+":"+bysum.keyf);
 		
 		$("#byorder").html(byorder.keyf_value);
 		$("#byorder").addClass("number");
+		$("#byorderh3").html($("#byorderh3").html()+":"+byorder.keyf);
 		
 		$("#bymaterial").html(bymaterial.keyf_value);
 		$("#bymaterial").addClass("number");
+		$("#bymaterialh3").html($("#bymaterialh3").html()+":"+bymaterial.keyf);
 		
 		$("#bycolor").html(bycolor.keyf_value);
 		$("#bycolor").addClass("number");
+		$("#bycolorh3").html($("#bycolorh3").html()+":"+bycolor.keyf);
 		
 		
-		$("#allCount").html(${allCount});
-		$("#allCount").addClass("number");
-		$("#allMoney").html(${allMoney});
-		$("#allMoney").addClass("number");
-		$("#monthCount").html(${monthCount});
-		$("#monthCount").addClass("number");
-		$("#monthMoney").html(${monthMoney});
-		$("#monthMoney").addClass("number");
+		$("#allNewSumCount").html(${allNewSumCount});
+		$("#allNewSumCount").addClass("number");
+		
+		
+		
 		var toplist=${toplist};
 		for(var i=0;i<toplist.length;i++){
 			if(i==0){
@@ -177,14 +191,14 @@
 			
 		}
 
-		console.log("countOrder:"+${countOrder}+"\tyestodayOrder:"+${yestodayOrder}+"\tnowOrder:"+${nowOrder}+"\tweekOrder:"+${weekOrder}+"\tmonthOrder:"+${monthOrder});
+		//console.log("countOrder:"+${countOrder}+"\tyestodayOrder:"+${yestodayOrder}+"\tnowOrder:"+${nowOrder}+"\tweekOrder:"+${weekOrder}+"\tmonthOrder:"+${monthOrder});
 		//https://www.cnblogs.com/caoyc/p/5635878.html
 		//https://www.cnblogs.com/mrxiaohe/p/5893708.html
 	
-		console.log("bysum:"+bysum.keyf+"\t"+bysum.keyf_value);
-		console.log("byorder:"+byorder.keyf+"\t"+byorder.keyf_value);
-		console.log("bymaterial:"+bymaterial.keyf+"\t"+bymaterial.keyf_value);
-		console.log("bycolor:"+bycolor.keyf+"\t"+bycolor.keyf_value);
+		//console.log("bysum:"+bysum.keyf+"\t"+bysum.keyf_value);
+		//console.log("byorder:"+byorder.keyf+"\t"+byorder.keyf_value);
+		//console.log("bymaterial:"+bymaterial.keyf+"\t"+bymaterial.keyf_value);
+		//console.log("bycolor:"+bycolor.keyf+"\t"+bycolor.keyf_value);
 		//console.log("toplist:"+${toplist})
 		var ja=${toplist};
 		for (var i = 0; i < ja.length; i++) {
@@ -192,54 +206,79 @@
 		}
 		//console.log("======================");
 		
+		var orderarr=[];
+		var orderCount=[];
+		var orderSumCount=[];
+		var orderSumMoney=[];
 		
-		var orderarr=[]
+		orderarr.push(orderCount);
+		orderarr.push(orderSumCount);
+		orderarr.push(orderSumMoney);
+		
+		
 		var listOrder=${listOrder};
 		for (var i = 0; i < listOrder.length; i++) {
-			console.log(listOrder[i]);
-			var tmp=[];
+			var arrTmp=[];
 			for(var key in listOrder[i]){
-				console.log("【key】:"+key+"\t【listOrder["+i+"]."+key+"】:"+listOrder[i][key]);
-				tmp.push(key);
-				tmp.push(listOrder[i][key]);
-				console.log("inner:"+tmp);
+				var tmp=[];
+				//console.log("【key】:"+key+"\t【listOrder["+i+"]."+key+"】:"+listOrder[i][key]);
+				arrTmp=String(listOrder[i][key]).split(",");
+				for(var j=0;j<arrTmp.length;j++){
+					tmp=[];
+					tmp.push(key);
+					tmp.push(arrTmp[j]);
+					orderarr[j].unshift(tmp);
+				}
 			}
-			orderarr.push(tmp);
-			console.log("outter:"+tmp);
-			console.log("inner orderarr:"+orderarr);
 		}
 		
-		console.log(orderarr);
+		for(var k=0;k<orderarr.length;k++){
+			//console.log("orderarr["+k+"]:===>"+orderarr[k]);
+		}
+		
+		
+		$("#countToday").html(${nowOrder});
+		$("#countToday").addClass('number');
+		$("#countYesterday").html(${yestodayOrder});
+		$("#countYesterday").addClass('number');
+		$("#countWeek").html(${weekOrder});
+		$("#countWeek").addClass('number');
+		$("#countTotal").html(${countOrder});
+		$("#countTotal").addClass('number');
 		
 		
 		
+		var orderByMontharr=[]
+		var orderByMonthCount=[];
+		var orderByMonthSumMoney=[];
 		
+		orderByMontharr.push(orderByMonthCount);
+		orderByMontharr.push(orderByMonthSumMoney);
 		
-		var orderbymontharr=[]
 		var listOrderByMonth=${listOrderByMonth};
 		for (var i = 0; i < listOrderByMonth.length; i++) {
-			console.log(listOrderByMonth[i]);
-			var tmp=[];
+			//console.log(listOrderByMonth[i]);
+			
+			var arrTmp=[];
 			for(var key in listOrderByMonth[i]){
-				console.log("【key】:"+key+"\t【listOrderByMonth["+i+"]."+key+"】:"+listOrderByMonth[i][key]);
+				var tmp=[];
+				//console.log("【key】:"+key+"\t【listOrderByMonth["+i+"]."+key+"】:"+listOrderByMonth[i][key]);
 				tmp.push(key);
 				tmp.push(listOrderByMonth[i][key]);
-				console.log("inner:"+tmp);
+				
+				arrTmp=String(listOrderByMonth[i][key]).split(",");
+				for(var j=0;j<arrTmp.length;j++){
+					tmp=[];
+					tmp.push(key);
+					tmp.push(arrTmp[j]);
+					orderByMontharr[j].unshift(tmp);
+				}
 			}
-			orderbymontharr.push(tmp);
-			console.log("outter:"+tmp);
-			console.log("inner orderbymontharr:"+orderbymontharr);
 		}
+
+		$("#product_recommend").html(${orderDetailsSumCount});
+		$("#product_recommend").addClass('instagram-widget-number');
 		
-		console.log(orderbymontharr);
-		
-		
-		
-		
-		ja=${recommendlist};
-		for (var i = 0; i < ja.length; i++) {
-			//console.log(ja[i].productId);
-		}
 		
 		objColors = $('body').data('sprFlat').getColors();
 		colours = {
@@ -259,15 +298,18 @@
 			textcolor: '#5a5e63',
 			gray: objColors.gray
 		}
-		var d1=["vvv"]
-		d1.push(orderarr);
-		console.log("d1:"+d1);
-		var d1 = ["v",[["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]]];
-		var d2 = ["v2",[["MON", randNum()], ["TUE", randNum()], ["WED", randNum()], ["THU", randNum()], ["FRI", randNum()], ["SAT", randNum()], ["SUN", randNum()]]];
-		showchart(d1,d2,"#stats-orders");
-		linechart();
-		barschart(orderbymontharr);
-		donutchart(orderbymontharr);
+		var data_orderCount=["单日订单"];
+		data_orderCount.push(orderarr[0]);
+		var data_orderSumCount=["单日件数"];
+		data_orderSumCount.push(orderarr[1]);
+		var data_orderSumMoney=["单日金额"];
+		data_orderSumMoney.push(orderarr[2]);
+		console.log("data_orderSumMoney:"+data_orderSumMoney[1][0][0]+"\t"+data_orderSumMoney[1][0][1]);
+		showchart(data_orderCount,data_orderSumCount,"#stats-orders");
+		linechart(data_orderSumMoney);
+		barschart(orderByMontharr[1]);
+		donutchart(orderByMontharr[0]);
+		console.log("orderByMontharr:"+orderByMontharr[0]);
 	});
 	function showchart(d1,d2,name) {
 		var options = {
@@ -302,7 +344,7 @@
 	            	strokeColor: colours.white 
 	            }
 	        },
-	        colors: [colours.dark, colours.blue],
+	        colors: [colours.blue,colours.green],
 	        legend: { 
 	        	show:true,
 	        	position: "ne", 
@@ -347,24 +389,24 @@
 		);
 
 	}
-	function linechart() {
+	function linechart(data) {
 
-		//first line chart
-		var d1 = [];
-		//here we generate randomdata data for chart
-		for (var i = 0; i < 8; i++) {
-			d1.push([new Date(Date.today().add(i).days()).getTime(),randNum()]);
+		var transData=[]
+		for(var i=0;i<data[1].length;i++){
+			var tmp=[];
+			tmp.push(new Date(data[1][i][0]).getTime());
+			tmp.push(data[1][i][1]);
+			transData.push(tmp);
 		}
-
-		var chartMinDate = d1[0][0]; //first day
-		var chartMaxDate = d1[7][0];//last day
+		var chartMinDate = transData[0][0]; //first day
+		var chartMaxDate = transData[6][0];//last day
 
 		var tickSize = [1, "day"];
 		var tformat = "%d/%m/%y";
 		var total = 0;
 		//calculate total earnings for this period
-		for (var i = 0; i < 8; i++) {
-			total = d1[i][1] + total;
+		for (var i = 0; i < transData.length; i++) {
+			total = parseInt(transData[i][1]) + total;
 		}
 
 		var options = {
@@ -407,7 +449,7 @@
 	        	noColumns: 0,
 	        	labelBoxBorderColor: null,
 	        	labelFormatter: function(label, series) {
-				    return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ 'Total: $'+ total +'</div>';
+				    return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ 'Total: ￥'+ total +'</div>';
 				},
 				backgroundColor: colours.blue,
 				backgroundOpacity: 0.5,
@@ -440,8 +482,8 @@
 		}
 
 		var plot = $.plot($("#stats-earnings"),[{
-				label: "Earnings", 
-				data: d1,
+				label: data[0], 
+				data: transData,
 			}], options
 		);
 
@@ -454,14 +496,19 @@
 		
 		//Replicate the existing bar data to reproduce bar fill effect
 		var arr= [];
+		var dataArr=[]
 		for (var i = 0; i <= data.length -1; i++) {
-			arr.push(data[i][1]);
+			arr.push(parseInt(data[i][1]));
+			var tmp=[];
+			tmp.push(data[i][0]);
+			tmp.push(parseInt(data[i][1]));
+			dataArr.push(tmp);
 		};
 		var largest = Math.max.apply(Math, arr) + 50;
 		d1 = [];
 		for (var i = 0; i <= data.length -1; i++) {
 			sum = largest - data[i][1];
-			d1.push([data[i][0],sum]);
+			d1.push([dataArr[i][0],sum]);
 		};
 
 		var options = {
@@ -470,7 +517,7 @@
 			},
 			bars: {
 				show:true,
-				barWidth: 0.6,
+				barWidth: 0.5,
 				fill:1,
 				align: "center"
 			},
@@ -483,7 +530,7 @@
 	        colors: [colours.green, colours.gray],
 	        tooltip: true, //activate tooltip
 			tooltipOpts: {
-				content: "$%y.0",
+				content: "￥ %y.0",
 				shifts: {
 					x: -30,
 					y: -50
@@ -499,7 +546,7 @@
 	        }
 		};
 		 
-		$.plot($("#stats-earnings-bars"), [data, d1], options);
+		$.plot($("#stats-earnings-bars"), [dataArr, d1], options);
 	}
 
 	//second donut chart
@@ -508,7 +555,7 @@
 			series: {
 				pie: { 
 					show: true,
-					innerRadius: 0.55,
+					innerRadius: 0.5,
 					highlight: {
 						opacity: 0.1
 					},
@@ -525,7 +572,7 @@
 				    return '<div style="font-weight:bold;font-size:13px;">'+ label +'</div>'
 				},
 				labelBoxBorderColor: null,
-				margin: 50,
+				margin: 10,
 				width: 20,
 				padding: 1
 			},
@@ -535,7 +582,7 @@
 	        },
 	        tooltip: true, //activate tooltip
 			tooltipOpts: {
-				content: "%s : %y.1"+"%",
+				content: "%s : %y.0",
 				shifts: {
 					x: -30,
 					y: -50
@@ -544,13 +591,23 @@
 				defaultTheme: false
 			}
 		};
-		var data = [
-		    { label: "Coding",  data: 68, color: colours.red},
-		    { label: "Design",  data: 20, color: colours.green},
-		    { label: "SEO",  data: 12, color: colours.blue}
-		];
-	    $.plot($("#stats-earnings-category"), data, options);
+		var colorArr=[objColors.dark,objColors.red,objColors.blue,objColors.green,objColors.yellow,objColors.brown,objColors.orange,objColors.purple,objColors.pink,objColors.gray,objColors.lime,objColors.teal];
+		var dataArr=[];
+		for(var i=0;i<data.length;i++){
+			var tmp={label: data[i][0],  data: data[i][1], color: colorArr[i] }
+			dataArr.push(tmp);
+		}
 
+	    $.plot($("#stats-earnings-category"), dataArr, options);
+
+	}
+	function checkUndefined(value){
+		 var undefined = void(0);
+		 if(value==undefined){
+			 return "";
+		 }else{
+			 return value;
+		 }
 	}
 	</script>
 </head>
@@ -679,7 +736,7 @@
 									id="dropdownMenu1"><i class="br-grid s24"></i></a>
 								<div class="dropdown-menu pull-right" role="menu"
 									aria-labelledby="dropdownMenu1">
-										<div class="option-dropdown">
+									<div class="option-dropdown">
 										<div class="shortcut-button">
 											<a href="/view/toViewPage"> <i class="fa-search"></i> <span>产品浏览</span>
 											</a>
@@ -801,7 +858,7 @@
 										</div>
 										<div class="tile-content">
 											<div id="bysum"></div>
-											<h3>按数量</h3>
+											<h3 id="bysumh3">按数量</h3>
 										</div>
 									</div>
 								</div>
@@ -813,7 +870,7 @@
 										</div>
 										<div class="tile-content">
 											<div id="byorder"></div>
-											<h3>按订单</h3>
+											<h3 id="byorderh3">按订单</h3>
 										</div>
 									</div>
 								</div>
@@ -825,7 +882,7 @@
 										</div>
 										<div class="tile-content">
 											<div id="bymaterial"></div>
-											<h3>按材质</h3>
+											<h3 id="bymaterialh3">按材质</h3>
 										</div>
 									</div>
 								</div>
@@ -837,7 +894,7 @@
 										</div>
 										<div class="tile-content">
 											<div id="bycolor"></div>
-											<h3>按颜色</h3>
+											<h3 id="bycolorh3">按颜色</h3>
 										</div>
 									</div>
 								</div>
@@ -854,20 +911,20 @@
 											<i class="im-cart3 s64"></i>
 										</div>
 										<div class="tile-content">
-											<div id="allCount"></div>
-											<h3>总件数</h3>
+											<div id="allNewSumCount"></div>
+											<h3>未完成订单总件数</h3>
 										</div>
 									</div>
 								</div>
-								<div class="item">
+<!-- 								<div class="item">
 									<div class="tile purple">
-										<!-- tile start here -->
+										tile start here
 										<div class="tile-icon">
 											<i class="im-coin s64"></i>
 										</div>
 										<div class="tile-content">
-											<div id="allMoney">2540</div>
-											<h3>总金额</h3>
+											<div id="allMoney"></div>
+											<h3>正在做</h3>
 										</div>
 									</div>
 								</div>
@@ -877,23 +934,23 @@
 											<i class="im-stats s64"></i>
 										</div>
 										<div class="tile-content">
-											<div id="monthCount">325</div>
+											<div id="monthCount"></div>
 											<h3>近一个月件数</h3>
 										</div>
 									</div>
 								</div>
 								<div class="item">
 									<div class="tile purple">
-										<!-- tile start here -->
+										tile start here
 										<div class="tile-icon">
 											<i class="im-bars s64"></i>
 										</div>
 										<div class="tile-content">
-											<div id="monthMoney">2540</div>
+											<div id="monthMoney"></div>
 											<h3>近一个月金额</h3>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<!-- End Carousel -->
@@ -928,7 +985,7 @@
 							<!-- Start .panel -->
 							<div class="panel-heading">
 								<h4 class="panel-title">
-									<i class="im-bars"></i> orders views
+									<i class="im-bars"></i>近一周单日统计
 								</h4>
 							</div>
 							<div class="panel-body">
@@ -983,29 +1040,29 @@
 							<div class="panel-body p0">
 								<div class="instagram-widget">
 									<div class="instagram-widget-header gray-bg">
-										<div class="col-lg-4 col-md-4 col-xs-4 text-center">
+										<div class="col-lg-12 col-md-12 col-xs-12 text-center">
 											<!-- col-lg-4 start here -->
 											<a href="#">
 												<p class="instagram-widget-text">已定 </p> <strong
-												class="instagram-widget-number">1256</strong>
+												 id="product_recommend">1256</strong>
 											</a>
 										</div>
-										<!-- col-lg-4 end here -->
+										<!-- col-lg-4 end here
 										<div class="col-lg-4 col-md-4 col-xs-4 text-center">
-											<!-- col-lg-4 start here -->
+											col-lg-4 start here
 											<a href="#">
 												<p class="instagram-widget-text">Following</p> <strong
 												class="instagram-widget-number">345</strong>
 											</a>
 										</div>
-										<!-- col-lg-4 end here -->
+										col-lg-4 end here
 										<div class="col-lg-4 col-md-4 col-xs-4 text-center">
-											<!-- col-lg-4 start here -->
+											col-lg-4 start here
 											<a href="#">
 												<p class="instagram-widget-text">Shots</p> <strong
 												class="instagram-widget-number">176</strong>
 											</a>
-										</div>
+										</div> -->
 										<!-- col-lg-4 end here -->
 									</div>
 									<div class="instagram-widget-image">
@@ -1061,9 +1118,9 @@
 							</div>
 							<div class="panel-footer white-bg">
 								<div id="stats-earnings-category" class="col-lg-6 col-md-12"
-									style="height: 150px;"></div>
+									style="height: 200px;"></div>
 								<div id="stats-earnings-bars" class="col-lg-6 col-md-12"
-									style="height: 150px;"></div>
+									style="height: 200px;"></div>
 							</div>
 						</div>
 						<!-- End .panel -->
@@ -1082,7 +1139,6 @@
 	</div>
 	<!-- End #content -->
 	<!-- Javascripts -->
-	
 <div id="tip_message" style="font-size:30px;width:500px;z-index: 9999;position: fixed ;background: #C0C0C0; text-align: center; color: #0000FF;top:50%; left:50%; right: auto;  bottom: auto ;margin-left:-250px" ></div>
 </body>
 </html>

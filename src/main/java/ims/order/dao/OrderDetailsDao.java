@@ -80,4 +80,6 @@ SELECT orderdetails_product_color,sum(orderdetails_product_num) from order_detai
 	 * 
 	 * */
 	
+	List<OrderDetails> getOrderDetailsByIds(String ids);
+	
 }

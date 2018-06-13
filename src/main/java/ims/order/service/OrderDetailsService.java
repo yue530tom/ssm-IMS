@@ -61,4 +61,6 @@ public interface OrderDetailsService {
 	HashMap<String, String> getOrderDetailsGroupByOrder(HashMap<String, Object> map);
 	HashMap<String, String> getOrderDetailsGroupByMaterial(HashMap<String, Object> map);
 	HashMap<String, String> getOrderDetailsGroupByColor(HashMap<String, Object> map);
+	
+	List<OrderDetails> getOrderDetailsByIds(String ids);
 }

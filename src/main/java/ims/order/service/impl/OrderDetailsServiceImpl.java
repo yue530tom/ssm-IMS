@@ -107,4 +107,13 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		return null;
 	}
 
+	@Override
+	public List<OrderDetails> getOrderDetailsByIds(String ids) {
+		// TODO Auto-generated method stub
+		if (orderDetailsDao != null) {
+			return orderDetailsDao.getOrderDetailsByIds(ids);
+		}
+		return null;
+	}
+
 }

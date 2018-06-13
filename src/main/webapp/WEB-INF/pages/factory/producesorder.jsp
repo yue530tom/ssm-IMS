@@ -228,7 +228,7 @@
 			$("#table_produceslist").append('<tr id="tr_' + i+ '"></tr>');
 			$("#tr_" + i).append('<td>' + checkUndefined(producesId) + '</td>');
 			$("#tr_" + i).append('<td>' + checkUndefined(producesOrderNo) + '</td>');
-			$("#tr_" + i).append('<td>' + checkUndefined(producesOrderFactoryId) + '</td>');
+			$("#tr_" + i).append('<td>' + checkUndefined(code2name(producesOrderFactoryId)) + '</td>');
 			$("#tr_" + i).append('<td>' + checkUndefined(producesCount) + '</td>');
 			$("#tr_" + i).append('<td>' + checkUndefined(producesDepost) + '</td>');
 			$("#tr_" + i).append('<td>' + checkUndefined(producesCreate) + '</td>');
@@ -240,7 +240,19 @@
 		$("#record_sum").text(ja.length).css("color", "rgba(255, 0, 0, 0.71)");
 	}
 
-	
+ 	function code2name(code){
+		var result="";
+		if(code!=null&&code!=""){
+			/* var arr = code.split(",");
+			for(index in arr){
+				result=result+","+arrFactorys[arr[index]];
+			} */
+			result=result+","+arrFactorys[code]
+			return result.substring(1);
+		}else{
+			return result;
+		}
+	} 
 	function addtoproduces(id){
 		//获取属性
 		//增加到购物车
@@ -497,7 +509,7 @@
 		//https://www.cnblogs.com/youhong/p/7221080.html?utm_source=itdadao&utm_medium=referral
 	}
 	
-	function code2name(code){
+/* 	function code2name(code){
 		var result="";
 		if(code!=null&&code!=""){
 			var arr = code.split(",");
@@ -508,7 +520,7 @@
 		}else{
 			return result;
 		}
-	}
+	} */
 	function name2code(name){
 		var result="";
 		if(name!=null&&name!=""){
@@ -559,7 +571,6 @@
 			var arr = code.split(",");
 			//console.log("code:"+code);
 			for(index in arr){
-				//console.log("id:"+divid+"\tname:"+namegroup+"\tindex:"+index+"\tarr["+index+"]:"+arr[index]+"\tcode2name("+arr[index]+"):"+code2name(arr[index]));
 				$(divid).append("<input type='checkbox' name='"+namegroup+"' value='"+arr[index]+"'>"+code2name(arr[index]));
 			}
 		}

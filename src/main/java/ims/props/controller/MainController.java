@@ -18,11 +18,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import ims.order.domain.Order;
+import ims.order.domain.OrderDetails;
 import ims.order.service.OrderDetailsService;
 import ims.order.service.OrderService;
 import ims.product.domain.Product;
 import ims.product.service.ProductService;
+import ims.props.domain.PropsDetails;
+import ims.props.service.PropsDetailsService;
 
 /**
  * 
@@ -39,13 +42,15 @@ public class MainController {
 	private final OrderService orderService;
 	private final OrderDetailsService orderDetailsService;
 	private final ProductService productService;
+	private final PropsDetailsService propsDetailsService;
 	
 
 	@Autowired
-	public MainController(OrderService orderService,OrderDetailsService orderDetailsService,ProductService productService) {
+	public MainController(OrderService orderService,OrderDetailsService orderDetailsService,ProductService productService,PropsDetailsService propsDetailsService) {
 		this.orderService=orderService;
 		this.orderDetailsService=orderDetailsService;
 		this.productService = productService;
+		this.propsDetailsService = propsDetailsService;
 	}
     /**
      * 主页
@@ -63,28 +68,24 @@ public class MainController {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nowDate);
         Date now = calendar.getTime();
-        System.out.println("当前时间="+sdf.format(now));
         
         calendar.setTime(nowDate);
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)-1);
         Date yestaday = calendar.getTime();
-        System.out.println("往前推1天"+sdf.format(yestaday));
         
         calendar.setTime(nowDate);
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)-7);
         Date aweekago = calendar.getTime();
-        System.out.println("往前推1周的时间"+sdf.format(aweekago));
         
         calendar.setTime(nowDate);
         calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)-1);
         Date amonthago = calendar.getTime();
-        System.out.println("往前推1个月的时间"+sdf.format(amonthago));
         
         //一下四类数据为滚动统计展示使用
         //1、从订单中统计数据：总共订单数、当天订单数、近一周订单数、近一个月订单数
         HashMap<String, Object> map = new HashMap<>();
+        map.put("orderStatus", "5");
         long countOrder=orderService.getOrderInfo(map).size();
-        
         map.put("orderDatetime", sdf.format(now));
         long nowOrder=orderService.getOrderInfo(map).size();
         map.put("orderDatetime", sdf.format(yestaday));
@@ -105,17 +106,31 @@ public class MainController {
         //获取近一周每天的订单
         ArrayList<JSONObject> listOrder = new ArrayList<>();
         Date dateTemp=null;
-        long countOrderTemp=0;
+        
         map.remove("orderOperation");
+        List<Order> listByDay = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
+        	long countOrderTemp=0,sumCount=0,sumMoney=0;
         	calendar.setTime(nowDate);
-        	HashMap<String, Long> orderTemp= new HashMap<>();
+        	HashMap<String, List<Long>> orderTemp= new HashMap<>();
+        	List<Long> sizeCountMoney = new ArrayList<>();
         	calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)-i);
             dateTemp = calendar.getTime();
-            System.err.println("\t\t======="+sdf.format(dateTemp));
             map.put("orderDatetime", sdf.format(dateTemp));
-            countOrderTemp=orderService.getOrderInfo(map).size();
-            orderTemp.put(sdf.format(dateTemp), countOrderTemp);
+            
+            listByDay=orderService.getOrderInfo(map);
+            countOrderTemp=listByDay.size();
+            for(Order order : listByDay) {
+            	sumCount+=Long.valueOf(order.getOrderSumCount());
+            	sumMoney+=Long.valueOf(order.getOrderSumMoney());
+            }
+            
+            sizeCountMoney.add(countOrderTemp);
+            sizeCountMoney.add(sumCount);
+            sizeCountMoney.add(sumMoney);
+            
+            
+            orderTemp.put(sdf.format(dateTemp), sizeCountMoney);
             listOrder.add(new JSONObject(orderTemp));
 		}
         model.addAttribute("listOrder",listOrder);
@@ -130,18 +145,29 @@ public class MainController {
         
         ArrayList<JSONObject> listOrderByMonth = new ArrayList<>();
         Date dateYMTemp=null;
-        long countOrderByMonthTemp=0;
+        long countOrderByMonthTemp=0,countOrderMoneyByMonthTemp=0;
+        List<Order> listByMonth= new ArrayList<>();
         map.remove("orderOperation");
         SimpleDateFormat sdfYM= new SimpleDateFormat("yyyy-MM");
         for (int i = 0; i < 12; i++) {
+        	countOrderMoneyByMonthTemp=0;
+        	List<Long> countMoney = new ArrayList<>();
         	calendar.setTime(nowDate);
-        	HashMap<String, Long> orderTemp= new HashMap<>();
+        	HashMap<String, List<Long>> orderTemp= new HashMap<>();
         	calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)-i);
         	dateYMTemp = calendar.getTime();
-            System.err.println("\t\t======="+sdfYM.format(dateYMTemp));
             map.put("orderDatetime", sdfYM.format(dateYMTemp));
-            countOrderByMonthTemp=orderService.getOrderInfo(map).size();
-            orderTemp.put(sdfYM.format(dateYMTemp), countOrderByMonthTemp);
+            listByMonth=orderService.getOrderInfo(map);
+            
+            countOrderByMonthTemp=listByMonth.size();
+            for(Order order : listByMonth) {
+            	countOrderMoneyByMonthTemp+=Long.valueOf(order.getOrderSumMoney());
+            }
+            
+            countMoney.add(countOrderByMonthTemp);
+            countMoney.add(countOrderMoneyByMonthTemp);
+            
+            orderTemp.put(sdfYM.format(dateYMTemp), countMoney);
             listOrderByMonth.add(new JSONObject(orderTemp));
 		}
         model.addAttribute("listOrderByMonth",listOrderByMonth);
@@ -165,6 +191,17 @@ public class MainController {
         model.addAttribute("bycolor",new JSONObject(statsResultMap));
         //3、从做货明细中统计：正在做货的量，已完结做货量，未做货量
         //未做货：从订单明细中统计总的-已完结做货量-正在做货量
+        
+        map.clear();
+        map.put("orderStatus", "1");
+        List<Order> listAll= new ArrayList<>();
+        listAll= orderService.getOrderInfo(map);
+        long allNewSumCount=0;
+        for(Order order : listAll) {
+        	allNewSumCount+=Long.valueOf(order.getOrderSumCount());
+        }
+        
+        model.addAttribute("allNewSumCount",allNewSumCount);
         
         //4、从产品中统计：按日期倒序前5个产品
         List<Product> list=productService.getTopFive();
@@ -201,6 +238,7 @@ public class MainController {
 		//SELECT * from product WHERE product_recommend='1' and product_status='1';
         list=productService.getRecommend();
         jsonArray = new JSONArray();
+        String idList="";
         for (Product productTmp : list) {
 			JSONObject tempJsonObject = new JSONObject();
 			tempJsonObject.put("productId", productTmp.getProductId());
@@ -223,14 +261,36 @@ public class MainController {
 			tempJsonObject.put("productCreate", productTmp.getProductCreate());
 			tempJsonObject.put("productModify", productTmp.getProductModify());
 			jsonArray.put(tempJsonObject);
+			
+			idList=idList+","+String.valueOf(productTmp.getProductId());
 			//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
 		}
 
 		model.addAttribute("recommendlist", jsonArray);
         
+        if (idList.substring(1, idList.length())!="") {
+        	List<OrderDetails> orderDetailsList= new ArrayList<>();
+        	long orderDetailsSumCount=0;
+        	orderDetailsList=orderDetailsService.getOrderDetailsByIds(idList.substring(1, idList.length()));
+        	for(OrderDetails orderDetails:orderDetailsList ) {
+        		orderDetailsSumCount+=Long.valueOf(orderDetails.getOrderDetailsProductNum());
+        	}
+        	model.addAttribute("orderDetailsSumCount", orderDetailsSumCount);
+		}
         
-        
-        
+        HashMap<String, Object> filterMap= new HashMap<>();
+		filterMap.put("propsDetailsStatus", 1);
+		List<PropsDetails> listPropsDetails = propsDetailsService.getPropsDetailsInfo(filterMap);
+		JSONArray allPropsDetails = new JSONArray();
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (PropsDetails propsDetailsTmp : listPropsDetails) {
+			JSONObject tem_jsonoObject = new JSONObject();
+			tem_jsonoObject.put("queryPropsDetailsId", propsDetailsTmp.getPropsDetailsId());
+			tem_jsonoObject.put("queryPropsDetailsName", propsDetailsTmp.getPropsDetailsName());
+			allPropsDetails.put(tem_jsonoObject);
+		}
+		System.err.println(allPropsDetails);
+		model.addAttribute("propsDetails", allPropsDetails);
     	return "indexa";
     }
     @RequestMapping("/help")

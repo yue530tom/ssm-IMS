@@ -219,7 +219,10 @@
 	function refreshList(json) {
 		var ja = json.list;
 		var sumMoney=json.sumMoney;
+		var sumCount=json.sumCount
 		$("#orderSumMoney").attr("value",checkUndefined(sumMoney));
+		$("#orderSumCount").attr("value",checkUndefined(sumCount));
+		
 		var string = JSON.stringify(json);
 		console.log("json.list:" + json.list.length);
 		console.log("json.msg:" + json.msg);
@@ -478,6 +481,9 @@
 		}
 		if($("#orderCustSend").val()!=null&&$("#orderCustSend").val()!=""){
 			filterJs["orderCustSend"] = $("#orderCustSend").val();
+		}
+		if($("#orderSumCount").val()!=null&&$("#orderSumCount").val()!=""){
+			filterJs["orderSumCount"] = $("#orderSumCount").val();
 		}
 		if($("#orderSumMoney").val()!=null&&$("#orderSumMoney").val()!=""){
 			filterJs["orderSumMoney"] = $("#orderSumMoney").val();
@@ -858,6 +864,17 @@
 										</div>
 									</div>
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+										<label class="col-lg-4 control-label">订单件数</label>
+										<div class="col-lg-8 col-md-8">
+                                                <div class="input-group">
+                                                    <input id="orderSumCount" name="orderSumCount"
+												type="text" class="col-lg-4 form-control"  maxlength="10" onkeyup="value=value.replace(/[^1234567890]+/g,'')"
+												disabled>
+                                                    <span class="input-group-addon">件/套</span>
+                                                </div>
+                                            </div>
+									</div>
+									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">订单金额</label>
 										<div class="col-lg-8 col-md-8">
                                                 <div class="input-group">
@@ -868,6 +885,7 @@
                                                 </div>
                                             </div>
 									</div>
+									
 									<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
 										<label class="col-lg-4 control-label">预付金额</label>
 										<div class="col-lg-8">

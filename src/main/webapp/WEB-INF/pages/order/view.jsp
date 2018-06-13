@@ -324,7 +324,7 @@
 			
 			
 			
-			$("#div_"+i).append('<div id="addtocart_'+i+'" style="padding: 1px 1px;"><button id="addtocart_"+'+i+' class="im-cart3 btn btn-primary"  onclick="addtocart('+i+');"> 加入购物车</button></div>');
+			$("#div_"+i).append('<div class="input-group col-lg-8 col-md-8 col-sm-8 col-xs-8" id="addtocart_'+i+'" style="padding-top: 5px;"><button id="addtocart_"+'+i+' class="im-cart3 btn btn-primary col-lg-4 form-control"  onclick="addtocart('+i+');"> 加入购物车</button></div>');
 			
 			$("#div_propslist").append('</div></div>');
 			if(productImg!=null&&productImg!=""){

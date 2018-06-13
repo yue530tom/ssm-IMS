@@ -173,10 +173,36 @@ public class CartController {
 			}
 
 			
+			
+			
+			
+			
+			
+			
+			
 			if (method.equals("addtocart")) {
 				cart.setProductCreate(sdf.format(now));
 				cart.setProductModify(sdf.format(now));
-				cartService.addCart(cart);
+				for (String productCategory:filterMap.get("productCategory").toString().split(",")) {
+					cart.setProductCategory(productCategory);
+					for (String productColor:filterMap.get("productColor").toString().split(",")) {
+						cart.setProductColor(productColor);
+						for (String productSize:filterMap.get("productSize").toString().split(",")) {
+							cart.setProductSize(productSize);
+							for (String productMaterial:filterMap.get("productMaterial").toString().split(",")) {
+								cart.setProductMaterial(productMaterial);
+								for (String productCollar:filterMap.get("productCollar").toString().split(",")) {
+									cart.setProductCollar(productCollar);
+									for (String productPocket:filterMap.get("productPocket").toString().split(",")) {
+										cart.setProductPocket(productPocket);
+										cartService.addCart(cart);
+									}
+								}
+							}
+						}
+					}
+				}
+				
 				js.put("msg", "成功加入购物车");
 			}
 			
@@ -230,6 +256,10 @@ public class CartController {
 				if (filterJson.has("orderCustSend")) {
 					filterMap.put("orderCustSend", filterJson.get("orderCustSend"));
 					order.setOrderCustSend(filterJson.get("orderCustSend").toString());
+				}
+				if (filterJson.has("orderSumCount")) {
+					filterMap.put("orderSumCount", filterJson.get("orderSumCount"));
+					order.setOrderSumCount(filterJson.get("orderSumCount").toString());
 				}
 				if (filterJson.has("orderSumMoney")) {
 					filterMap.put("orderSumMoney", filterJson.get("orderSumMoney"));
@@ -294,16 +324,16 @@ public class CartController {
 			JSONArray jsonArray = new JSONArray();
 			// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd
 			// HH:mm:ss");
-			//顺便把总价格带过去
-			long sumMoney=0;
-			for (Cart propsTmp : list) {
+			//顺便把总价格/总件数带过去
+			long sumMoney=0,sumCount=0;
+			for (Cart cartTmp : list) {
 				JSONObject tempJsonObject = new JSONObject();
-				tempJsonObject.put("cartId", propsTmp.getCartId());
-				tempJsonObject.put("productId", propsTmp.getProductId());
-				tempJsonObject.put("productCount", propsTmp.getProductCount());
-				tempJsonObject.put("productPrice", propsTmp.getProductPrice());
+				tempJsonObject.put("cartId", cartTmp.getCartId());
+				tempJsonObject.put("productId", cartTmp.getProductId());
+				tempJsonObject.put("productCount", cartTmp.getProductCount());
+				tempJsonObject.put("productPrice", cartTmp.getProductPrice());
 				//根据id查出图片
-				Product product=productService.findProductByProductId(propsTmp.getProductId());
+				Product product=productService.findProductByProductId(cartTmp.getProductId());
 				if(product!=null) {
 					if(product.getProductImg()!=null&&product.getProductImg()!="") {
 						tempJsonObject.put("productImg", product.getProductImg().replaceAll(" ", "+"));
@@ -311,21 +341,23 @@ public class CartController {
 						tempJsonObject.put("productImg", "");
 					}
 				}
-				tempJsonObject.put("productCategory", propsTmp.getProductCategory());
-				tempJsonObject.put("productColor", propsTmp.getProductColor());
-				tempJsonObject.put("productSize", propsTmp.getProductSize());
-				tempJsonObject.put("productMaterial", propsTmp.getProductMaterial());
-				tempJsonObject.put("productCollar", propsTmp.getProductCollar());
-				tempJsonObject.put("productPocket", propsTmp.getProductPocket());
+				tempJsonObject.put("productCategory", cartTmp.getProductCategory());
+				tempJsonObject.put("productColor", cartTmp.getProductColor());
+				tempJsonObject.put("productSize", cartTmp.getProductSize());
+				tempJsonObject.put("productMaterial", cartTmp.getProductMaterial());
+				tempJsonObject.put("productCollar", cartTmp.getProductCollar());
+				tempJsonObject.put("productPocket", cartTmp.getProductPocket());
 /*				tempJsonObject.put("productCreate", propsTmp.getProductCreate());
 				tempJsonObject.put("productModify", propsTmp.getProductModify());*/
-				sumMoney=sumMoney+propsTmp.getProductCount()*propsTmp.getProductPrice();
+				sumMoney=sumMoney+cartTmp.getProductCount()*cartTmp.getProductPrice();
+				sumCount+=cartTmp.getProductCount();
 				jsonArray.put(tempJsonObject);
 				//System.err.println("propsTmp.getProductImg():" + propsTmp.getProductImg().replaceAll(" ", "+"));
 			}
 
 			js.put("list", jsonArray);
 			js.put("sumMoney", sumMoney);
+			js.put("sumCount", sumCount);
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(js.toString());
 

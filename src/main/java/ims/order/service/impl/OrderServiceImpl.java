@@ -37,6 +37,9 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void updateOrderByOrderId(Order order) {
 		// TODO Auto-generated method stub
+		if (orderDao!=null) {
+			orderDao.updateOrderByOrderId(order);
+		}
 
 	}
 

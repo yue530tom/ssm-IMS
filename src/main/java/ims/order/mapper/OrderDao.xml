@@ -11,6 +11,7 @@
 		<result property="orderCustPhone" column="order_cust_phone" />
 		<result property="orderCustSend" column="order_cust_send" />
 		<result property="orderSumMoney" column="order_sum_money" />
+		<result property="orderSumCount" column="order_sum_count" />
 		<result property="orderDeposit" column="order_deposit" />
 		<result property="orderCreate" column="order_create" />
 		<result property="orderModify" column="order_modify" />
@@ -19,7 +20,7 @@
 	</resultMap>
 
 	<sql id="orderColumns">
-		order_id,order_no,order_cust_name,order_cust_phone,order_cust_send,order_sum_money,order_deposit,order_create,order_modify,order_remarks,order_status
+		order_id,order_no,order_cust_name,order_cust_phone,order_cust_send,order_sum_money,order_sum_count,order_deposit,order_create,order_modify,order_remarks,order_status
 	</sql>
 
 	<!--插入订单信息 -->
@@ -41,6 +42,9 @@
 			</if>
 			<if test="orderSumMoney != null">
 				order_sum_money,
+			</if>
+			<if test="orderSumCount != null">
+				order_sum_count,
 			</if>
 			<if test="orderDeposit != null">
 				order_deposit,
@@ -73,6 +77,9 @@
 			</if>
 			<if test="orderSumMoney != null">
 				#{orderSumMoney, jdbcType=VARCHAR},
+			</if>
+			<if test="orderSumCount != null">
+				#{orderSumCount, jdbcType=INTEGER},
 			</if>
 			<if test="orderDeposit != null">
 				#{orderDeposit, jdbcType=VARCHAR},
@@ -130,6 +137,9 @@
 		<if test="orderRemarks != null and orderRemarks != '' ">
 			order_remarks = #{orderRemarks}
 		</if>
+		<if test="orderStatus != null and orderStatus != '' ">
+			order_status = #{orderStatus}
+		</if>
 		WHERE order_id = #{orderId}
 	</update>
 
@@ -167,10 +177,14 @@
 			<if test="orderDatetime != null and orderDatetime != '' and orderOperation==null">
 				and order_create like CONCAT(#{orderDatetime},'%')
 			</if>
-			<if test="orderStatus != null and orderStatus != '' ">
+			<if test="orderStatus != null and orderStatus != '' and orderStatus != '5' and orderStatus != 5 ">
 				and order_status = #{orderStatus}
 			</if>
+			<if test="orderStatus != null and orderStatus != '' and orderStatus == 5 ">
+				and order_status &gt; 0
+			</if>
 		</where>
+		order by order_create desc
 		<if test="start!=null and size!=null">
 			limit #{start},#{size};
 		</if>

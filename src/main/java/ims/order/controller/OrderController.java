@@ -140,7 +140,11 @@ public class OrderController {
 				orderDetailsService.deleteOrderDetailsByOrderId(order.getOrderId());
 				js.put("msg", "删除订单和订单明细成功");
 			}
-			
+			if ("finish".equals(method)) {
+				order.setOrderStatus("2");
+				orderService.updateOrderByOrderId(order);
+				js.put("msg", "订单已完成");
+			}
 			js.put("page", size);
 			filterMap.put("start", start);
 			filterMap.put("size", (int) pageSize);

@@ -115,6 +115,19 @@ public class FactoryController {
 			allFactorys.put(tem_jsonoObject);
 		}
 		
+		filterMap= new HashMap<>();
+		filterMap.put("propsDetailsStatus", 1);
+		List<PropsDetails> listPropsDetails = propsDetailsService.getPropsDetailsInfo(filterMap);
+		JSONArray allPropsDetails = new JSONArray();
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (PropsDetails propsDetailsTmp : listPropsDetails) {
+			JSONObject tem_jsonoObject = new JSONObject();
+			tem_jsonoObject.put("queryPropsDetailsId", propsDetailsTmp.getPropsDetailsId());
+			tem_jsonoObject.put("queryPropsDetailsName", propsDetailsTmp.getPropsDetailsName());
+			allPropsDetails.put(tem_jsonoObject);
+		}
+		System.err.println(allPropsDetails);
+		model.addAttribute("propsDetails", allPropsDetails);
 		/*//总件数、总金额带入前台
 		long count=0,sum=0;
 		List<Produces> listProduces=producesService.getProducesInfo(null);
@@ -152,6 +165,8 @@ public class FactoryController {
 		String method = "";
 		Produces produces = new Produces();
 		JSONObject js = new JSONObject();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date now = new Date();
 		try {
 			
 			//POST不用转字符，GET需要转
@@ -212,7 +227,28 @@ public class FactoryController {
 
 			System.err.println("filterMap:"+filterMap);
 			if (method.equals("addtoproduces")) {
-				producesService.addProduces(produces);
+				produces.setProductCreate(simpleDateFormat.format(now));
+				produces.setProductModify(simpleDateFormat.format(now));
+				for (String productCategory:filterMap.get("productCategory").toString().split(",")) {
+					produces.setProductCategory(productCategory);
+					for (String productColor:filterMap.get("productColor").toString().split(",")) {
+						produces.setProductColor(productColor);
+						for (String productSize:filterMap.get("productSize").toString().split(",")) {
+							produces.setProductSize(productSize);
+							for (String productMaterial:filterMap.get("productMaterial").toString().split(",")) {
+								produces.setProductMaterial(productMaterial);
+								for (String productCollar:filterMap.get("productCollar").toString().split(",")) {
+									produces.setProductCollar(productCollar);
+									for (String productPocket:filterMap.get("productPocket").toString().split(",")) {
+										produces.setProductPocket(productPocket);
+										producesService.addProduces(produces);
+									}
+								}
+							}
+						}
+					}
+				}
+				
 				js.put("msg", "成功组织做货信息");
 			}
 			
@@ -377,7 +413,7 @@ public class FactoryController {
 				}
 				if (filterJson.has("producesOrderMoney")) {
 					filterMap.put("producesOrderMoney", filterJson.get("producesOrderMoney"));
-					producesOrder.setProducesOrderCount(Long.valueOf(filterJson.get("producesOrderMoney").toString()));
+					producesOrder.setProducesOrderMoney(Long.valueOf(filterJson.get("producesOrderMoney").toString()));
 				}
 				if (filterJson.has("producesOrderDepost")) {
 					filterMap.put("producesOrderDepost", filterJson.get("producesOrderDepost"));
