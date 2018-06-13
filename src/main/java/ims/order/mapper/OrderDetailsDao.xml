@@ -28,10 +28,10 @@
 
 
 	<select id="getOrderDetailsGroupBySum" resultMap="ordertopMap">
-    SELECT product_name keyf,sum(orderdetails_product_num) keyf_value from order_details,product WHERE product_id=orderdetails_product_id and orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
+    SELECT product_no keyf,sum(orderdetails_product_num) keyf_value from order_details,product WHERE product_id=orderdetails_product_id and orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
 	</select>
 	<select id="getOrderDetailsGroupByOrder" resultMap="ordertopMap">
-    SELECT product_name keyf,count(DISTINCT order_id) keyf_value from order_details,product WHERE product_id=order_details.orderdetails_product_id and orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
+    SELECT product_no keyf,count(DISTINCT order_id) keyf_value from order_details,product WHERE product_id=order_details.orderdetails_product_id and orderdetails_product_id IS NOT NULL group by orderdetails_product_id LIMIT 0,1;
 	</select>
 	<select id="getOrderDetailsGroupByMaterial" resultMap="ordertopMap">
     SELECT props_details.props_details_name keyf,sum(orderdetails_product_num) keyf_value from order_details,props_details WHERE props_details.props_details_id=order_details.orderdetails_product_material and orderdetails_product_material IS NOT NULL group by orderdetails_product_material LIMIT 0,1;

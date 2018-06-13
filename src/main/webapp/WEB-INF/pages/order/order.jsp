@@ -236,7 +236,7 @@
 		$("#table_orderslist").empty();
 		$("#table_orderslist")
 				.append(
-						'<tr><th>订单id</th><th>订单编号</th><th>客户名称</th><th>客户电话</th><th>发货地址</th><th>订单金额</th><th>订单预付</th><th>订单状态</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
+						'<tr><th>订单id</th><th>订单编号</th><th>客户名称</th><th>客户电话</th><th>发货地址</th><th>订单金额</th><th>订单预付</th><th>欠款</th><th>订单状态</th><th>创建日期</th><th>修改日期</th><th>操作</th></tr>');
 		for (var i = 0; i < ja.length; i++) {
 			var orderId = ja[i].orderId;
 			var orderNo = ja[i].orderNo;
@@ -256,6 +256,7 @@
 			$("#tr_" + i).append("<td>" + checkUndefined(orderCustSend) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(orderSumMoney) + "</td>");
 			$("#tr_" + i).append("<td>" + checkUndefined(orderDeposit) + "</td>");
+			$("#tr_" + i).append("<td style='color:red;font-weight:bold'>" + checkUndefined(orderSumMoney-orderDeposit) + "</td>");
 			if (orderStatus == 1) {
 				$("#tr_" + i).append("<td align='center'><i class='en-new color-red s24'></i><span>NEW</span></td>");
 			} else if(orderStatus==2){

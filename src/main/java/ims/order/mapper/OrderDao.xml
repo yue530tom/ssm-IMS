@@ -156,8 +156,8 @@
 			<if test="orderNo != null and orderNo != '' ">
 				and order_no = #{orderNo}
 			</if>
-			<if test="productCustName != null and productCustName != '' ">
-				and order_cust_name = #{productCustName}
+			<if test="orderCustName != null and orderCustName != '' ">
+				and order_cust_name = #{orderCustName}
 			</if>
 			<if test="orderCustPhone != null and orderCustPhone != '' ">
 				and order_cust_phone = #{orderCustPhone}
